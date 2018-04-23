@@ -1,0 +1,3 @@
+rootProject.name = 'fabrique_a_histoires'
+
+include ':app'
