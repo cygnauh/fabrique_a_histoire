@@ -2,10 +2,16 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
 import Home from './containers/home';
+import OnBoarding from './containers/onboarding';
 
 const StackNavigation = StackNavigator(
     {
-        Home: { screen: Home }
+        Home: { screen: Home },
+        Onboarding: { screen: OnBoarding }
+    },
+    {
+        initialRouteName: 'Home',
+        headerMode: 'none',
     }
 );
 

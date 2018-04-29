@@ -12,7 +12,7 @@ export default class Home extends React.Component {
                     <Text>dans la fabrique à histoire</Text>
                 </View>
                 <Text>Repérer le code de votre machine ou d'une histoire pour commencer l'expérience</Text>
-                <Button title={'Commencer'.toUpperCase()}/>
+                <Button title={'Commencer'.toUpperCase()} onPress={() => this.props.navigation.navigate('Onboarding')} />
             </View>
         );
     }
