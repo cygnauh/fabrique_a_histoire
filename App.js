@@ -1,59 +1,15 @@
 
 import React from 'react';
-import { View, Text, Button,FlatList } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import Home from './containers/home';
 
-class HomeScreen extends React.Component {
-    render() {
-        return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-              <Text>Home Screen</Text>
-              <Button
-                  title="Go to the form"
-                  onPress={() => this.props.navigation.navigate('Details')}
-              />
-            </View>
-
-
-        );
-    }
-}
-
-
-class DetailsScreen extends React.Component {
-    render() {
-        return (
-            <View style={{height: 250, alignItems: 'center', justifyContent: 'center' }}>
-              <Text>Form</Text>
-              {/*<Button*/}
-                  {/*title="Go to Details... again"*/}
-                  {/*onPress={() => this.props.navigation.navigate('Details')}*/}
-              {/*/>*/}
-              <FetchExample/>
-              <Button
-                  title="Go back"
-                  onPress={() => this.props.navigation.goBack()}
-              />
-            </View>
-        );
-    }
-}
-
-const RootStack = StackNavigator(
+const StackNavigation = StackNavigator(
     {
-        Home: {
-            screen: HomeScreen,
-        },
-        Details: {
-            screen: DetailsScreen,
-        },
-    },
-    {
-        initialRouteName: 'Home',
+        Home: { screen: Home }
     }
 );
 
-class FetchExample extends React.Component {
+/*class FetchExample extends React.Component {
 
     constructor(props){
         super(props);
@@ -79,7 +35,7 @@ class FetchExample extends React.Component {
         if(this.state.isLoading){
             return(
                 <View style={{flex: 4, padding: 120}}>
-                  {/*<ActivityIndicator/>*/}
+                  {/!*<ActivityIndicator/>*!/}
                 </View>
             )
         }
@@ -94,14 +50,12 @@ class FetchExample extends React.Component {
              </View>
         );
     }
-}
-
+}*/
 
 export default class App extends React.Component {
     render() {
-        return <View style={{flex: 1, flexDirection: 'row'}}>
-
-          <RootStack />
-        </View>;
+        return (
+            <StackNavigation/>
+        );
     }
 }
