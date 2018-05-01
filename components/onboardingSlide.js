@@ -139,7 +139,7 @@ export default class OnBoardingSlide extends React.Component {
         let button;
         const lastSlide = this.state.index === this.state.nbSlides - 1;
         if (lastSlide) {
-            button = <RectangleButton content="Commencer" onPress={() => this.props.navigation.navigate('Form')} />
+            button = <RectangleButton content="Commencer" onPress={() => this.props.navigation.navigate('Length')} />
         } else {
             button = <RectangleButton content="Continuer" onPress={() => this.swipe()} />
         }
