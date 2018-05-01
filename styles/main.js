@@ -3,9 +3,9 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
     view: {
+        backgroundColor: '#F1F1F1',
         paddingHorizontal: 20,
         paddingVertical: 40,
-        backgroundColor: '#F1F1F1',
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'space-between', // vertical

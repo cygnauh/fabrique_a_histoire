@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, Image, ScrollView, Dimensions, StyleSheet, Button} from 'react-native';
-import ButtonCompo from '../components/button';
+import { View, Text, Image, Button, ScrollView, Dimensions, StyleSheet} from 'react-native';
+import RectangleButton from '../components/button';
 import OnBoardingStyle from '../styles/onboardingStyle';
 import GlobalStyle from "../styles/main";
 
@@ -101,8 +101,8 @@ export default class OnBoardingSlide extends React.Component {
                         onScrollEndDrag={this.onScrollEndDrag}
             >
                 {sliders.map((slide, i) =>
-                    <View style={[InternalStyle.fullScreen]} key={i}>
-                        {/*<Button title={'Retour'.toUpperCase()} onPress={() => this.props.navigation.navigate('Home')} />*/}
+                    <View style={[InternalStyle.fullScreen, ]} key={i}>
+                        <Button title={'Retour'.toUpperCase()} onPress={() => this.props.navigation.goBack()} />
                         <Image style={GlobalStyle.logo} source={require('../images/colorfulLogo.png')} />
                         {slide}
                     </View>
@@ -139,10 +139,9 @@ export default class OnBoardingSlide extends React.Component {
         let button;
         const lastSlide = this.state.index === this.state.nbSlides - 1;
         if (lastSlide) {
-            // TODO: Send the user to the form
-            button = <ButtonCompo content="Commencer" onPress={() => console.log("Début de l'expérience")} />
+            button = <RectangleButton content="Commencer" onPress={() => this.props.navigation.navigate('Form')} />
         } else {
-            button = <ButtonCompo content="Continuer" onPress={() => this.swipe()} />
+            button = <RectangleButton content="Continuer" onPress={() => this.swipe()} />
         }
         return (
             <View pointerEvents="box-none" style={[InternalStyle.fullScreen, OnBoardingStyle.buttonContainer]}>

@@ -1,8 +1,13 @@
 import React from 'react';
-import { View, Text, Button, Image } from 'react-native';
+import { View, Text, Button, Image, StatusBar } from 'react-native';
 import GlobalStyle from '../styles/main.js';
 
 export default class Home extends React.Component {
+
+    componentDidMount() {
+        StatusBar.setHidden(true);
+    }
+
     render() {
         return(
             <View style={GlobalStyle.view}>

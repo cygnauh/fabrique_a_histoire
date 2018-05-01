@@ -3,8 +3,9 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
     container: {
+        backgroundColor: '#F1F1F1',
         position: 'relative',
-        paddingVertical: 40,
+        paddingVertical: 40
     },
     indication: {
         paddingHorizontal: 20,
