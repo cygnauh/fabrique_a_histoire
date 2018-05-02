@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, Image, Button, ScrollView, Dimensions, StyleSheet} from 'react-native';
-import RectangleButton from '../components/button';
+import { View, Text, Button, ScrollView, Dimensions, StyleSheet} from 'react-native';
+import Logo from '../components/logo';
+import RectangleButton from './rectangleButton';
 import OnBoardingStyle from '../styles/onboardingStyle';
-import GlobalStyle from "../styles/main";
 
 const { width, height } = Dimensions.get('window');
 
@@ -103,7 +103,7 @@ export default class OnBoardingSlide extends React.Component {
                 {sliders.map((slide, i) =>
                     <View style={[InternalStyle.fullScreen, ]} key={i}>
                         <Button title={'Retour'.toUpperCase()} onPress={() => this.props.navigation.goBack()} />
-                        <Image style={GlobalStyle.logo} source={require('../images/colorfulLogo.png')} />
+                        <Logo/>
                         {slide}
                     </View>
                 )}

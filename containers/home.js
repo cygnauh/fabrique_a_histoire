@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, Button, Image, StatusBar } from 'react-native';
-import GlobalStyle from '../styles/main.js';
+import { View, Text, Button, StatusBar } from 'react-native';
+import Logo from '../components/logo';
+import GlobalStyle from '../styles/mainStyle.js';
 
 export default class Home extends React.Component {
 
@@ -11,7 +12,7 @@ export default class Home extends React.Component {
     render() {
         return(
             <View style={GlobalStyle.view}>
-                <Image style={GlobalStyle.logo} source={require('../images/colorfulLogo.png')} />
+                <Logo/>
                 <View>
                     <Text style={GlobalStyle.title}>Bienvenue</Text>
                     <Text>dans la fabrique à histoire</Text>

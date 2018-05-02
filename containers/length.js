@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, Image, Button, Slider } from 'react-native';
-import GlobalStyle from '../styles/main';
+import { View, Text, Button, Slider } from 'react-native';
+import Logo from '../components/logo';
+import GlobalStyle from '../styles/mainStyle';
 
 export default class Length extends React.Component{
     constructor(props) {
@@ -19,7 +20,7 @@ export default class Length extends React.Component{
     render() {
         return(
             <View style={GlobalStyle.view}>
-                <Image style={GlobalStyle.logo} source={require('../images/colorfulLogo.png')} />
+                <Logo/>
                 <View>
                     <Text style={GlobalStyle.title}>Longueur du récit</Text>
                     <Slider step={1} maximumValue={2} value={this.state.value} onValueChange={(value) => this.onChange(value)}/>
