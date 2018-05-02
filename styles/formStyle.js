@@ -7,7 +7,7 @@ export default StyleSheet.create({
         alignItems: 'flex-end',
         flexWrap: 'wrap'
     },
-    radioItem:{
+    formItem:{
         marginHorizontal: 5,
         marginVertical: 5
     },
@@ -18,5 +18,11 @@ export default StyleSheet.create({
         backgroundColor: '#DBDAD9',
         paddingVertical: 5,
         paddingHorizontal: 10
+    },
+    inputItem: {
+        backgroundColor: '#FFF',
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        color: '#000'
     }
 });

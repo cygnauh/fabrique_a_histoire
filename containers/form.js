@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, TextInput } from 'react-native';
 import Logo from '../components/logo';
 import RadioButton from '../components/radioButton';
+import Input from '../components/input';
 import GlobalStyle from '../styles/mainStyle';
 import FormStyle from "../styles/formStyle";
 
@@ -19,7 +20,15 @@ export default class Form extends React.Component{
             }, {
                 label : "C'est l'histoire",
                 selected: false
-            }]
+            }],
+            hero: {
+                placeholder: "Qui est le héros ? Comment s'appelle t-il ?",
+                text : ''
+            },
+            appearance: {
+                placeholder: "À quoi ressemble t-il ?",
+                text : ''
+            }
         }
     }
 
@@ -28,7 +37,7 @@ export default class Form extends React.Component{
             item.selected = false;
         });
         this.state.intro[index].selected = true;
-        this.setState({ radioItems: this.state.intro });
+        this.setState({ radioItems: this.state.intro }); // update view
     }
 
     render() {
@@ -38,12 +47,14 @@ export default class Form extends React.Component{
                     <Button title={'Retour'.toUpperCase()} onPress={() => this.props.navigation.goBack()}/>
                     <Logo/>
                 </View>
-                <View style={FormStyle.radioGroup}>
-                    {this.state.intro.map( (item, key) =>
-                        (
+                <View>
+                    <View style={FormStyle.radioGroup}>
+                        {this.state.intro.map( (item, key) => (
                             <RadioButton key = { key } button = { item } onClick = { this.changeRadioButton.bind(this, key) }/>
-                        )
-                    )}
+                        )) }
+                    </View>
+                    <Input value = { this.state.hero.placeholder } />
+                    <Input value = { this.state.appearance.placeholder } />
                 </View>
                 <Text>{'Length : ' + this.length}</Text>
             </View>

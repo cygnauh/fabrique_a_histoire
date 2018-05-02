@@ -11,8 +11,8 @@ export default class RadioButton extends React.Component {
         return (
             <TouchableOpacity onPress = { this.props.onClick }>
                 {(this.props.button.selected)
-                    ? <Text style={[FormStyle.radioSelected, FormStyle.radioItem]}>{this.props.button.label}</Text>
-                    : <Text style={[FormStyle.radioUnselected, FormStyle.radioItem]}>{this.props.button.label}</Text>
+                    ? <Text style={[FormStyle.radioSelected, FormStyle.formItem]}>{this.props.button.label}</Text>
+                    : <Text style={[FormStyle.radioUnselected, FormStyle.formItem]}>{this.props.button.label}</Text>
                 }
             </TouchableOpacity>
         );
