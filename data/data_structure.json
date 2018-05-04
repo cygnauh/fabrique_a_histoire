@@ -1,0 +1,42 @@
+{
+  "introduction": {
+    "expression_1": [
+      {
+      "label": "Il était une fois,",
+      "selected": true
+      }, {
+        "label": "Il y a bien longtemps",
+        "selected": false
+      }, {
+        "label": "C'est l'histoire",
+        "selected": false
+      }
+    ],
+    "hero": {
+      "who": {
+        "placeholder": "Qui est le héros ? Comment s'appelle t-il ?",
+        "text": " "
+      },
+      "appearance": {
+        "placeholder": "À quoi ressemble t-il ?"
+      }
+    },
+    "expression_2": [
+      {
+        "label" : "qui",
+        "selected": true
+      }, {
+        "label" : "et",
+        "selected": false
+      }
+    ],
+    "hero_detail": {
+      "hobbies": {
+        "placeholder": "Quels sont ses passes-temps ?"
+      },
+      "current_action": {
+        "placeholder": "Est-ce qu'il est occupé ?"
+      }
+    }
+  }
+}
