@@ -40,18 +40,33 @@ export default class Form extends React.Component{
             current_action = this.state.hero_current_action,
             place = this.state.place,
             text_elm = [expression_1[0].label, hero, appearance, expression_2[0].label, hobbies, current_action, place],
-            text = '';
+            story = '';
 
         for (let i = 0, count = text_elm.length; i < count; i++) {
             if (i === text_elm.length - 1) {
-                text += text_elm[i] + '.';
+                story += text_elm[i] + '.';
             } else {
-                text += text_elm[i] + ' ';
+                story += text_elm[i] + ' ';
             }
         }
-        console.log(text);
 
         // Send a request
+        fetch('http://192.168.0.37:8080/', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                text: story
+            })
+        }).then(function(response) {
+            return response;
+        }).catch(function(error) {
+            return error;
+        });
+
+        // Save the story in the database
     }
 
     render() {
