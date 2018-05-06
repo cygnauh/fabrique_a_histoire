@@ -33,7 +33,7 @@ export default class Length extends React.Component{
                         <Text>Long</Text>
                     </View>
                 </View>
-                <Button title={'Continuer'.toUpperCase()} onPress={() => this.props.navigation.navigate('Form', {length: this.state.value} )} />
+                <Button title={'Continuer'.toUpperCase()} onPress={() => this.props.navigation.navigate('Place', {length: this.state.value} )} />
             </View>
         );
     }

@@ -3,7 +3,10 @@ import {Dimensions, StyleSheet} from 'react-native';
 import { scaleWidth, scaleHeight, scaleDelta } from '../utils/scale';
 const { width, height } = Dimensions.get('window');
 
+
 export default StyleSheet.create({
+
+
     view: {
         backgroundColor: '#F1F1F1',
         paddingHorizontal: scaleWidth(40),
@@ -56,5 +59,10 @@ export default StyleSheet.create({
         marginTop: scaleHeight(15),
         flexDirection: 'row',
         justifyContent: 'space-between',
+    },
+
+    /** PLACE **/
+    placeContainer : {
+       color:'#fff'
     }
 });
