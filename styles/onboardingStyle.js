@@ -27,7 +27,7 @@ export default StyleSheet.create({
         position: 'absolute',
         top: 0, bottom: 0,
         flexDirection: 'column',
-        justifyContent: 'center',
+        justifyContent: 'center', // update when add img
         paddingHorizontal: scaleWidth(40),
         marginTop: scaleHeight(80), // do not hide back btn
     },
@@ -39,7 +39,7 @@ export default StyleSheet.create({
     /** BUTTON **/
     buttonContainer: {
         position: 'absolute',
-        top: scaleHeight(60),
+        top: scaleHeight(30),
         bottom: 0,
         flexDirection: 'column',
         justifyContent: 'center',

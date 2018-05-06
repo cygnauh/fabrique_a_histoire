@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Image} from 'react-native';
 import OnBoardingSlide from '../components/onboardingSlide';
 import GlobalStyle from '../styles/mainStyle';
 import OnBoardingStyle from '../styles/onboardingStyle';

@@ -102,13 +102,8 @@ export default class OnBoardingSlide extends React.Component {
             >
                 {sliders.map((slide, i) =>
                     <View style={[OnBoardingStyle.fullScreen]} key={i}>
-                        <View style={[OnBoardingStyle.backBtn]}>
-                            <Button title={'Retour'.toUpperCase()} onPress={
-                                () => this.props.navigation.goBack()
-                            } />
-                        </View>
-                        <Logo/>
                         {slide}
+                        {this.renderButton()} /*Render buttons according the case */
                     </View>
                 )}
             </ScrollView>
@@ -163,13 +158,26 @@ export default class OnBoardingSlide extends React.Component {
         );
     };
 
+    renderHeader = () => {
+        return(
+            <View>
+                <View style={[OnBoardingStyle.backBtn]}>
+                    <Button title={'Retour'.toUpperCase()} onPress={
+                        () => this.props.navigation.goBack()
+                    } />
+                </View>
+                <Logo/>
+            </View>
+        );
+    };
+
     /* Render the component */
     render = ({ children } = this.props) => {
         return (
             <View style={[OnBoardingStyle.fullScreen, OnBoardingStyle.container]}>
+                {this.renderHeader()}
                 {this.renderScrollView(children)} /*Render screens */
                 {this.renderPagination()} /*Render pagination */
-                {this.renderButton()} /*Render buttons according the case */
             </View>
         );
     }
