@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
+import { scaleWidth, scaleHeight, scaleDelta } from '../utils/scale';
 
 export default StyleSheet.create({
     radioGroup: {

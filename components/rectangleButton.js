@@ -5,7 +5,7 @@ import OnBoardingStyle from '../styles/onboardingStyle';
 export default class RectangleButton extends React.Component {
     render({ onPress } = this.props) {
         return(
-            <TouchableOpacity onPress={onPress}>
+            <TouchableOpacity onPress={onPress} activeOpacity={1}>
                 <View>
                     <Text style={OnBoardingStyle.button}>{this.props.content.toUpperCase()}</Text>
                 </View>

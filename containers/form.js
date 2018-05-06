@@ -6,7 +6,7 @@ import Input from '../components/input';
 import GlobalStyle from '../styles/mainStyle';
 import FormStyle from "../styles/formStyle";
 
-const data = require('../data/data_structure.json');
+const data = require('../assets/data/data_structure.json');
 console.log(data);
 
 export default class Form extends React.Component{
@@ -61,6 +61,7 @@ export default class Form extends React.Component{
                 text: story
             })
         }).then(function(response) {
+            console.log(response);
             return response;
         }).catch(function(error) {
             return error;
