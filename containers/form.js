@@ -1,13 +1,12 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
-import Logo from '../components/logo';
+import { View, Text, Button, TextInput } from 'react-native';
+import Header from '../components/header';
 import RadioButton from '../components/radioButton';
 import Input from '../components/input';
 import GlobalStyle from '../styles/mainStyle';
 import FormStyle from "../styles/formStyle";
 
 const data = require('../assets/data/data_structure.json');
-console.log(data);
 
 export default class Form extends React.Component{
     constructor(props) {
@@ -49,7 +48,7 @@ export default class Form extends React.Component{
                 story += text_elm[i] + ' ';
             }
         }
-
+        console.log(story);
         // Send a request
         fetch('http://192.168.0.37:8080/', {
             method: 'POST',
@@ -72,12 +71,9 @@ export default class Form extends React.Component{
 
     render() {
         return(
-            <View style={GlobalStyle.view}>
-                <View>
-                    <Button title={'Retour'.toUpperCase()} onPress={() => this.props.navigation.goBack()}/>
-                    <Logo/>
-                </View>
-                <View>
+            <View style={[GlobalStyle.view, GlobalStyle.headerView]}>
+                <Header onPress={() => this.props.navigation.goBack()}/>
+                <View style={FormStyle.formContainer}>
                     <View style={FormStyle.radioGroup}>
                         {data.introduction.expression_1.map(
                             (item, key) => (
@@ -108,7 +104,7 @@ export default class Form extends React.Component{
                     <Input onChange = {
                         (text) => this.setState({ hero_current_action: text})
                     } placeholder = { data.introduction.hero_detail.current_action.placeholder } value = {this.state.hero_current_action }/>
-                    <Text>{this.state.place}.</Text>
+                    <TextInput style={[FormStyle.formItem, FormStyle.placeItem]} editable={false} selectTextOnFocus={false} value = {this.state.place + '.'}/>
                 </View>
                 <Button title={'Imprimer'.toUpperCase()} onPress = { this.printStory.bind(this) }/>
                 <Text>{'Length : ' + this.length}</Text>

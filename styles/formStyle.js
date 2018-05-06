@@ -1,29 +1,40 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 import { scaleWidth, scaleHeight, scaleDelta } from '../utils/scale';
+const { width, height } = Dimensions.get('window');
 
 export default StyleSheet.create({
+    formContainer: {
+        width: width - scaleWidth(80),
+    },
     radioGroup: {
         flexDirection: 'row',
         alignItems: 'flex-end',
         flexWrap: 'wrap'
     },
     formItem:{
-        marginHorizontal: 5,
-        marginVertical: 5
+        marginHorizontal: scaleWidth(5),
+        marginVertical: scaleHeight(5),
     },
     radioSelected: {
-        fontSize: 18
+        fontSize: scaleDelta(16, .5),
+        position: 'relative',
+        top: scaleHeight(0)
     },
     radioUnselected: {
         backgroundColor: '#DBDAD9',
-        paddingVertical: 5,
-        paddingHorizontal: 10
+        paddingVertical: scaleWidth(2),
+        paddingHorizontal: scaleHeight(10),
+        fontSize: scaleDelta(11, .5)
     },
     inputItem: {
         backgroundColor: '#FFF',
-        paddingVertical: 5,
-        paddingHorizontal: 10,
-        color: '#000'
+        paddingVertical: scaleWidth(5),
+        paddingHorizontal: scaleHeight(10),
+        color: '#000',
+        fontSize: scaleDelta(12, .5),
+    },
+    placeItem: {
+        fontSize: scaleDelta(16, .5),
     }
 });

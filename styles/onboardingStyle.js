@@ -18,6 +18,7 @@ export default StyleSheet.create({
     },
     backBtn: {
         paddingHorizontal: scaleWidth(20),
+        width: width,
         flexDirection: 'row',
         justifyContent: 'flex-start'
     },

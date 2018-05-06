@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, StyleSheet} from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 import { scaleWidth, scaleHeight, scaleDelta } from '../utils/scale';
 const { width, height } = Dimensions.get('window');
 
@@ -12,6 +12,10 @@ export default StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between', // vertical
         alignItems: 'center', // horizontal
+    },
+    headerView: {
+        paddingTop: scaleHeight(25),
+        paddingBottom: scaleHeight(40),
     },
     logo: {
         width: scaleWidth(25),
@@ -49,12 +53,25 @@ export default StyleSheet.create({
     titleContent: {
         fontSize: scaleDelta(22, .5),
         marginBottom: scaleHeight(25),
+        textAlign: 'center',
     },
 
     /** LENGTH **/
+    lengthSlider: {
+        width: width - scaleWidth(80),
+
+    },
     lengthContainer : {
         marginTop: scaleHeight(15),
         flexDirection: 'row',
         justifyContent: 'space-between',
+    },
+    lengthItem: {
+        fontSize: scaleDelta(12, .5)
+    },
+    currentLength: {
+        fontSize: scaleDelta(16, .5),
+        position: 'relative',
+        top: scaleWidth(-2)
     }
 });
