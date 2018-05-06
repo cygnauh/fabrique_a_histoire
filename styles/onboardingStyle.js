@@ -1,49 +1,84 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
+import { scaleWidth, scaleHeight, scaleDelta } from '../utils/scale';
+
+const { width, height } = Dimensions.get('window');
 
 export default StyleSheet.create({
-    container: {
-        position: 'relative',
-        paddingVertical: 40,
+
+    fullScreen: {
+        width: width,
+        height: height,
     },
+    container: {
+        backgroundColor: '#F1F1F1',
+        position: 'relative',
+        paddingTop: scaleHeight(25),
+        paddingBottom: scaleHeight(40),
+    },
+    backBtn: {
+        paddingHorizontal: scaleWidth(20),
+        flexDirection: 'row',
+        justifyContent: 'flex-start'
+    },
+
+    /** INDICATIONS **/
     indication: {
-        paddingHorizontal: 20,
-        paddingVertical: 40,
-        position: 'relative'
+        position: 'absolute',
+        top: 0, bottom: 0,
+        flexDirection: 'column',
+        justifyContent: 'center', // update when add img
+        paddingHorizontal: scaleWidth(40),
+        marginTop: scaleHeight(80), // do not hide back btn
     },
     title: {
-        fontSize: 22
+        fontSize: scaleDelta(22, .5),
+        marginBottom: scaleWidth(50)
     },
+
+    /** BUTTON **/
     buttonContainer: {
-        flexDirection: 'column',
         position: 'absolute',
-        flex: 1,
-        paddingHorizontal: 10,
-        paddingVertical: 40,
+        top: scaleHeight(30),
+        bottom: 0,
+        flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'flex-end',
+        paddingHorizontal: scaleWidth(40),
     },
     button: {
         backgroundColor: 'white',
         borderWidth: 2,
         borderColor: '#4E4641',
-        paddingVertical: 10,
-        paddingHorizontal: 20,
+        paddingVertical: scaleHeight(4),
+        paddingHorizontal: scaleWidth(15),
         flexWrap: 'wrap',
         textAlign: 'center',
+        fontSize: scaleDelta(12, .5),
     },
+    line: {
+        position: 'relative',
+        top: scaleHeight(15),
+        borderBottomColor: '#4E4641',
+        borderBottomWidth: 2,
+        width: width - scaleWidth(80), // subtract margin
+    },
+
+    /** PAGINATION **/
     paginationContainer: {
         position: 'absolute',
-        bottom: 110,
+        bottom: scaleWidth(40),
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'flex-end'
     },
     paginationItem: {
-        paddingHorizontal: 10,
-        marginBottom: 3
+        paddingHorizontal: scaleWidth(8),
+        fontSize: scaleDelta(12, .5)
     },
     currentPagination: {
-        fontSize: 22
+        fontSize: scaleDelta(20, .5),
+        position: 'relative',
+        top: scaleWidth(3)
     }
 });

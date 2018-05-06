@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, Image, ScrollView, Dimensions, StyleSheet, Button} from 'react-native';
-import ButtonCompo from '../components/button';
+import { View, Text, Button, ScrollView, Dimensions, TouchableOpacity} from 'react-native';
+import Logo from '../components/logo';
+import RectangleButton from './rectangleButton';
 import OnBoardingStyle from '../styles/onboardingStyle';
-import GlobalStyle from "../styles/main";
 
 const { width, height } = Dimensions.get('window');
 
@@ -85,7 +85,7 @@ export default class OnBoardingSlide extends React.Component {
             diff = this.state.index + 1,
             x = diff * state.width,
             y = 0;
-
+        console.log(this.state);
         this.scrollView && this.scrollView.scrollTo({ x, y, animated: true });
         this.internals.isScrolling = true; // update internal scroll state
     };
@@ -101,10 +101,9 @@ export default class OnBoardingSlide extends React.Component {
                         onScrollEndDrag={this.onScrollEndDrag}
             >
                 {sliders.map((slide, i) =>
-                    <View style={[InternalStyle.fullScreen]} key={i}>
-                        {/*<Button title={'Retour'.toUpperCase()} onPress={() => this.props.navigation.navigate('Home')} />*/}
-                        <Image style={GlobalStyle.logo} source={require('../images/colorfulLogo.png')} />
+                    <View style={[OnBoardingStyle.fullScreen]} key={i}>
                         {slide}
+                        {this.renderButton()} /*Render buttons according the case */
                     </View>
                 )}
             </ScrollView>
@@ -116,11 +115,16 @@ export default class OnBoardingSlide extends React.Component {
         if (this.state.nbSlides <= 1) { return null; }
         let paginations = [];
         const currentSlide =
-            <Text style={[OnBoardingStyle.paginationItem, OnBoardingStyle.currentPagination]}>
-                {this.state.index + 1}
-            </Text>;
+            <TouchableOpacity onPress={() => console.log(this.state)}>
+                <Text style={
+                    [OnBoardingStyle.paginationItem, OnBoardingStyle.currentPagination]}>
+                    {this.state.index + 1}
+                </Text>
+            </TouchableOpacity>;
+
         for (let key = 0, nbSlides = this.state.nbSlides; key < nbSlides; key++) {
-            let otherSlide = <Text style={OnBoardingStyle.paginationItem}>{key + 1}</Text>;
+            let otherSlide =
+                <Text style={OnBoardingStyle.paginationItem}>{key + 1}</Text>;
             if (key === this.state.index) {
                 paginations.push(React.cloneElement(currentSlide, { key })) // active slide
             } else {
@@ -128,7 +132,8 @@ export default class OnBoardingSlide extends React.Component {
             }
         }
         return (
-            <View pointerEvents="none" style={[OnBoardingStyle.paginationContainer, InternalStyle.fullScreen]}>
+            <View pointerEvents="none" style={
+                [OnBoardingStyle.fullScreen, OnBoardingStyle.paginationContainer]}>
                 {paginations}
             </View>
         );
@@ -139,14 +144,29 @@ export default class OnBoardingSlide extends React.Component {
         let button;
         const lastSlide = this.state.index === this.state.nbSlides - 1;
         if (lastSlide) {
-            // TODO: Send the user to the form
-            button = <ButtonCompo content="Commencer" onPress={() => console.log("Début de l'expérience")} />
+            button = <RectangleButton content="Commencer" onPress={
+                () => this.props.navigation.navigate('Length') } />
         } else {
-            button = <ButtonCompo content="Continuer" onPress={() => this.swipe()} />
+            button = <RectangleButton content="Continuer" onPress={() => this.swipe()} />
         }
         return (
-            <View pointerEvents="box-none" style={[InternalStyle.fullScreen, OnBoardingStyle.buttonContainer]}>
-                {button}
+                <View pointerEvents="box-none" style={
+                    [OnBoardingStyle.fullScreen, OnBoardingStyle.buttonContainer]}>
+                    <View style={[OnBoardingStyle.line]}/>
+                    {button}
+                </View>
+        );
+    };
+
+    renderHeader = () => {
+        return(
+            <View>
+                <View style={[OnBoardingStyle.backBtn]}>
+                    <Button title={'Retour'.toUpperCase()} onPress={
+                        () => this.props.navigation.goBack()
+                    } />
+                </View>
+                <Logo/>
             </View>
         );
     };
@@ -154,18 +174,11 @@ export default class OnBoardingSlide extends React.Component {
     /* Render the component */
     render = ({ children } = this.props) => {
         return (
-            <View style={[InternalStyle.fullScreen, OnBoardingStyle.container]}>
+            <View style={[OnBoardingStyle.fullScreen, OnBoardingStyle.container]}>
+                {this.renderHeader()}
                 {this.renderScrollView(children)} /*Render screens */
                 {this.renderPagination()} /*Render pagination */
-                {this.renderButton()} /*Render buttons according the case */
             </View>
         );
     }
 }
-
-const InternalStyle = StyleSheet.create({
-    fullScreen: {
-        width: width,
-        height: height,
-    }
-});
