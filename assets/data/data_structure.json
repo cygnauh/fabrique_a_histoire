@@ -14,11 +14,13 @@
     ],
     "hero": {
       "who": {
-        "placeholder": "Qui est le héros ? Comment s'appelle t-il ?",
-        "text": " "
+        "placeholder": "Qui va vivre des aventures dans notre histoire ?"
       },
-      "appearance": {
-        "placeholder": "À quoi ressemble t-il ?"
+      "characteristic": {
+        "placeholder": "Quelles sont les particularités du ou des personnages ?"
+      },
+      "description": {
+        "placeholder": "Décrivez moi le ou les personnages."
       }
     },
     "expression_2": [
@@ -32,10 +34,10 @@
     ],
     "hero_detail": {
       "hobbies": {
-        "placeholder": "Quels sont ses passes-temps ?"
+        "placeholder": "Quelles sont les activités préférées du ou des personnages ?"
       },
       "current_action": {
-        "placeholder": "Est-ce qu'il est occupé ?"
+        "placeholder": "Qu'est-ce que le ou les personnages font en ce moment ?"
       }
     }
   }

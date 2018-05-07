@@ -16,7 +16,8 @@ export default class Form extends React.Component{
         this.state = {
             place: 'dans la jungle',
             hero_who: '',
-            hero_appearance: '',
+            hero_characteristic: '',
+            hero_description: '',
             hero_hobbies: '',
             hero_current_action: ''
         }
@@ -37,12 +38,13 @@ export default class Form extends React.Component{
         // Retrieve text
         let expression_1 = data.introduction.expression_1.filter((exp) => {return exp.selected === true}),
             hero = this.state.hero_who,
-            appearance = this.state.hero_appearance,
+            characteristic = this.state.hero_characteristic,
+            description = this.state.hero_description,
             expression_2 = data.introduction.expression_2.filter((exp) => {return exp.selected === true}),
             hobbies = this.state.hero_hobbies,
             current_action = this.state.hero_current_action,
             place = this.state.place,
-            text_elm = [expression_1[0].label, hero, appearance, expression_2[0].label, hobbies, current_action, place],
+            text_elm = [expression_1[0].label, hero, characteristic, description, expression_2[0].label, hobbies, current_action, place],
             story = '';
 
         for (let i = 0, count = text_elm.length; i < count; i++) {
@@ -100,7 +102,8 @@ export default class Form extends React.Component{
             <View style={FormStyle.formContainer}>
                 {this.renderRadioBtn(data.introduction.expression_1)}
                 {this.renderInput("hero_who", data.introduction.hero.who.placeholder, this.state.hero_who)}
-                {this.renderInput("hero_appearance", data.introduction.hero.appearance.placeholder, this.state.hero_appearance)}
+                {this.renderInput("hero_characteristic", data.introduction.hero.characteristic.placeholder, this.state.hero_characteristic)}
+                {this.renderInput("hero_description", data.introduction.hero.description.placeholder, this.state.hero_description)}
                 {this.renderRadioBtn(data.introduction.expression_2)}
                 {this.renderInput("hero_hobbies", data.introduction.hero_detail.hobbies.placeholder, this.state.hero_hobbies)}
                 {this.renderInput("hero_current_action", data.introduction.hero_detail.current_action.placeholder, this.state.hero_current_action)}

@@ -53,11 +53,22 @@ export default StyleSheet.create({
     text: {
         fontSize: scaleDelta(12, .5),
         lineHeight: scaleDelta(20, .5),
+        fontFamily: 'MaisonNeue-Medium',
         color: '#47404F',
     },
     homeText: {
         marginHorizontal: scaleWidth(40),
         textAlign: 'center'
+    },
+    homeBtn: {
+        fontSize: scaleDelta(12, .5),
+        fontFamily: 'MaisonNeue-Medium',
+        color: '#47404F',
+        paddingTop: scaleHeight(8),
+        paddingBottom: scaleHeight(6),
+        paddingHorizontal: scaleWidth(15),
+        borderWidth: 2,
+        borderColor: '#4F4640',
     },
 
     /** SUB PAGE **/

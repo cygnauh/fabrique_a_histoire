@@ -32,9 +32,9 @@ export default StyleSheet.create({
         position: 'absolute',
         top: 0, bottom: 0,
         flexDirection: 'column',
-        justifyContent: 'center', // update when add img
+        justifyContent: 'flex-start', // update when add img
         paddingHorizontal: scaleWidth(40),
-        marginTop: scaleHeight(80), // do not hide back btn
+        marginTop: scaleHeight(320), // 80 : do not hide back btn
     },
     title: {
         fontSize: scaleDelta(24, .5),
@@ -43,7 +43,8 @@ export default StyleSheet.create({
         color: '#47404F',
     },
     text: {
-        marginRight: scaleWidth(100)
+        marginRight: scaleWidth(100),
+        fontFamily: 'MaisonNeue-Medium',
     },
 
     /** BUTTON **/
@@ -70,6 +71,7 @@ export default StyleSheet.create({
         textAlign: 'center',
         fontSize: scaleDelta(12, .5),
         color: '#47404F',
+        fontFamily: 'MaisonNeue-Medium',
     },
     buttonImg: {
         width: scaleWidth(18),
