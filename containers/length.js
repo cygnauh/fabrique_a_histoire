@@ -2,8 +2,9 @@ import React from 'react';
 import { View, Text, Button, Slider } from 'react-native';
 import Logo from '../components/logo';
 import Header from '../components/header';
-import ReactangleButton from '../components/rectangleButton';
+import RectangleButton from '../components/rectangleButton';
 import GlobalStyle from '../styles/mainStyle';
+import OnBoardingStyle from "../styles/onboardingStyle";
 
 export default class Length extends React.Component{
     constructor(props) {
@@ -65,7 +66,7 @@ export default class Length extends React.Component{
                             onValueChange={(value) => this.onChange(value)}/>
                     {this.renderLength(this.state.value)}
                 </View>
-                <ReactangleButton content={'Continuer'} onPress={
+                <RectangleButton content={'Continuer'} onPress={
                     () => this.props.navigation.navigate('Form', {length: this.state.value} )}/>
             </View>
         );

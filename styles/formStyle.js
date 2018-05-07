@@ -4,17 +4,26 @@ import { scaleWidth, scaleHeight, scaleDelta } from '../utils/scale';
 const { width, height } = Dimensions.get('window');
 
 export default StyleSheet.create({
+
+    /** GENERAL **/
     formContainer: {
         width: width - scaleWidth(80),
     },
-    radioGroup: {
-        flexDirection: 'row',
-        alignItems: 'flex-end',
-        flexWrap: 'wrap'
-    },
+    /*scrollContainer: {
+        paddingHorizontal: scaleWidth(40),
+        paddingVertical: scaleHeight(40),
+    },*/
     formItem:{
         marginHorizontal: scaleWidth(5),
         marginVertical: scaleHeight(5),
+    },
+
+    /** RADIO BUTTON **/
+    radioGroup: {
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        flexWrap: 'wrap',
+        marginVertical: scaleHeight(15),
     },
     radioSelected: {
         fontSize: scaleDelta(16, .5),
@@ -27,6 +36,8 @@ export default StyleSheet.create({
         paddingHorizontal: scaleHeight(10),
         fontSize: scaleDelta(11, .5)
     },
+
+    /** TEXT INPUT **/
     inputItem: {
         backgroundColor: '#FFF',
         paddingVertical: scaleWidth(5),
@@ -36,5 +47,11 @@ export default StyleSheet.create({
     },
     placeItem: {
         fontSize: scaleDelta(16, .5),
+        marginVertical: scaleHeight(15),
+    },
+    question: {
+        marginHorizontal: scaleWidth(5),
+        fontSize: scaleDelta(12, .5),
+        color: '#A6A2A0',
     }
 });

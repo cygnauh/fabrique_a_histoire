@@ -7,14 +7,6 @@ export default class Home extends React.Component {
 
     componentDidMount() {
         StatusBar.setHidden(true);
-        AsyncStorage.getItem('onBoarding').then((value) => {
-            if (!value) {
-                this.setState({ onBoarding: 'none' });
-                AsyncStorage.setItem('onBoarding', 'done').done();
-            } else {
-                this.setState({ onBoarding: value });
-            }
-        }).done();
     }
 
 render() {
@@ -32,15 +24,8 @@ render() {
                     Repérer le code de votre machine ou d'une histoire pour commencer l'expérience
                 </Text>
 
-                <Button title={'Commencer'.toUpperCase()} onPress={
-                    () => {
-                        switch (this.state.onBoarding) {
-                            case 'none': return (this.props.navigation.navigate('Onboarding'));
-                            case 'done': return (this.props.navigation.navigate('Length'));
-                            default: return (this.props.navigation.navigate('Onboarding'));
-                        }
-                    }
-                } />
+                <Button title={'Commencer'.toUpperCase()} onPress={() => {
+                    this.props.navigation.navigate('Onboarding')} } />
             </View>
         );
     }
