@@ -16,7 +16,7 @@ render() {
                 <View style={GlobalStyle.titleHeader}>
                     <View style={GlobalStyle.titleContainer}>
                         <Text style={GlobalStyle.title}>Bienvenue</Text>
-                        <Text style={GlobalStyle.subtitle}>dans la fabrique à histoire</Text>
+                        <Text style={GlobalStyle.subtitle}>dans Fabulab</Text>
                     </View>
                     <View style={GlobalStyle.line}/>
                 </View>

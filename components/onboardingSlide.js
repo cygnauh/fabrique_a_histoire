@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, ScrollView, Dimensions, TouchableOpacity} from 'react-native';
+import { View, Text, ScrollView, Dimensions, TouchableOpacity} from 'react-native';
 import Header from '../components/header';
 import RectangleButton from './rectangleButton';
 import OnBoardingStyle from '../styles/onboardingStyle';
@@ -144,10 +144,10 @@ export default class OnBoardingSlide extends React.Component {
         let button;
         const lastSlide = this.state.index === this.state.nbSlides - 1;
         if (lastSlide) {
-            button = <RectangleButton content="Commencer" onPress={
+            button = <RectangleButton content="Commencer" src={require('../assets/images/validate.png')} onPress={
                 () => this.props.navigation.navigate('Length') } />
         } else {
-            button = <RectangleButton content="Continuer" onPress={() => this.swipe()} />
+            button = <RectangleButton content="Continuer" src={require('../assets/images/arrowNext.png')} onPress={() => this.swipe()} />
         }
         return (
                 <View pointerEvents="box-none" style={

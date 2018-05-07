@@ -28,13 +28,17 @@ export default StyleSheet.create({
     radioSelected: {
         fontSize: scaleDelta(16, .5),
         position: 'relative',
-        top: scaleHeight(0)
+        top: scaleHeight(0),
+        fontFamily: 'Editor-Bold',
+        color: '#47404F',
     },
     radioUnselected: {
         backgroundColor: '#DBDAD9',
         paddingVertical: scaleWidth(2),
         paddingHorizontal: scaleHeight(10),
-        fontSize: scaleDelta(11, .5)
+        fontSize: scaleDelta(11, .5),
+        fontFamily: 'Editor-Bold',
+        color: '#47404F',
     },
 
     /** TEXT INPUT **/
@@ -48,6 +52,8 @@ export default StyleSheet.create({
     placeItem: {
         fontSize: scaleDelta(16, .5),
         marginVertical: scaleHeight(15),
+        fontFamily: 'Editor-Bold',
+        color: '#47404F',
     },
     question: {
         marginHorizontal: scaleWidth(5),

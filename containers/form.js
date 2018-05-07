@@ -118,7 +118,7 @@ export default class Form extends React.Component{
                     {this.renderIntroduction()}
                     {/*{this.renderIntroduction()}
                 </ScrollView>*/}
-                <RectangleButton content={'Imprimer'} onPress = { this.printStory.bind(this) }/>
+                <RectangleButton content={'Imprimer'} src={require('../assets/images/print.png')} onPress = { this.printStory.bind(this) }/>
                 {/*<Text>{'Length : ' + this.length}</Text>*/}
             </View>
         );

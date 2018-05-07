@@ -23,8 +23,8 @@ export default StyleSheet.create({
         justifyContent: 'flex-start'
     },
     iconBack: {
-        height: scaleWidth(15),
-        width: scaleWidth(15),
+        height: scaleWidth(10),
+        width: scaleWidth(10),
     },
 
     /** INDICATIONS **/
@@ -37,8 +37,13 @@ export default StyleSheet.create({
         marginTop: scaleHeight(80), // do not hide back btn
     },
     title: {
-        fontSize: scaleDelta(22, .5),
-        marginBottom: scaleWidth(50)
+        fontSize: scaleDelta(24, .5),
+        marginBottom: scaleWidth(30),
+        fontFamily: 'Editor-Bold',
+        color: '#47404F',
+    },
+    text: {
+        marginRight: scaleWidth(100)
     },
 
     /** BUTTON **/
@@ -51,20 +56,29 @@ export default StyleSheet.create({
         alignItems: 'flex-end',
         paddingHorizontal: scaleWidth(40),
     },
-    button: {
+    buttonItem: {
         backgroundColor: 'white',
         borderWidth: 2,
-        borderColor: '#4E4641',
-        paddingVertical: scaleHeight(4),
-        paddingHorizontal: scaleWidth(15),
+        borderColor: '#4F4640',
+        paddingLeft: scaleWidth(15),
+        paddingRight: scaleWidth(10),
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    buttonText: {
         flexWrap: 'wrap',
         textAlign: 'center',
         fontSize: scaleDelta(12, .5),
+        color: '#47404F',
+    },
+    buttonImg: {
+        width: scaleWidth(18),
+        height: scaleWidth(18),
     },
     line: {
         position: 'relative',
         top: scaleHeight(15),
-        borderBottomColor: '#4E4641',
+        borderBottomColor: '#4F4640',
         borderBottomWidth: 2,
         width: width - scaleWidth(80), // subtract margin
     },
@@ -79,11 +93,14 @@ export default StyleSheet.create({
     },
     paginationItem: {
         paddingHorizontal: scaleWidth(8),
-        fontSize: scaleDelta(12, .5)
+        fontSize: scaleDelta(12, .5),
+        fontFamily: 'Editor-Medium',
+        color: '#47404F50',
     },
     currentPagination: {
-        fontSize: scaleDelta(20, .5),
+        fontSize: scaleDelta(22, .5),
         position: 'relative',
-        top: scaleWidth(3)
+        top: scaleWidth(4),
+        color: '#47404F',
     }
 });

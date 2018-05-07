@@ -66,7 +66,7 @@ export default class Length extends React.Component{
                             onValueChange={(value) => this.onChange(value)}/>
                     {this.renderLength(this.state.value)}
                 </View>
-                <RectangleButton content={'Continuer'} onPress={
+                <RectangleButton content={'Continuer'} src={require('../assets/images/validate.png')} onPress={
                     () => this.props.navigation.navigate('Form', {length: this.state.value} )}/>
             </View>
         );
