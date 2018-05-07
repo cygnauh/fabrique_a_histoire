@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Button, ScrollView, Dimensions, TouchableOpacity} from 'react-native';
-import Logo from '../components/logo';
+import Header from '../components/header';
 import RectangleButton from './rectangleButton';
 import OnBoardingStyle from '../styles/onboardingStyle';
 
@@ -115,7 +115,7 @@ export default class OnBoardingSlide extends React.Component {
         if (this.state.nbSlides <= 1) { return null; }
         let paginations = [];
         const currentSlide =
-            <TouchableOpacity onPress={() => console.log(this.state)}>
+            <TouchableOpacity>
                 <Text style={
                     [OnBoardingStyle.paginationItem, OnBoardingStyle.currentPagination]}>
                     {this.state.index + 1}
@@ -160,14 +160,7 @@ export default class OnBoardingSlide extends React.Component {
 
     renderHeader = () => {
         return(
-            <View>
-                <View style={[OnBoardingStyle.backBtn]}>
-                    <Button title={'Retour'.toUpperCase()} onPress={
-                        () => this.props.navigation.goBack()
-                    } />
-                </View>
-                <Logo/>
-            </View>
+            <Header onPress={() => this.props.navigation.goBack()}/>
         );
     };
 

@@ -1,13 +1,13 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
-import Logo from '../components/logo';
+import { View, Text, Button, TextInput, ScrollView } from 'react-native';
+import Header from '../components/header';
 import RadioButton from '../components/radioButton';
 import Input from '../components/input';
+import RectangleButton from '../components/rectangleButton';
 import GlobalStyle from '../styles/mainStyle';
 import FormStyle from "../styles/formStyle";
 
 const data = require('../assets/data/data_structure.json');
-console.log(data);
 
 export default class Form extends React.Component{
     constructor(props) {
@@ -29,6 +29,9 @@ export default class Form extends React.Component{
         array[index].selected = true;
         this.setState({ radioItems: array }); // update view
     }
+    inputOnChange = (name, value) => {
+        this.setState(() => ({ [name]: value }));
+    };
 
     printStory() {
         // Retrieve text
@@ -49,9 +52,12 @@ export default class Form extends React.Component{
                 story += text_elm[i] + ' ';
             }
         }
+        console.log(story);
 
         // Send a request
-        fetch('http://192.168.0.37:8080/', {
+        let home_url = 'http://192.168.0.37:8080/',
+            christine_url = 'http://192.168.43.70:8080/';
+        fetch(christine_url, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -70,49 +76,50 @@ export default class Form extends React.Component{
         // Save the story in the database
     }
 
+    renderRadioBtn(label) {
+        return(
+            <View style={FormStyle.radioGroup}>
+                {label.map(
+                    (item, key) => (
+                        <RadioButton key = { key } button = { item } onClick = {
+                            this.radioBtnOnChange.bind(this, key, label)
+                        }/>
+                    )
+                )}
+            </View>
+        )
+    }
+    renderInput(name, placeholder, state) {
+        return(
+            <Input onChange={(text) => this.inputOnChange(name, text)} placeholder = { placeholder } value = { state } />
+        )
+    }
+
+    renderIntroduction() {
+        return (
+            <View style={FormStyle.formContainer}>
+                {this.renderRadioBtn(data.introduction.expression_1)}
+                {this.renderInput("hero_who", data.introduction.hero.who.placeholder, this.state.hero_who)}
+                {this.renderInput("hero_appearance", data.introduction.hero.appearance.placeholder, this.state.hero_appearance)}
+                {this.renderRadioBtn(data.introduction.expression_2)}
+                {this.renderInput("hero_hobbies", data.introduction.hero_detail.hobbies.placeholder, this.state.hero_hobbies)}
+                {this.renderInput("hero_current_action", data.introduction.hero_detail.current_action.placeholder, this.state.hero_current_action)}
+                <TextInput style={[FormStyle.formItem, FormStyle.placeItem]} editable={false} selectTextOnFocus={false} value = {this.state.place + '.'}/>
+            </View>
+        );
+    }
+
     render() {
         return(
-            <View style={GlobalStyle.view}>
-                <View>
-                    <Button title={'Retour'.toUpperCase()} onPress={() => this.props.navigation.goBack()}/>
-                    <Logo/>
-                </View>
-                <View>
-                    <View style={FormStyle.radioGroup}>
-                        {data.introduction.expression_1.map(
-                            (item, key) => (
-                                <RadioButton key = { key } button = { item } onClick = {
-                                    this.radioBtnOnChange.bind(this, key, data.introduction.expression_1)
-                                }/>
-                            )
-                        )}
-                    </View>
-                    <Input onChange = {
-                        (text) => this.setState({ hero_who: text})
-                    } placeholder = { data.introduction.hero.who.placeholder } value = { this.state.hero_who } />
-                    <Input onChange = {
-                        (text) => this.setState({ hero_appearance: text})
-                    } placeholder = { data.introduction.hero.appearance.placeholder } value = { this.state.hero_appearance}/>
-                    <View style={FormStyle.radioGroup}>
-                        {data.introduction.expression_2.map(
-                            (item, key) => (
-                                <RadioButton key = { key } button = { item } onClick = {
-                                    this.radioBtnOnChange.bind(this, key, data.introduction.expression_2)
-                                }/>
-                            )
-                        )}
-                    </View>
-                    <Input onChange = {
-                        (text) => this.setState({ hero_hobbies: text})
-                    } placeholder = { data.introduction.hero_detail.hobbies.placeholder } value = {this.state.hero_hobbies } />
-                    <Input onChange = {
-                        (text) => this.setState({ hero_current_action: text})
-                    } placeholder = { data.introduction.hero_detail.current_action.placeholder } value = {this.state.hero_current_action }/>
-                    <Text>{this.state.place}.</Text>
-                </View>
-                <Button title={'Imprimer'.toUpperCase()} onPress = { this.printStory.bind(this) }/>
-                <Text>{'Length : ' + this.length}</Text>
-
+            <View style={[GlobalStyle.view, GlobalStyle.headerView]}>
+                <Header onPress={() => this.props.navigation.goBack()}/>
+                {/*<Text style={FormStyle.currentPart}>{'Introduction'.toUpperCase()}</Text>*/}
+                {/*<ScrollView style={FormStyle.scrollContainer}>*/}
+                    {this.renderIntroduction()}
+                    {/*{this.renderIntroduction()}
+                </ScrollView>*/}
+                <RectangleButton content={'Imprimer'} onPress = { this.printStory.bind(this) }/>
+                {/*<Text>{'Length : ' + this.length}</Text>*/}
             </View>
         );
     }
