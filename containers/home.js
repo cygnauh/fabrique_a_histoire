@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, StatusBar, AsyncStorage } from 'react-native';
+import { View, Text, TouchableOpacity, StatusBar } from 'react-native';
 import Logo from '../components/logo';
 import GlobalStyle from '../styles/mainStyle.js';
 
@@ -16,7 +16,7 @@ render() {
                 <View style={GlobalStyle.titleHeader}>
                     <View style={GlobalStyle.titleContainer}>
                         <Text style={GlobalStyle.title}>Bienvenue</Text>
-                        <Text style={GlobalStyle.subtitle}>dans la fabrique à histoire</Text>
+                        <Text style={GlobalStyle.subtitle}>dans Fabulab</Text>
                     </View>
                     <View style={GlobalStyle.line}/>
                 </View>
@@ -24,8 +24,9 @@ render() {
                     Repérer le code de votre machine ou d'une histoire pour commencer l'expérience
                 </Text>
 
-                <Button title={'Commencer'.toUpperCase()} onPress={() => {
-                    this.props.navigation.navigate('Onboarding')} } />
+                <TouchableOpacity onPress={() => { this.props.navigation.navigate('Onboarding')} }>
+                    <Text style={GlobalStyle.homeBtn}>{'Commencer'.toUpperCase()}</Text>
+                </TouchableOpacity>
             </View>
         );
     }

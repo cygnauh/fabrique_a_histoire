@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, ScrollView, Dimensions, TouchableOpacity} from 'react-native';
+import { View, Text, ScrollView, Dimensions, TouchableOpacity} from 'react-native';
 import Header from '../components/header';
 import RectangleButton from './rectangleButton';
 import OnBoardingStyle from '../styles/onboardingStyle';
@@ -85,7 +85,7 @@ export default class OnBoardingSlide extends React.Component {
             diff = this.state.index + 1,
             x = diff * state.width,
             y = 0;
-        console.log(this.state);
+        // console.log(this.state);
         this.scrollView && this.scrollView.scrollTo({ x, y, animated: true });
         this.internals.isScrolling = true; // update internal scroll state
     };
@@ -144,10 +144,11 @@ export default class OnBoardingSlide extends React.Component {
         let button;
         const lastSlide = this.state.index === this.state.nbSlides - 1;
         if (lastSlide) {
-            button = <RectangleButton content="Commencer" onPress={
-                () => this.props.navigation.navigate('Length') } />
+            button = <RectangleButton
+                content="Commencer" src={require('../assets/images/validate.png')}
+                onPress={() => this.props.navigation.navigate('Length')} />
         } else {
-            button = <RectangleButton content="Continuer" onPress={() => this.swipe()} />
+            button = <RectangleButton content="Continuer" src={require('../assets/images/arrowNext.png')} onPress={() => this.swipe()} />
         }
         return (
                 <View pointerEvents="box-none" style={
@@ -164,6 +165,16 @@ export default class OnBoardingSlide extends React.Component {
         );
     };
 
+    renderSkip = () => {
+        return(
+            <View>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('Length')}>
+                    <Text style={OnBoardingStyle.skipBtn}>{'Passer'.toUpperCase()}</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    };
+
     /* Render the component */
     render = ({ children } = this.props) => {
         return (
@@ -171,6 +182,7 @@ export default class OnBoardingSlide extends React.Component {
                 {this.renderHeader()}
                 {this.renderScrollView(children)} /*Render screens */
                 {this.renderPagination()} /*Render pagination */
+                {this.renderSkip()}
             </View>
         );
     }
