@@ -13,9 +13,13 @@ export default class Form extends React.Component{
     constructor(props) {
         super(props);
         this.length = this.props.navigation.state.params.length;
+
+        this.place = this.props.navigation.state.params.place
+
         this.keyboardHeight = new Animated.Value(0);
         this.state = {
-            introduction_place: "dans la jungle" + ".",
+            // introduction_place: "dans la jungle" + ".",
+            introduction_place: this.place  + ".",
             introduction_hero_who: "",
             introduction_hero_characteristic: "",
             introduction_hero_description: "",

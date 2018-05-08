@@ -1,4 +1,5 @@
 import React from 'react';
+// import Sound from 'react-native-sound';
 import { View, Text, Button, ActivityIndicator,FlatList, Animated, StyleSheet, Easing} from 'react-native';
 import Logo from '../components/logo';
 import GlobalStyle from '../styles/mainStyle';
@@ -12,6 +13,7 @@ export default class Place extends React.Component{
             value: 1,
             isLoading: true,
             opacity: new Animated.Value(0.7)
+
         };
 
         this.colors =[
@@ -58,13 +60,6 @@ export default class Place extends React.Component{
             console.log(value)
         }
 
-        // Animated.timing(
-        //         this.animatedValue
-        //     ).stop(callback)
-
-
-
-
         let stopAnimation = function(){
             Animated.timing(
                 this.animatedValue
@@ -78,8 +73,8 @@ export default class Place extends React.Component{
         setTimeout( ()=>{
             stopAnimation(this.animatedValue);
         }, 3000);
-    }
 
+    }
 
 
     // changeColor(){
@@ -108,7 +103,8 @@ export default class Place extends React.Component{
                     isLoading: false,
                     dataSource: responseJson,
                     randomPlace:random,
-                    randomPlaceName:responseJson[random]
+                    randomPlaceName:responseJson[random],
+                    colors:responseJson.color
                 }, function(){
 
                 });
@@ -126,7 +122,7 @@ export default class Place extends React.Component{
 
         const backgroundColorVar = this.animatedValue.interpolate(
             {
-                inputRange:[ 0, 0.1, 0.3, 0.5, 0.6, 0.7, 0.8, 1 ],
+                inputRange:[ 0, 0.1,0.3,0.4,0.5,0.6,0.7, 1 ],
                 outputRange:  this.colors
             });
 
@@ -146,14 +142,14 @@ export default class Place extends React.Component{
                 {/*</Animated.View>*/}
 
                 <View>
-                    <Text style={GlobalStyle.titleContent}>Cette histoire se passe </Text>
+                    <Text style={GlobalStyle.placePhrase}>Cette histoire se passe </Text>
 
                     <View style={GlobalStyle.placeContainer}>
                         {/*<Text>{this.state.dataSource[this.state.randomPlace].name}</Text>*/}
-                        <Text>{this.state.randomPlaceName.name}</Text>
+                        <Text style={GlobalStyle.placeTitle}>{this.state.randomPlaceName.name}</Text>
                     </View>
                 </View>
-                <Button title={'Continuer'.toUpperCase()} onPress={() => this.props.navigation.navigate('Form', {length: this.state.value} )} />
+                <Button title={'Continuer'.toUpperCase()} onPress={() => this.props.navigation.navigate('Form', {place: this.state.randomPlaceName.name} )} />
             </Animated.View>
         );
     }

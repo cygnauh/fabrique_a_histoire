@@ -96,6 +96,18 @@ export default StyleSheet.create({
     /** PLACE **/
     placeContainer : {
 
+
+
+
+    },
+    placePhrase: {
+        color: "#FFFFFF",
+        fontSize: scaleDelta(18, .5),
+    },
+    placeTitle: {
+        color: "#FFFFFF",
+        fontFamily: 'Editor-Medium',
+        fontSize: scaleDelta(32, .5),
     },
     lengthItem: {
         fontSize: scaleDelta(12, .5),
