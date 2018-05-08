@@ -20,16 +20,16 @@ export default class Place extends React.Component{
             '#e3a34b', //désert
             '#f4ddac', //plage
             '#66892c', //jungle
-            '#004c34', //forêt
+            // '#004c34', //forêt
             '#1a507d', //lac
             '#6b9adb', //ciel
             '#c6c1b8', //montagne
             '#7d7d7d', //ville
-            '#4f4640', //grotte
+            // '#4f4640', //grotte
         ]
 
-        this.color="#aaa"
-        // this.changeColor(Colors, this.color)
+        // this.color="#aaa"
+        // // this.changeColor(Colors, this.color)
 
         this.animatedValue = new Animated.Value(0);
 
@@ -54,31 +54,42 @@ export default class Place extends React.Component{
                 // this.spin();
             }});
 
+        let callback = (value) => {
+            console.log(value)
+        }
+
+        // Animated.timing(
+        //         this.animatedValue
+        //     ).stop(callback)
+
+
 
 
         let stopAnimation = function(){
             Animated.timing(
                 this.animatedValue
-            ).stop();
+            ).stop((value)=>{
+                console.log(value)
+            });
 
         };
         stopAnimation = stopAnimation.bind(this);
 
         setTimeout( ()=>{
-            stopAnimation();
+            stopAnimation(this.animatedValue);
         }, 3000);
     }
 
 
 
-    changeColor(){
-            // setTimeout(function(){
-                this.color = this.colors[0];
-                return {
-                    backgroundColor : this.color
-                }
-            // }, 500)
-    }
+    // changeColor(){
+    //         // setTimeout(function(){
+    //             this.color = this.colors[0];
+    //             return {
+    //                 backgroundColor : this.color
+    //             }
+    //         // }, 500)
+    // }
 
     componentDidMount(){
         this.animateBackgroundColor();
@@ -87,7 +98,7 @@ export default class Place extends React.Component{
             .then((response) => response.json())
             .then((responseJson) => {
 
-                console.log(responseJson)
+                // console.log(responseJson)
 
                 var random = Math.floor(Math.random() * Math.floor(responseJson.length));
 
@@ -115,7 +126,7 @@ export default class Place extends React.Component{
 
         const backgroundColorVar = this.animatedValue.interpolate(
             {
-                inputRange:[ 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 1 ],
+                inputRange:[ 0, 0.1, 0.3, 0.5, 0.6, 0.7, 0.8, 1 ],
                 outputRange:  this.colors
             });
 
@@ -159,10 +170,5 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    },
+    }
 });

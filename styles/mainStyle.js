@@ -63,6 +63,6 @@ export default StyleSheet.create({
 
     /** PLACE **/
     placeContainer : {
-       color:'#fff'
+
     }
 });
