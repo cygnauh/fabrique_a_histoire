@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextInput, Animated, Keyboard, ScrollView } from 'react-native';
+import { View, TextInput, Animated, Keyboard, ScrollView, Alert } from 'react-native';
 import Header from '../components/header';
 import RadioButton from '../components/radioButton';
 import RectangleButton from '../components/rectangleButton';
@@ -15,7 +15,7 @@ export default class Form extends React.Component{
         this.length = this.props.navigation.state.params.length;
         this.keyboardHeight = new Animated.Value(0);
         this.state = {
-            introduction_place: "dans la jungle",
+            introduction_place: "dans la jungle" + ".",
             introduction_hero_who: "",
             introduction_hero_characteristic: "",
             introduction_hero_description: "",
@@ -42,8 +42,6 @@ export default class Form extends React.Component{
     };
 
     printStory() {
-        // TODO check before retrieve
-
         // Retrieve text
         let intro = data.introduction,
             disrupt = data.disruption,
@@ -65,40 +63,56 @@ export default class Form extends React.Component{
             disrupt_then = state.disruption_event_then,
             adventure_expression_1 = adventure.expression_1.filter((exp) => {return exp.selected === true}),
             adventure_description = state.adventure_event_description,
-            adventure_reaction = state.adventure_event_reaction,
+            adventure_reaction = state.adventure_event_reaction;
 
-            text_elm = [intro_expression_1[0].label, hero, characteristic, description, intro_expression_2[0].label, hobbies, current_action, place, disrupt_expression_1[0].label, disrupt_event, disrupt_reaction, disrupt_decision, disrupt_then, adventure_expression_1[0].label, adventure_description, adventure_reaction],
-            story = '';
-
-        for (let i = 0, count = text_elm.length; i < count; i++) {
-            if (i === text_elm.length - 1) {
-                story += text_elm[i] + '.';
-            } else {
-                story += text_elm[i] + ' ';
+        // Check before retrieve
+        if (!hero || !characteristic || !description || !hobbies || !current_action || !disrupt_event || !disrupt_reaction || !disrupt_decision || !disrupt_then || !adventure_description || !adventure_reaction) {
+            Alert.alert(
+                'Attention',
+                "Veuillez remplir tous les champs du formulaire avant d'imprimer l'histoire !",
+                [
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                ],
+                { cancelable: false }
+            )
+        } else {
+            // Create the text
+            let text_elm = [
+                intro_expression_1[0].label, hero, characteristic, description, intro_expression_2[0].label, hobbies, current_action, place,
+                disrupt_expression_1[0].label, disrupt_event, disrupt_reaction, disrupt_decision, disrupt_then,
+                adventure_expression_1[0].label, adventure_description, adventure_reaction],
+                story = '';
+            for (let i = 0, count = text_elm.length; i < count; i++) {
+                if (i === text_elm.length - 1) {
+                    story += text_elm[i] + '.';
+                } else {
+                    story += text_elm[i] + ' ';
+                }
             }
+            console.log(story);
+
+            // Send a request
+            // TODO ckeck the address IP of the network to find the raspberry one
+            let home_url = 'http://192.168.0.37:8080/',
+                christine_url = 'http://192.168.43.70:8080/';
+            fetch(home_url, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    text: story
+                })
+            }).then(function(response) {
+                console.log(response);
+                return response;
+            }).catch(function(error) {
+                return error;
+            });
+
+            // TODO Save the story in the database
         }
-        console.log(story);
-
-        // Send a request
-        let home_url = 'http://192.168.0.37:8080/',
-            christine_url = 'http://192.168.43.70:8080/';
-        fetch(christine_url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                text: story
-            })
-        }).then(function(response) {
-            console.log(response);
-            return response;
-        }).catch(function(error) {
-            return error;
-        });
-
-        // TODO Save the story in the database
     }
 
     renderRadioBtn(label) {
