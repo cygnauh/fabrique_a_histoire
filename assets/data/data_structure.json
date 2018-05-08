@@ -44,7 +44,7 @@
   "disruption": {
     "expression_1": [
       {
-        "label": "Soudain",
+        "label": "Soudain,",
         "selected": true
       }, {
         "label": "Tout à coup,",
@@ -67,6 +67,28 @@
       },
       "then": {
         "placeholder": "Que se passe-t-il ensuite ?"
+      }
+    }
+  },
+  "adventure": {
+    "expression_1": [
+      {
+        "label": "Le lendemain,",
+        "selected": true
+      }, {
+        "label": "Quelques heures plus tard,",
+        "selected": false
+      }, {
+        "label": "Peu de temps après,",
+        "selected": false
+      }
+    ],
+    "event": {
+      "description": {
+        "placeholder": "Il se passe quelque chose d'incroyable : que se passe-t-il ?"
+      },
+      "hero_reaction": {
+        "placeholder": "Comment est-ce que le ou les héros réagissent ?"
       }
     }
   }

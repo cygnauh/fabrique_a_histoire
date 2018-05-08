@@ -22,9 +22,10 @@ export default StyleSheet.create({
         paddingBottom: scaleHeight(40),
     },
     logo: {
-        width: scaleWidth(25),
-        height: scaleWidth(25),
+        width: scaleWidth(45),
+        height: scaleWidth(45),
         alignSelf: 'center',
+        marginBottom: scaleHeight(10),
     },
 
     /** HOME **/
@@ -55,6 +56,7 @@ export default StyleSheet.create({
         lineHeight: scaleDelta(20, .5),
         fontFamily: 'MaisonNeue-Medium',
         color: '#47404F',
+        textAlign: 'center',
     },
     homeText: {
         marginHorizontal: scaleWidth(40),

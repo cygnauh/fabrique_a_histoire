@@ -34,27 +34,29 @@ export default StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start', // update when add img
         paddingHorizontal: scaleWidth(40),
-        marginTop: scaleHeight(320), // 80 : do not hide back btn
+        marginTop: scaleHeight(230), // 80 : do not hide back btn
     },
     title: {
         fontSize: scaleDelta(24, .5),
         marginBottom: scaleWidth(30),
         fontFamily: 'Editor-Bold',
         color: '#47404F',
+        textAlign: 'center',
     },
     text: {
-        marginRight: scaleWidth(100),
+        marginHorizontal: scaleWidth(40),
         fontFamily: 'MaisonNeue-Medium',
+        paddingBottom: scaleHeight(50),
     },
 
     /** BUTTON **/
     buttonContainer: {
         position: 'absolute',
-        top: scaleHeight(30),
+        top: scaleHeight(65),
         bottom: 0,
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'flex-end',
+        alignItems: 'center',
         paddingHorizontal: scaleWidth(40),
     },
     buttonItem: {
@@ -82,19 +84,28 @@ export default StyleSheet.create({
     },
     line: {
         position: 'relative',
-        top: scaleHeight(15),
-        left: scaleWidth(-80),
+        top: scaleHeight(-110),
         borderBottomColor: '#4F4640',
         borderBottomWidth: 2,
         width: width - scaleWidth(160), // subtract margin + btn width
+    },
+
+    /**  SKIP **/
+    skipBtn: {
+        marginLeft: scaleWidth(40),
+        marginBottom: scaleHeight(10),
+        fontFamily: 'MaisonNeue-Bold',
+        color: '#47404F',
+        fontSize: scaleDelta(12, .5),
     },
 
     /** PAGINATION **/
     paginationContainer: {
         position: 'absolute',
         bottom: scaleWidth(40),
+        right: scaleWidth(40),
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
         alignItems: 'flex-end'
     },
     paginationItem: {
