@@ -18,8 +18,13 @@ export default StyleSheet.create({
     },
     backBtn: {
         paddingHorizontal: scaleWidth(20),
+        width: width,
         flexDirection: 'row',
         justifyContent: 'flex-start'
+    },
+    iconBack: {
+        height: scaleWidth(15),
+        width: scaleWidth(15),
     },
 
     /** INDICATIONS **/

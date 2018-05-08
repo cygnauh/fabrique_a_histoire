@@ -1,12 +1,11 @@
 import React from 'react';
-import {Dimensions, StyleSheet} from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 import { scaleWidth, scaleHeight, scaleDelta } from '../utils/scale';
 const { width, height } = Dimensions.get('window');
 
-
 export default StyleSheet.create({
 
-
+    /** GENERAL **/
     view: {
         backgroundColor: '#F1F1F1',
         paddingHorizontal: scaleWidth(40),
@@ -16,11 +15,19 @@ export default StyleSheet.create({
         justifyContent: 'space-between', // vertical
         alignItems: 'center', // horizontal
     },
+
+    /** HEADER **/
+    headerView: {
+        paddingTop: scaleHeight(25),
+        paddingBottom: scaleHeight(40),
+    },
     logo: {
         width: scaleWidth(25),
         height: scaleWidth(25),
         alignSelf: 'center',
     },
+
+    /** HOME **/
     titleHeader: {
       flexDirection: 'column',
       alignItems: 'center'
@@ -44,7 +51,7 @@ export default StyleSheet.create({
         lineHeight: scaleDelta(20, .5)
     },
     homeText: {
-        marginHorizontal: scaleWidth(50),
+        marginHorizontal: scaleWidth(40),
         textAlign: 'center'
     },
 
@@ -52,9 +59,14 @@ export default StyleSheet.create({
     titleContent: {
         fontSize: scaleDelta(22, .5),
         marginBottom: scaleHeight(25),
+        textAlign: 'center',
     },
 
     /** LENGTH **/
+    lengthSlider: {
+        width: width - scaleWidth(80),
+
+    },
     lengthContainer : {
         marginTop: scaleHeight(15),
         flexDirection: 'row',
@@ -64,5 +76,13 @@ export default StyleSheet.create({
     /** PLACE **/
     placeContainer : {
 
+    },
+    lengthItem: {
+        fontSize: scaleDelta(12, .5)
+    },
+    currentLength: {
+        fontSize: scaleDelta(16, .5),
+        position: 'relative',
+        top: scaleWidth(-2)
     }
 });
