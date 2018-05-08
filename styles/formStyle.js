@@ -44,16 +44,26 @@ export default StyleSheet.create({
     /** TEXT INPUT **/
     inputItem: {
         backgroundColor: '#FFF',
-        paddingVertical: scaleWidth(5),
+        paddingTop: scaleHeight(8),
+        paddingBottom: scaleHeight(5),
         paddingHorizontal: scaleHeight(10),
-        color: '#000',
         fontSize: scaleDelta(12, .5),
+        fontFamily: 'MaisonNeue-Medium',
+        color: '#47404F',
     },
     placeItem: {
         fontSize: scaleDelta(16, .5),
         marginVertical: scaleHeight(15),
         fontFamily: 'Editor-Bold',
         color: '#47404F',
+    },
+    onChange: {
+        position: 'relative',
+        top: scaleHeight(-10),
+        backgroundColor: 'transparent',
+        paddingHorizontal: 0,
+        fontFamily: 'MaisonNeue-Demi',
+        lineHeight: scaleDelta(14, .5),
     },
     question: {
         marginHorizontal: scaleWidth(5),

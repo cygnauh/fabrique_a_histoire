@@ -40,6 +40,7 @@
 		BDC321689BF94ADAA5626861 /* Editor-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B7BE61C0E044B7D8FE92564 /* Editor-Bold.ttf */; };
 		F4CC949E3A5B45CAB8CF38EE /* Editor-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 740265FFBD46481C852AB01E /* Editor-Medium.ttf */; };
 		6CB90A7AB080477AB710C447 /* MaisonNeue-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 76EF4ABAB9B64F6BA1B50E2F /* MaisonNeue-Medium.otf */; };
+		FB1DB0DDF9F0405C82493502 /* MaisonNeue-Demi.otf in Resources */ = {isa = PBXBuildFile; fileRef = B77AAA64B1B04D29B80C4ED8 /* MaisonNeue-Demi.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -348,6 +349,7 @@
 		2B7BE61C0E044B7D8FE92564 /* Editor-Bold.ttf */ = {isa = PBXFileReference; name = "Editor-Bold.ttf"; path = "../assets/fonts/Editor-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		740265FFBD46481C852AB01E /* Editor-Medium.ttf */ = {isa = PBXFileReference; name = "Editor-Medium.ttf"; path = "../assets/fonts/Editor-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		76EF4ABAB9B64F6BA1B50E2F /* MaisonNeue-Medium.otf */ = {isa = PBXFileReference; name = "MaisonNeue-Medium.otf"; path = "../assets/fonts/MaisonNeue-Medium.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B77AAA64B1B04D29B80C4ED8 /* MaisonNeue-Demi.otf */ = {isa = PBXFileReference; name = "MaisonNeue-Demi.otf"; path = "../assets/fonts/MaisonNeue-Demi.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -616,6 +618,7 @@
 				2B7BE61C0E044B7D8FE92564 /* Editor-Bold.ttf */,
 				740265FFBD46481C852AB01E /* Editor-Medium.ttf */,
 				76EF4ABAB9B64F6BA1B50E2F /* MaisonNeue-Medium.otf */,
+				B77AAA64B1B04D29B80C4ED8 /* MaisonNeue-Demi.otf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1074,6 +1077,7 @@
 				BDC321689BF94ADAA5626861 /* Editor-Bold.ttf in Resources */,
 				F4CC949E3A5B45CAB8CF38EE /* Editor-Medium.ttf in Resources */,
 				6CB90A7AB080477AB710C447 /* MaisonNeue-Medium.otf in Resources */,
+				FB1DB0DDF9F0405C82493502 /* MaisonNeue-Demi.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

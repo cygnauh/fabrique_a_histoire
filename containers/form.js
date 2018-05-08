@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text, Button, TextInput, ScrollView } from 'react-native';
+import { View, TextInput } from 'react-native';
 import Header from '../components/header';
 import RadioButton from '../components/radioButton';
-import Input from '../components/input';
 import RectangleButton from '../components/rectangleButton';
 import GlobalStyle from '../styles/mainStyle';
 import FormStyle from "../styles/formStyle";
+import {scaleHeight} from "../utils/scale";
 
 const data = require('../assets/data/data_structure.json');
 
@@ -14,13 +14,13 @@ export default class Form extends React.Component{
         super(props);
         this.length = this.props.navigation.state.params.length;
         this.state = {
-            place: 'dans la jungle',
-            hero_who: '',
-            hero_characteristic: '',
-            hero_description: '',
-            hero_hobbies: '',
-            hero_current_action: ''
-        }
+            place: "dans la jungle",
+            hero_who: "",
+            hero_characteristic: "",
+            hero_description: "",
+            hero_hobbies: "",
+            hero_current_action: ""
+        };
     }
 
     radioBtnOnChange(index, array) {
@@ -92,8 +92,17 @@ export default class Form extends React.Component{
         )
     }
     renderInput(name, placeholder, state) {
+        let question = null,
+            input = <TextInput
+                style={[FormStyle.inputItem, FormStyle.formItem, state !== "" && FormStyle.onChange]}
+                onChangeText={(text) => this.inputOnChange(name, text)} multiline={true} placeholder={placeholder} value={state}/>;
+        if (state !== "") {
+            question = <TextInput style={[FormStyle.question]} editable={false} selectTextOnFocus={false} value = {placeholder}/>;
+        }
         return(
-            <Input onChange={(text) => this.inputOnChange(name, text)} placeholder = { placeholder } value = { state } />
+            <View>
+                {question}{input}
+            </View>
         )
     }
 
@@ -107,21 +116,24 @@ export default class Form extends React.Component{
                 {this.renderRadioBtn(data.introduction.expression_2)}
                 {this.renderInput("hero_hobbies", data.introduction.hero_detail.hobbies.placeholder, this.state.hero_hobbies)}
                 {this.renderInput("hero_current_action", data.introduction.hero_detail.current_action.placeholder, this.state.hero_current_action)}
-                <TextInput style={[FormStyle.formItem, FormStyle.placeItem]} editable={false} selectTextOnFocus={false} value = {this.state.place + '.'}/>
+                <TextInput
+                    style={[FormStyle.formItem, FormStyle.placeItem]}
+                    editable={false} selectTextOnFocus={false}
+                    value = {this.state.place + '.'}/>
             </View>
         );
     }
 
     render() {
+
         return(
             <View style={[GlobalStyle.view, GlobalStyle.headerView]}>
                 <Header onPress={() => this.props.navigation.goBack()}/>
-                {/*<Text style={FormStyle.currentPart}>{'Introduction'.toUpperCase()}</Text>*/}
-                {/*<ScrollView style={FormStyle.scrollContainer}>*/}
-                    {this.renderIntroduction()}
-                    {/*{this.renderIntroduction()}
-                </ScrollView>*/}
-                <RectangleButton content={'Imprimer'} src={require('../assets/images/print.png')} onPress = { this.printStory.bind(this) }/>
+                {this.renderIntroduction()}
+                <RectangleButton
+                    content={'Imprimer'}
+                    src={require('../assets/images/print.png')}
+                    onPress = { this.printStory.bind(this) }/>
                 {/*<Text>{'Length : ' + this.length}</Text>*/}
             </View>
         );
