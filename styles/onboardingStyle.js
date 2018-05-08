@@ -58,12 +58,15 @@ export default StyleSheet.create({
         paddingHorizontal: scaleWidth(40),
     },
     buttonItem: {
+        alignSelf: 'center', // self width
+        width: scaleWidth(80),
         backgroundColor: 'white',
         borderWidth: 2,
         borderColor: '#4F4640',
         paddingLeft: scaleWidth(15),
         paddingRight: scaleWidth(10),
         flexDirection: 'row',
+        justifyContent: 'center',
         alignItems: 'center',
     },
     buttonText: {
@@ -80,9 +83,10 @@ export default StyleSheet.create({
     line: {
         position: 'relative',
         top: scaleHeight(15),
+        left: scaleWidth(-80),
         borderBottomColor: '#4F4640',
         borderBottomWidth: 2,
-        width: width - scaleWidth(80), // subtract margin
+        width: width - scaleWidth(160), // subtract margin + btn width
     },
 
     /** PAGINATION **/

@@ -2,8 +2,8 @@
   "introduction": {
     "expression_1": [
       {
-      "label": "Il était une fois,",
-      "selected": true
+        "label": "Il était une fois,",
+        "selected": true
       }, {
         "label": "Il y a bien longtemps,",
         "selected": false
@@ -38,6 +38,35 @@
       },
       "current_action": {
         "placeholder": "Qu'est-ce que le ou les personnages font en ce moment ?"
+      }
+    }
+  },
+  "disruption": {
+    "expression_1": [
+      {
+        "label": "Soudain",
+        "selected": true
+      }, {
+        "label": "Tout à coup,",
+        "selected": false
+      },
+      {
+        "label": "Un jour,",
+        "selected": false
+      }
+    ],
+    "event": {
+      "description": {
+        "placeholder": "Il se passe quelque chose d'incroyable : que se passe-t-il ?"
+      },
+      "hero_reaction": {
+        "placeholder": "Comment est-ce que le ou les héros réagissent ?"
+      },
+      "hero_decision": {
+        "placeholder": "Que décide le ou les héros ?"
+      },
+      "then": {
+        "placeholder": "Que se passe-t-il ensuite ?"
       }
     }
   }

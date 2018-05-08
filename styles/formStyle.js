@@ -6,13 +6,16 @@ const { width, height } = Dimensions.get('window');
 export default StyleSheet.create({
 
     /** GENERAL **/
-    formContainer: {
-        width: width - scaleWidth(80),
+    formView: {
+        paddingHorizontal: 0,
+        paddingBottom: 0,
     },
-    /*scrollContainer: {
+    formContainer: {
+        //width: width - scaleWidth(80),
+        paddingTop: scaleHeight(20),
+        paddingBottom: scaleHeight(40),
         paddingHorizontal: scaleWidth(40),
-        paddingVertical: scaleHeight(40),
-    },*/
+    },
     formItem:{
         marginHorizontal: scaleWidth(5),
         marginVertical: scaleHeight(5),
@@ -67,7 +70,13 @@ export default StyleSheet.create({
     },
     question: {
         marginHorizontal: scaleWidth(5),
-        fontSize: scaleDelta(12, .5),
+        fontSize: scaleDelta(10, .5),
         color: '#A6A2A0',
+    },
+
+    /** PRINT **/
+    printBtnContainer: {
+        paddingVertical: scaleHeight(30),
+        marginBottom: scaleHeight(20),
     }
 });
