@@ -82,9 +82,7 @@ export default class Form extends React.Component{
         } else {
             // Create the text
             let text_elm = [
-                intro_expression_1[0].label, hero, characteristic, description, intro_expression_2[0].label, hobbies, current_action, place,
-                disrupt_expression_1[0].label, disrupt_event, disrupt_reaction, disrupt_decision, disrupt_then,
-                adventure_expression_1[0].label, adventure_description, adventure_reaction],
+                intro_expression_1[0].label, hero, characteristic, description, intro_expression_2[0].label, hobbies, current_action, place, '@' + disrupt_expression_1[0].label, disrupt_event, disrupt_reaction, disrupt_decision, disrupt_then, '@' + adventure_expression_1[0].label, adventure_description, adventure_reaction],
                 story = '';
             for (let i = 0, count = text_elm.length; i < count; i++) {
                 if (i === text_elm.length - 1) {
@@ -99,7 +97,7 @@ export default class Form extends React.Component{
             // TODO ckeck the address IP of the network to find the raspberry one
             let home_url = 'http://192.168.0.37:8080/',
                 christine_url = 'http://192.168.43.70:8080/';
-            fetch(home_url, {
+            fetch(christine_url, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
