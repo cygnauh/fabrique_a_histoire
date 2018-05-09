@@ -4,6 +4,7 @@ import { StackNavigator } from 'react-navigation';
 import Home from './containers/home';
 import OnBoarding from './containers/onboarding';
 import Length from './containers/length';
+import Place from './containers/place';
 import Form from './containers/form';
 
 const StackNavigation = StackNavigator(
@@ -11,6 +12,7 @@ const StackNavigation = StackNavigator(
         Home: { screen: Home },
         Onboarding: { screen: OnBoarding },
         Length: { screen: Length },
+        Place: { screen: Place },
         Form: { screen: Form},
     },
     {
