@@ -2,6 +2,8 @@ import React from 'react';
 // import Sound from 'react-native-sound';
 import { View, Text, Button, ActivityIndicator,FlatList, Animated, StyleSheet, Easing} from 'react-native';
 import Logo from '../components/logo';
+import Header from '../components/header';
+import RectangleButton from '../components/rectangleButton';
 import GlobalStyle from '../styles/mainStyle';
 import TimerMixin from 'react-timer-mixin';
 
@@ -12,7 +14,8 @@ export default class Place extends React.Component{
         this.state = {
             value: 1,
             isLoading: true,
-            opacity: new Animated.Value(0.7)
+            opacity: new Animated.Value(0.7),
+            status:false
 
         };
 
@@ -35,7 +38,9 @@ export default class Place extends React.Component{
 
         this.animatedValue = new Animated.Value(0);
 
-
+        setTimeout( ()=>{
+            this.ShowHideTextComponentView();
+        }, 3000);
     }
 
     animateBackgroundColor = () =>
@@ -74,17 +79,9 @@ export default class Place extends React.Component{
             stopAnimation(this.animatedValue);
         }, 3000);
 
+
+
     }
-
-
-    // changeColor(){
-    //         // setTimeout(function(){
-    //             this.color = this.colors[0];
-    //             return {
-    //                 backgroundColor : this.color
-    //             }
-    //         // }, 500)
-    // }
 
     componentDidMount(){
         this.animateBackgroundColor();
@@ -96,8 +93,6 @@ export default class Place extends React.Component{
                 // console.log(responseJson)
 
                 var random = Math.floor(Math.random() * Math.floor(responseJson.length));
-
-
 
                 this.setState({
                     isLoading: false,
@@ -115,8 +110,17 @@ export default class Place extends React.Component{
             });
     }
 
+    ShowHideTextComponentView = () =>{
 
-
+        if(this.state.status == true)
+        {
+            this.setState({status: false})
+        }
+        else
+        {
+            this.setState({status: true})
+        }
+    }
 
     render() {
 
@@ -126,16 +130,22 @@ export default class Place extends React.Component{
                 outputRange:  this.colors
             });
 
+
         if(this.state.isLoading){
             return(
-                <View style={{flex: 1, padding: 20}}>
-                    <ActivityIndicator/>
+                <View style={[GlobalStyle.view, GlobalStyle.headerView]}>
+                    <Header onPress={() => this.props.navigation.goBack()}/>
+                    <View style={{flex: 1,  justifyContent: 'center'}}>
+
+
+                        <ActivityIndicator/>
+                    </View>
                 </View>
             )
         }
         return(
-            <Animated.View style={[GlobalStyle.view, { backgroundColor: backgroundColorVar }]}>
-                <Logo/>
+            <Animated.View style={[GlobalStyle.view, GlobalStyle.headerView, { backgroundColor: backgroundColorVar }]}>
+                <Header onPress={() => this.props.navigation.goBack()}/>
 
                 {/*<Animated.View style = {[ styles.container, { backgroundColor: backgroundColorVar } ]}>*/}
                     {/*<Text style = { styles.text }>Animated </Text>*/}
@@ -146,25 +156,35 @@ export default class Place extends React.Component{
 
                     <View style={GlobalStyle.placeContainer}>
                         {/*<Text>{this.state.dataSource[this.state.randomPlace].name}</Text>*/}
-                        <Text style={GlobalStyle.placeTitle}>{this.state.randomPlaceName.name}</Text>
+
+                        {
+                            // Pass any View or Component inside the curly bracket.
+                            // Here the ? Question Mark represent the ternary operator.
+
+                            this.state.status ?  <Text style={GlobalStyle.placeTitle}>{this.state.randomPlaceName.name}</Text> : null
+                        }
+
                     </View>
                 </View>
-                <Button title={'Continuer'.toUpperCase()} onPress={() => this.props.navigation.navigate('Form', {place: this.state.randomPlaceName.name} )} />
+                <RectangleButton content={'Continuer'} src={require('../assets/images/validate.png')} onPress={
+                    () => this.props.navigation.navigate('Form',{place: this.state.randomPlaceName.name} )}/>
+                {/*<RectangleButton title={'Continuer'()} onPress={() => this.props.navigation.navigate('Form', {place: this.state.randomPlaceName.name} )} />*/}
             </Animated.View>
+
         );
     }
 }
 
+
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
+
+    MainContainer :{
+
+// Setting up View inside content in Vertically center.
         justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-    },
-    text: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
+        flex:1,
+        margin: 10
+
     }
+
 });
