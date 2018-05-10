@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextInput, Animated, Keyboard, ScrollView, Alert } from 'react-native';
+import {View, Text, TextInput, Animated, Keyboard, ScrollView, Alert, UIManager, findNodeHandle} from 'react-native';
 import Header from '../components/header';
 import RadioButton from '../components/radioButton';
 import RectangleButton from '../components/rectangleButton';
@@ -9,17 +9,14 @@ import {scaleDelta, scaleHeight} from "../utils/scale";
 
 const data = require('../assets/data/data_structure.json');
 
-export default class Form extends React.Component{
+export default class Form extends React.Component {
     constructor(props) {
         super(props);
         this.length = this.props.navigation.state.params.length;
-
-        this.place = this.props.navigation.state.params.place
-
-        this.keyboardHeight = new Animated.Value(0);
+        this.place = this.props.navigation.state.params.place;
         this.state = {
             // introduction_place: "dans la jungle" + ".",
-            introduction_place: this.place  + ".",
+            introduction_place: this.place,
             introduction_hero_who: "",
             introduction_hero_characteristic: "",
             introduction_hero_description: "",
@@ -31,41 +28,56 @@ export default class Form extends React.Component{
             disruption_event_then: "",
             adventure_event_description: "",
             adventure_event_reaction: "",
+            partTitle: "Introduction"
         };
+        this.partEnd = {
+            introduction: '',
+            disruption: '',
+        };
+        this.keyboardHeight = new Animated.Value(0);
     }
 
     radioBtnOnChange(index, array) {
-        array.map( (item) => {
+        array.map((item) => {
             item.selected = false;
         });
         array[index].selected = true;
-        this.setState({ radioItems: array }); // update view
+        this.setState({radioItems: array}); // update view
     }
+
     inputOnChange = (name, value) => {
-        this.setState(() => ({ [name]: value }));
+        this.setState(() => ({[name]: value}));
     };
 
     printStory() {
         // Retrieve text
-        let intro = data.introduction,
-            disrupt = data.disruption,
-            adventure = data.adventure,
+        let short_intro = data.introduction.short,
+            short_disrupt = data.disruption.short,
+            short_adventure = data.adventure.short,
             state = this.state;
 
-        let intro_expression_1 = intro.expression_1.filter((exp) => {return exp.selected === true}),
+        let intro_expression_1 = short_intro.expression_1.filter((exp) => {
+                return exp.selected === true
+            }),
             hero = state.introduction_hero_who,
             characteristic = state.introduction_hero_characteristic,
             description = state.introduction_hero_description,
-            intro_expression_2 = intro.expression_2.filter((exp) => {return exp.selected === true}),
+            intro_expression_2 = short_intro.expression_2.filter((exp) => {
+                return exp.selected === true
+            }),
             hobbies = state.introduction_hero_hobbies,
             current_action = state.introduction_hero_current_action,
-            place = state.introduction_place,
-            disrupt_expression_1 = disrupt.expression_1.filter((exp) => {return exp.selected === true}),
+            place = state.introduction_place + '.',
+            disrupt_expression_1 = short_disrupt.expression_1.filter((exp) => {
+                return exp.selected === true
+            }),
             disrupt_event = state.disruption_event_description,
             disrupt_reaction = state.disruption_event_reaction,
             disrupt_decision = state.disruption_event_decision,
             disrupt_then = state.disruption_event_then,
-            adventure_expression_1 = adventure.expression_1.filter((exp) => {return exp.selected === true}),
+            adventure_expression_1 = short_adventure.expression_1.filter((exp) => {
+                return exp.selected === true
+            }),
             adventure_description = state.adventure_event_description,
             adventure_reaction = state.adventure_event_reaction;
 
@@ -77,18 +89,36 @@ export default class Form extends React.Component{
                 [
                     {text: 'OK', onPress: () => console.log('OK Pressed')},
                 ],
-                { cancelable: false }
+                {cancelable: false}
             )
         } else {
             // Create the text
             let text_elm = [
-                intro_expression_1[0].label, hero, characteristic, description, intro_expression_2[0].label, hobbies, current_action, place, '@' + disrupt_expression_1[0].label, disrupt_event, disrupt_reaction, disrupt_decision, disrupt_then, '@' + adventure_expression_1[0].label, adventure_description, adventure_reaction],
+                    intro_expression_1[0].label,
+                    hero, characteristic,
+                    description,
+                    intro_expression_2[0].label,
+                    hobbies, current_action,
+                    place,
+                    disrupt_expression_1[0].label,
+                    disrupt_event,
+                    disrupt_reaction,
+                    disrupt_decision,
+                    disrupt_then,
+                    adventure_expression_1[0].label,
+                    adventure_description, adventure_reaction
+                ],
                 story = '';
             for (let i = 0, count = text_elm.length; i < count; i++) {
                 if (i === text_elm.length - 1) {
                     story += text_elm[i] + '.';
                 } else {
-                    story += text_elm[i] + ' ';
+                    if (text_elm[i] === place || text_elm[i] === disrupt_then) {
+                        console.log(text_elm[i]);
+                        story += text_elm[i] + '@'; // add @ previous custom words sentence
+                    } else {
+                        story += text_elm[i] + ' ';
+                    }
                 }
             }
             console.log(story);
@@ -106,10 +136,10 @@ export default class Form extends React.Component{
                 body: JSON.stringify({
                     text: story
                 })
-            }).then(function(response) {
+            }).then(function (response) {
                 console.log(response);
                 return response;
-            }).catch(function(error) {
+            }).catch(function (error) {
                 return error;
             });
 
@@ -118,11 +148,11 @@ export default class Form extends React.Component{
     }
 
     renderRadioBtn(label) {
-        return(
+        return (
             <View style={FormStyle.radioGroup}>
                 {label.map(
                     (item, key) => (
-                        <RadioButton key = { key } button = { item } onClick = {
+                        <RadioButton key={key} button={item} onClick={
                             this.radioBtnOnChange.bind(this, key, label)
                         }/>
                     )
@@ -130,30 +160,35 @@ export default class Form extends React.Component{
             </View>
         )
     }
+
     renderInput(name, placeholder, state) {
         let question = null,
             input = <TextInput
                 style={[FormStyle.inputItem, FormStyle.formItem, state !== "" && FormStyle.onChange]}
-                onChangeText={(text) => this.inputOnChange(name, text)} multiline={true} placeholder={placeholder} value={state}/>;
+                onChangeText={(text) => this.inputOnChange(name, text)} multiline={true} placeholder={placeholder}
+                value={state}/>;
 
         if (state.length > 0) {
-            question = <TextInput style={[FormStyle.question]} editable={false} selectTextOnFocus={false} value = {placeholder}/>;
+            question = <TextInput style={[FormStyle.question]} editable={false} selectTextOnFocus={false}
+                                  value={placeholder}/>;
         }
-        return(
+        return (
             <View>
                 {question}{input}
             </View>
         )
     }
 
-    componentWillMount () {
+    componentWillMount() {
         this.keyboardWillShowSub = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow);
         this.keyboardWillHideSub = Keyboard.addListener('keyboardWillHide', this.keyboardWillHide);
     }
+
     componentWillUnmount() {
         this.keyboardWillShowSub.remove();
         this.keyboardWillHideSub.remove();
     }
+
     keyboardWillShow = (e) => {
         Animated.parallel([
             Animated.timing(this.keyboardHeight, {
@@ -171,66 +206,114 @@ export default class Form extends React.Component{
         ]).start();
     };
 
-    renderIntroduction() {
-        let intro = data.introduction,
-            state = this.state;
+    renderTitlePart() {
         return (
-            <View style={[FormStyle.formContainer]}>
-                {this.renderRadioBtn(intro.expression_1)}
-                {this.renderInput("introduction_hero_who", intro.hero.who.placeholder, state.introduction_hero_who)}
-                {this.renderInput("introduction_hero_characteristic", intro.hero.characteristic.placeholder, state.introduction_hero_characteristic)}
-                {this.renderInput("introduction_hero_description", intro.hero.description.placeholder, state.introduction_hero_description)}
-                {this.renderRadioBtn(intro.expression_2)}
-                {this.renderInput("introduction_hero_hobbies", intro.hero_detail.hobbies.placeholder, state.introduction_hero_hobbies)}
-                {this.renderInput("introduction_hero_current_action", intro.hero_detail.current_action.placeholder, state.introduction_hero_current_action)}
+            <View style={FormStyle.partTitleContainer}>
+                <Text style={FormStyle.partTitleItem}>{this.state.partTitle.toUpperCase()}</Text>;
+            </View>
+        );
+    }
+    renderIntroduction() {
+        let short_intro = data.introduction.short,
+            state = this.state,
+            medium_intro_render = null;
+
+        let short_intro_render =
+            <View>
+                {this.renderRadioBtn(short_intro.expression_1)}
+                {this.renderInput("introduction_hero_who", short_intro.hero.who.placeholder, state.introduction_hero_who)}
+                {this.renderInput("introduction_hero_characteristic", short_intro.hero.characteristic.placeholder, state.introduction_hero_characteristic)}
+                {this.renderInput("introduction_hero_description", short_intro.hero.description.placeholder, state.introduction_hero_description)}
+                {this.renderRadioBtn(short_intro.expression_2)}
+                {this.renderInput("introduction_hero_hobbies", short_intro.hero_detail.hobbies.placeholder, state.introduction_hero_hobbies)}
+                {this.renderInput("introduction_hero_current_action", short_intro.hero_detail.current_action.placeholder, state.introduction_hero_current_action)}
                 <TextInput
                     style={[FormStyle.formItem, FormStyle.placeItem]}
                     editable={false} selectTextOnFocus={false}
-                    value = {state.introduction_place + '.'}/>
+                    value={state.introduction_place + '.'}/>
+            </View>;
+        if (this.length === 1 || this.length === 2) {
+            medium_intro_render =
+                <View>
+                    {this.renderInput("introduction_hero_who", short_intro.hero.who.placeholder, state.introduction_hero_who)}
+                    {this.renderInput("introduction_hero_characteristic", short_intro.hero.characteristic.placeholder, state.introduction_hero_characteristic)}
+                </View>
+        }
+        if (this.length === 2) {
+            // TODO
+        }
+
+        return (
+            <View style={[FormStyle.formContainer]} ref="Introduction" onLayout={(e) => {
+                let view = this.refs['Introduction'],
+                    handle = findNodeHandle(view);
+                UIManager.measure(handle, (x, y, width, height, pageX, pageY) => {
+                    this.partEnd.introduction = height - scaleHeight(150); // padding bottom
+                })
+            }}>
+                {short_intro_render}
+                {medium_intro_render}
             </View>
         );
     }
+
     renderDisruption() {
-        let disruption = data.disruption,
+        let short_disruption = data.disruption.short,
             state = this.state;
         return (
             <View style={[FormStyle.formContainer]}>
-                {this.renderRadioBtn(disruption.expression_1)}
-                {this.renderInput("disruption_event_description", disruption.event.description.placeholder, state.disruption_event_description)}
-                {this.renderInput("disruption_event_reaction", disruption.event.hero_reaction.placeholder, state.disruption_event_reaction)}
-                {this.renderInput("disruption_event_decision", disruption.event.hero_decision.placeholder, state.disruption_event_decision)}
-                {this.renderInput("disruption_event_then", disruption.event.then.placeholder, state.disruption_event_then)}
+                {this.renderRadioBtn(short_disruption.expression_1)}
+                {this.renderInput("disruption_event_description", short_disruption.event.description.placeholder, state.disruption_event_description)}
+                {this.renderInput("disruption_event_reaction", short_disruption.event.hero_reaction.placeholder, state.disruption_event_reaction)}
+                {this.renderInput("disruption_event_decision", short_disruption.event.hero_decision.placeholder, state.disruption_event_decision)}
+                {this.renderInput("disruption_event_then", short_disruption.event.then.placeholder, state.disruption_event_then)}
             </View>
         );
     }
+
     renderAdventure() {
-        let adventure = data.adventure,
+        let short_adventure = data.adventure.short,
             state = this.state;
         return (
-            <Animated.View style={[FormStyle.formContainer, { paddingBottom: this.keyboardHeight }]}>
-                {this.renderRadioBtn(adventure.expression_1)}
-                {this.renderInput("adventure_event_description", adventure.event.description.placeholder, state.adventure_event_description)}
-                {this.renderInput("adventure_event_reaction", adventure.event.hero_reaction.placeholder, state.adventure_event_reaction)}
+            <Animated.View style={[FormStyle.formContainer, {paddingBottom: this.keyboardHeight}]}>
+                {this.renderRadioBtn(short_adventure.expression_1)}
+                {this.renderInput("adventure_event_description", short_adventure.event.description.placeholder, state.adventure_event_description)}
+                {this.renderInput("adventure_event_reaction", short_adventure.event.hero_reaction.placeholder, state.adventure_event_reaction)}
+                <View style={FormStyle.printBtnContainer}>
+                    <RectangleButton
+                        content={'Imprimer'}
+                        src={require('../assets/images/print.png')}
+                        onPress={this.printStory.bind(this)}/>
+                </View>
             </Animated.View>
         );
     }
 
+    onScroll = (e) => {
+        console.log(e.nativeEvent);
+        let currentOffset = e.nativeEvent.contentOffset.y; // get the current y position on scroll
+        if (currentOffset >= 0 && currentOffset < this.partEnd.introduction) {
+            this.setState({partTitle: "Introduction"}); // update view
+        }
+        if (currentOffset >= this.partEnd.introduction) {
+            this.setState({partTitle: "Élément déclencheur"}); // update view
+        }
+    };
+
     render() {
-        return(
+        return (
             <View style={[GlobalStyle.view, GlobalStyle.headerView, FormStyle.formView]}>
                 <Header onPress={() => this.props.navigation.goBack()}/>
-                <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false} >
-                    {this.renderIntroduction()}
-                    {this.renderDisruption()}
-                    {this.renderAdventure()}
-                    <View style={FormStyle.printBtnContainer}>
-                        <RectangleButton
-                            content={'Imprimer'}
-                            src={require('../assets/images/print.png')}
-                            onPress = { this.printStory.bind(this) }/>
+                {this.renderTitlePart()}
+                <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}
+                            onScroll={this.onScroll}>
+                    <View>
+                        {this.renderIntroduction()}
+                        {this.renderDisruption()}
+                        {this.renderAdventure()}
                     </View>
                 </ScrollView>
-                {/*<Text>{'Length : ' + this.length}</Text>*/}
+                <Text>{'Length : ' + this.length}</Text>
             </View>
         );
     }

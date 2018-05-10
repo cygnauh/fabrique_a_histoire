@@ -13,12 +13,31 @@ export default StyleSheet.create({
     formContainer: {
         //width: width - scaleWidth(80),
         paddingTop: scaleHeight(20),
-        paddingBottom: scaleHeight(40),
+        paddingBottom: scaleHeight(50),
         paddingHorizontal: scaleWidth(40),
     },
     formItem:{
         marginHorizontal: scaleWidth(5),
         marginVertical: scaleHeight(5),
+    },
+
+    /** NAVIGATION **/
+    partTitleContainer: {
+        position: 'absolute',
+        width: scaleWidth(100),
+        top: scaleHeight(115),
+        left: 0, bottom: 0,
+    },
+    partTitleItem: {
+        transform: [{ rotate: '-90deg'}],
+        width: scaleWidth(100),
+        textAlign: 'center',
+        fontFamily: 'MaisonNeue-Medium',
+        fontSize: scaleDelta(12, .5),
+        position: 'relative',
+        left: scaleWidth(-30),
+        top: scaleHeight(150),
+        color: '#c9c6c5',
     },
 
     /** RADIO BUTTON **/

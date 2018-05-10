@@ -11,12 +11,13 @@ import TimerMixin from 'react-timer-mixin';
 export default class Place extends React.Component{
     constructor(props) {
         super(props);
+        this.length =
         this.state = {
             value: 1,
             isLoading: true,
             opacity: new Animated.Value(0.7),
-            status:false
-
+            status:false,
+            length: this.props.navigation.state.params.length
         };
 
         this.colors =[
@@ -167,7 +168,7 @@ export default class Place extends React.Component{
                     </View>
                 </View>
                 <RectangleButton content={'Continuer'} src={require('../assets/images/validate.png')} onPress={
-                    () => this.props.navigation.navigate('Form',{place: this.state.randomPlaceName.name} )}/>
+                    () => this.props.navigation.navigate('Form',{place: this.state.randomPlaceName.name, length: this.state.length} )}/>
                 {/*<RectangleButton title={'Continuer'()} onPress={() => this.props.navigation.navigate('Form', {place: this.state.randomPlaceName.name} )} />*/}
             </Animated.View>
 
