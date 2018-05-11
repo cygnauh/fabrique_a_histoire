@@ -1,0 +1,39 @@
+{
+  "meteorological": [{
+    "event": "C'est alors que des météorites tombèrent du ciel.",
+    "choice": [{
+      "label": "Quand elles s'écrasaient sur le sol, ça créait de gros cratères.",
+      "selected": false
+    }, {
+      "label": "Elles roulaient et enflammaient tout ce qui se trouvaient aux alentours.",
+      "selected": false
+    }]
+  }, {
+    "event": "C'est alors q'une tempête effroyable éclata.",
+    "choice": [{
+      "label": "Le vent était si fort qu'il emportait tout sur son passage.",
+      "selected": false
+    }, {
+      "label": "Heuresement, elle ne dura pas très longtemps.",
+      "selected": false
+    }]
+  }, {
+    "event": "C'est alors qu'une guerrière apparut",
+    "choice": [{
+      "label": "et propose proposa d'aider grâce à ses talents comabattante.",
+      "selected": false
+    }, {
+      "label": "et lança le défi de la battre",
+      "selected": false
+    }]
+  }, {
+    "event": "C'est alors qu'un sorcier surgit de nulle part,",
+    "choice": [{
+      "label": "et tendit une cuillère avant de diparaitre à nouveau.",
+      "selected": false
+    }, {
+      "label": "il jeta un sort et éclata de rire.",
+      "selected": false
+    }]
+  }]
+}

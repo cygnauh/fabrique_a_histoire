@@ -5,7 +5,7 @@ import Home from './containers/home';
 import OnBoarding from './containers/onboarding';
 import Length from './containers/length';
 import Place from './containers/place';
-import Form from './containers/form';
+import Form from './containers/form/form';
 
 const StackNavigation = StackNavigator(
     {

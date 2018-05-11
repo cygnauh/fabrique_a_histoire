@@ -93,6 +93,28 @@ export default StyleSheet.create({
         color: '#A6A2A0',
     },
 
+    /** VOTE **/
+    voteItem: {
+        fontFamily: 'MaisonNeue-Demi',
+        fontSize: scaleDelta(12, .5),
+        color: '#47404F',
+        marginHorizontal: scaleWidth(5),
+        paddingHorizontal: scaleWidth(10),
+        paddingVertical: scaleHeight(10),
+        borderRadius: 24,
+        borderWidth: 2,
+        borderColor: '#c9c6c5',
+        marginBottom: scaleHeight(15),
+        alignSelf: 'flex-start',
+    },
+    voteUnselected: {
+        backgroundColor: 'transparent',
+    },
+    voteSelected: {
+        backgroundColor: '#c9c6c5',
+        overflow:"hidden",
+    },
+
     /** PRINT **/
     printBtnContainer: {
         paddingVertical: scaleHeight(30),

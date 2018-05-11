@@ -92,11 +92,65 @@
         }
       ],
       "event": {
-        "description": {
-          "placeholder": "Il se passe quelque chose d'incroyable : que se passe-t-il ?"
+        "hero_decision": {
+          "placeholder": "Que décide le ou les héros ?"
+        },
+        "consequence": {
+          "placeholder": "Qu'est-ce que ça provoque ? (Comment est-ce que ça change la situation ?)"
         },
         "hero_reaction": {
           "placeholder": "Comment est-ce que le ou les héros réagissent ?"
+        },
+        "then": {
+          "placeholder": "Que se passe-t-il par la suite ?"
+        }
+      }
+    }
+  },
+  "outcome": {
+    "short": {
+      "expression_1": [
+        {
+          "label": "Ensuite,",
+          "selected": true
+        }, {
+          "label": "Peu après,",
+          "selected": false
+        }, {
+          "label": "Un jour,",
+          "selected": false
+        }
+      ],
+      "description": {
+        "solution": {
+          "placeholder": "Comment est-ce que le ou les héros règlent-ils leurs problèmes ?"
+        },
+        "then": {
+          "placeholder": "Qu'est-ce qui arrive au(x) personnage(s) ?"
+        }
+      }
+    }
+  },
+  "conclusion": {
+    "short": {
+      "expression_1": [
+        {
+          "label": "Et c'est ainsi",
+          "selected": true
+        }, {
+          "label": "Depuis ce jour,",
+          "selected": false
+        }, {
+          "label": "Désormais,",
+          "selected": false
+        }
+      ],
+      "description": {
+        "change": {
+          "placeholder": "Qu\'est ce qui a changé pour le ou les personnages depuis le début de l'histoire ?"
+        },
+        "learn": {
+          "placeholder": "Qu\'est-ce que le ou les personnages ont appris de leurs aventures? "
         }
       }
     }
