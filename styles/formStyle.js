@@ -22,11 +22,18 @@ export default StyleSheet.create({
     },
 
     /** NAVIGATION **/
-    partTitleContainer: {
+    partContainer: {
         position: 'absolute',
-        width: scaleWidth(100),
         top: scaleHeight(115),
-        left: 0, bottom: 0,
+        bottom: 0,
+    },
+    partTitleContainer: {
+        width: scaleWidth(100),
+        left: 0,
+    },
+    partNavigationContainer: {
+        width: scaleWidth(20),
+        right: 0,
     },
     partTitleItem: {
         transform: [{ rotate: '-90deg'}],
@@ -38,6 +45,23 @@ export default StyleSheet.create({
         left: scaleWidth(-30),
         top: scaleHeight(150),
         color: '#c9c6c5',
+    },
+    partNavigationItemContainer: {
+        position: 'relative',
+        top: scaleHeight(90),
+        left: scaleWidth(-10)
+    },
+    partNavigationItem: {
+        width: scaleWidth(20),
+        textAlign: 'center',
+        fontSize: scaleDelta(12, .5),
+        fontFamily: 'Editor-Medium',
+        color: '#47404F50',
+        paddingVertical: scaleHeight(5),
+    },
+    partNavigationCurrentItem: {
+        fontSize: scaleDelta(22, .5),
+        color: '#47404F',
     },
 
     /** RADIO BUTTON **/

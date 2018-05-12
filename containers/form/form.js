@@ -37,13 +37,15 @@ export default class Form extends React.Component {
             outcome_description_then: "",
             conclusion_description_change: "",
             conclusion_description_learn: "",
-            partTitle: "Introduction",
-            adventure_event_id: 0,
-            //getRandomInt(0, imposed_events.meteorological.length - 1)
+            part_title: "Introduction",
+            adventure_event_id: getRandomInt(0, imposed_events.meteorological.length - 1),
+            current_navigation: 1,
         };
         this.partEnd = {
             introduction: '',
             disruption: '',
+            adventure: '',
+            outcome: '',
         };
         this.keyboardHeight = new Animated.Value(0);
     }
@@ -241,7 +243,7 @@ export default class Form extends React.Component {
         }
         return(
             <View>
-                <TextInput style={[FormStyle.formItem, FormStyle.placeItem]} multiline={true} ditable={false} selectTextOnFocus={false}
+                <TextInput style={[FormStyle.formItem, FormStyle.placeItem]} multiline={true} editable={false} selectTextOnFocus={false}
                     value={imposed_event.event}/>
                 {choices}
             </View>
@@ -256,7 +258,6 @@ export default class Form extends React.Component {
         this.keyboardWillShowSub.remove();
         this.keyboardWillHideSub.remove();
     }
-
     keyboardWillShow = (e) => {
         Animated.parallel([
             Animated.timing(this.keyboardHeight, {
@@ -276,11 +277,36 @@ export default class Form extends React.Component {
 
     renderTitlePart() {
         return (
-            <View style={FormStyle.partTitleContainer}>
-                <Text style={FormStyle.partTitleItem}>{this.state.partTitle.toUpperCase()}</Text>;
+            <View style={[FormStyle.partContainer, FormStyle.partTitleContainer]}>
+                <Text style={FormStyle.partTitleItem}>{this.state.part_title.toUpperCase()}</Text>;
             </View>
         );
     }
+    renderNavigationPart() {
+        let navigation = [];
+        for (let key = 1, count = Object.keys(data).length; key <= count; key++) {
+            const navigationItem =
+                <TouchableOpacity style={FormStyle.partNavigationItemContainer} onPress={this.scrollTo.bind(this, key)}>
+                    <Text style={FormStyle.partNavigationItem}>{key}</Text>
+                </TouchableOpacity>;
+
+            if (key === this.state.current_navigation) {
+                const currentNavigationItem =
+                    <TouchableOpacity style={FormStyle.partNavigationItemContainer} activeOpacity={1}>
+                        <Text style={[FormStyle.partNavigationItem, FormStyle.partNavigationCurrentItem]}>{key}</Text>
+                    </TouchableOpacity>;
+                navigation.push(React.cloneElement(currentNavigationItem, {key}));
+            } else {
+                navigation.push(React.cloneElement(navigationItem, {key}));
+            }
+        }
+        return (
+            <View style={[FormStyle.partContainer, FormStyle.partNavigationContainer]}>
+                {navigation}
+            </View>
+        )
+    }
+
     renderIntroduction() {
         let short_intro = data.introduction.short,
             state = this.state,
@@ -349,7 +375,13 @@ export default class Form extends React.Component {
         let short_adventure = data.adventure.short,
             state = this.state;
         return (
-            <View style={[FormStyle.formContainer]}>
+            <View style={[FormStyle.formContainer]} ref="Adventure" onLayout={(e) => {
+                let view = this.refs['Adventure'],
+                    handle = findNodeHandle(view);
+                UIManager.measure(handle, (x, y, width, height, pageX, pageY) => {
+                    this.partEnd.adventure = y + height - scaleHeight(150); // padding bottom
+                })
+            }}>
                 {this.renderRadioBtn(short_adventure.expression_1)}
                 {this.renderInput("adventure_event_decision", short_adventure.event.hero_decision.placeholder, state.adventure_event_decision)}
                 {this.renderInput("adventure_event_consequence", short_adventure.event.consequence.placeholder, state.adventure_event_consequence)}
@@ -363,7 +395,13 @@ export default class Form extends React.Component {
         let short_outcome = data.outcome.short,
             state = this.state;
         return (
-            <View style={[FormStyle.formContainer]}>
+            <View style={[FormStyle.formContainer]} ref="Outcome" onLayout={(e) => {
+                let view = this.refs['Outcome'],
+                    handle = findNodeHandle(view);
+                UIManager.measure(handle, (x, y, width, height, pageX, pageY) => {
+                    this.partEnd.outcome = y + height - scaleHeight(150); // padding bottom
+                })
+            }}>
                 {this.renderRadioBtn(short_outcome.expression_1)}
                 {this.renderInput("outcome_description_solution", short_outcome.description.solution.placeholder, state.outcome_description_solution)}
                 {this.renderInput("outcome_description_then", short_outcome.description.then.placeholder, state.outcome_description_then)}
@@ -389,18 +427,47 @@ export default class Form extends React.Component {
     }
 
     onScroll = (e) => {
-        console.log(e.nativeEvent);
-        console.log(this.partEnd.introduction);
-        console.log(this.partEnd.disruption);
+        /*console.log(e.nativeEvent);*/
         let currentOffset = e.nativeEvent.contentOffset.y; // get the current y position on scroll
+        // TODO calculation according if keyboard is open and form height
         if (currentOffset >= 0 && currentOffset < this.partEnd.introduction) {
-            this.setState({partTitle: "Introduction"}); // update view
+            this.setState({part_title: "Introduction"}); // update view
+            this.setState({current_navigation: 1})
         }
         if (currentOffset >= this.partEnd.introduction && currentOffset < this.partEnd.disruption) {
-            this.setState({partTitle: "Problème"}); // update view
+            this.setState({part_title: "Problème"});
+            this.setState({current_navigation: 2})
         }
-        if (currentOffset >= this.partEnd.disruption) {
-            this.setState({partTitle: "Aventures"}); // update view
+        if (currentOffset >= this.partEnd.disruption && currentOffset < this.partEnd.adventure) {
+            this.setState({part_title: "Aventures"});
+            this.setState({current_navigation: 3})
+        }
+        if (currentOffset >= this.partEnd.adventure && currentOffset < this.partEnd.outcome) {
+            this.setState({part_title: "Dénouement"});
+            this.setState({current_navigation: 4})
+        }
+        if (currentOffset >= this.partEnd.outcome) {
+            this.setState({part_title: "Conclusion"});
+            this.setState({current_navigation: 5})
+        }
+    };
+    scrollTo = (index) => {
+        switch (index) {
+            case 2:
+                this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true});
+                break;
+            case 3:
+                this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true});
+                break;
+            case 4:
+                this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true});
+                break;
+            case 5:
+                this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.outcome + 1, animated: true});
+                break;
+            default:
+                this.refs.FormScrollView.scrollTo({x: 0, y: 0, animated: true});
+                break;
         }
     };
 
@@ -409,7 +476,7 @@ export default class Form extends React.Component {
             <View style={[GlobalStyle.view, GlobalStyle.headerView, FormStyle.formView]}>
                 <Header onPress={() => this.props.navigation.goBack()}/>
                 {this.renderTitlePart()}
-                <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}
+                <ScrollView ref="FormScrollView" showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}
                             onScroll={this.onScroll}>
                     <View>
                         {this.renderIntroduction()}
@@ -419,6 +486,7 @@ export default class Form extends React.Component {
                         {this.renderConclusion()}
                     </View>
                 </ScrollView>
+                {this.renderNavigationPart()}
                 {/*<Text>{'Length : ' + this.length}</Text>*/}
             </View>
         );
