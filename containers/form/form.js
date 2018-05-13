@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TextInput, Animated, Keyboard, ScrollView, Alert, UIManager, findNodeHandle, TouchableOpacity} from 'react-native';
+import {View, Text, TextInput, Animated, Keyboard, ScrollView, Alert, UIManager, findNodeHandle, TouchableOpacity, Image} from 'react-native';
 import Header from '../../components/header';
 import RadioButton from '../../components/radioButton';
 import RectangleButton from '../../components/rectangleButton';
@@ -20,6 +20,7 @@ export default class Form extends React.Component {
         this.place = this.props.navigation.state.params.place;
         this.state = {
             introduction_place: this.place,
+            introduction_and: "et",
             introduction_hero_who: "",
             introduction_hero_characteristic: "",
             introduction_hero_description: "",
@@ -85,9 +86,7 @@ export default class Form extends React.Component {
             hero = state.introduction_hero_who,
             characteristic = state.introduction_hero_characteristic,
             description = state.introduction_hero_description,
-            intro_expression_2 = short_intro.expression_2.filter((exp) => {
-                return exp.selected === true
-            }),
+            intro_expression_2 = state.introduction_and,
             hobbies = state.introduction_hero_hobbies,
             current_action = state.introduction_hero_current_action,
             place = state.introduction_place + '.',
@@ -137,7 +136,7 @@ export default class Form extends React.Component {
                     intro_expression_1[0].label,
                     hero, characteristic,
                     description,
-                    intro_expression_2[0].label,
+                    intro_expression_2,
                     hobbies, current_action,
                     place,
                     disrupt_expression_1[0].label,
@@ -173,6 +172,7 @@ export default class Form extends React.Component {
                 }
             }
             console.log(story);
+            this.props.navigation.navigate('Correction', {story: story});
 
             // Send a request
             // TODO ckeck the address IP of the network to find the raspberry one
@@ -283,7 +283,9 @@ export default class Form extends React.Component {
         );
     }
     renderNavigationPart() {
-        let navigation = [];
+        let top_arrow,
+            down_arrow,
+            navigation = [];
         for (let key = 1, count = Object.keys(data).length; key <= count; key++) {
             const navigationItem =
                 <TouchableOpacity style={FormStyle.partNavigationItemContainer} onPress={this.scrollTo.bind(this, key)}>
@@ -300,9 +302,23 @@ export default class Form extends React.Component {
                 navigation.push(React.cloneElement(navigationItem, {key}));
             }
         }
+        if (this.state.current_navigation !== 1) {
+            top_arrow =
+                <TouchableOpacity onPress={ this.scrollPrevTo.bind(this, this.state.current_navigation) }>
+                    <Image style={[FormStyle.iconNav, FormStyle.iconNavTop]} source={require('../../assets/images/arrowTop.png')}/>
+                </TouchableOpacity>;
+        }
+        if (this.state.current_navigation !== 5) {
+            down_arrow =
+                <TouchableOpacity onPress={ this.scrollNextTo.bind(this, this.state.current_navigation) }>
+                    <Image style={[FormStyle.iconNav, FormStyle.iconNavDown]} source={require('../../assets/images/arrowDown.png')}/>
+                </TouchableOpacity>;
+        }
         return (
             <View style={[FormStyle.partContainer, FormStyle.partNavigationContainer]}>
+                {top_arrow}
                 {navigation}
+                {down_arrow}
             </View>
         )
     }
@@ -310,7 +326,9 @@ export default class Form extends React.Component {
     renderIntroduction() {
         let short_intro = data.introduction.short,
             state = this.state,
-            medium_intro_render = null;
+            medium_intro_render = null,
+            opacity = null;
+        if (this.state.current_navigation === 1) { opacity = 1; } else { opacity = .4; }
 
         let short_intro_render =
             <View>
@@ -318,13 +336,10 @@ export default class Form extends React.Component {
                 {this.renderInput("introduction_hero_who", short_intro.hero.who.placeholder, state.introduction_hero_who)}
                 {this.renderInput("introduction_hero_description", short_intro.hero.description.placeholder, state.introduction_hero_description)}
                 {this.renderInput("introduction_hero_characteristic", short_intro.hero.characteristic.placeholder, state.introduction_hero_characteristic)}
-                {this.renderRadioBtn(short_intro.expression_2)}
+                <TextInput style={[FormStyle.formItem, FormStyle.placeItem]} editable={false} selectTextOnFocus={false} value={state.introduction_and}/>
                 {this.renderInput("introduction_hero_hobbies", short_intro.hero_detail.hobbies.placeholder, state.introduction_hero_hobbies)}
                 {this.renderInput("introduction_hero_current_action", short_intro.hero_detail.current_action.placeholder, state.introduction_hero_current_action)}
-                <TextInput
-                    style={[FormStyle.formItem, FormStyle.placeItem]}
-                    editable={false} selectTextOnFocus={false}
-                    value={state.introduction_place + '.'}/>
+                <TextInput style={[FormStyle.formItem, FormStyle.placeItem]} editable={false} selectTextOnFocus={false} value={state.introduction_place + '.'}/>
             </View>;
         if (this.length === 1 || this.length === 2) {
             //TODO replaced the right inputs
@@ -340,7 +355,7 @@ export default class Form extends React.Component {
         }
 
         return (
-            <View style={[FormStyle.formContainer]} ref="Introduction" onLayout={(e) => {
+            <View style={[FormStyle.formContainer, {opacity: opacity}]} ref="Introduction" onLayout={(e) => {
                 let view = this.refs['Introduction'],
                     handle = findNodeHandle(view);
                 UIManager.measure(handle, (x, y, width, height, pageX, pageY) => {
@@ -354,9 +369,12 @@ export default class Form extends React.Component {
     }
     renderDisruption() {
         let short_disruption = data.disruption.short,
-            state = this.state;
+            state = this.state,
+            opacity: null;
+        if (this.state.current_navigation === 2) { opacity = 1; } else { opacity = .4; }
+
         return (
-            <View style={[FormStyle.formContainer]} ref="Disrupt" onLayout={(e) => {
+            <View style={[FormStyle.formContainer, {opacity: opacity}]} ref="Disrupt" onLayout={(e) => {
                 let view = this.refs['Disrupt'],
                     handle = findNodeHandle(view);
                 UIManager.measure(handle, (x, y, width, height, pageX, pageY) => {
@@ -373,9 +391,11 @@ export default class Form extends React.Component {
     }
     renderAdventure() {
         let short_adventure = data.adventure.short,
-            state = this.state;
+            state = this.state,
+            opacity: null;
+        if (this.state.current_navigation === 3) { opacity = 1; } else { opacity = .4; }
         return (
-            <View style={[FormStyle.formContainer]} ref="Adventure" onLayout={(e) => {
+            <View style={[FormStyle.formContainer, {opacity: opacity}]} ref="Adventure" onLayout={(e) => {
                 let view = this.refs['Adventure'],
                     handle = findNodeHandle(view);
                 UIManager.measure(handle, (x, y, width, height, pageX, pageY) => {
@@ -393,9 +413,11 @@ export default class Form extends React.Component {
     }
     renderOutcome() {
         let short_outcome = data.outcome.short,
-            state = this.state;
+            state = this.state,
+            opacity: null;
+        if (this.state.current_navigation === 4) { opacity = 1; } else { opacity = .4; }
         return (
-            <View style={[FormStyle.formContainer]} ref="Outcome" onLayout={(e) => {
+            <View style={[FormStyle.formContainer, {opacity: opacity}]} ref="Outcome" onLayout={(e) => {
                 let view = this.refs['Outcome'],
                     handle = findNodeHandle(view);
                 UIManager.measure(handle, (x, y, width, height, pageX, pageY) => {
@@ -410,16 +432,18 @@ export default class Form extends React.Component {
     }
     renderConclusion() {
         let short_conclusion = data.conclusion.short,
-            state = this.state;
+            state = this.state,
+            opacity: null;
+        if (this.state.current_navigation === 5) { opacity = 1; } else { opacity = .4; }
         return (
-            <Animated.View style={[FormStyle.formContainer, {paddingBottom: this.keyboardHeight}]}>
+            <Animated.View style={[FormStyle.formContainer, {paddingBottom: this.keyboardHeight, opacity: opacity}]}>
                 {this.renderRadioBtn(short_conclusion.expression_1)}
                 {this.renderInput("conclusion_description_change", short_conclusion.description.change.placeholder, state.conclusion_description_change)}
                 {this.renderInput("conclusion_description_learn", short_conclusion.description.learn.placeholder, state.conclusion_description_learn)}
                 <View style={FormStyle.printBtnContainer}>
                     <RectangleButton
-                        content={'Imprimer'}
-                        src={require('../../assets/images/print.png')}
+                        content={'Terminer'}
+                        src={require('../../assets/images/validate.png')}
                         onPress={this.printStory.bind(this)}/>
                 </View>
             </Animated.View>
@@ -432,7 +456,7 @@ export default class Form extends React.Component {
         // TODO calculation according if keyboard is open and form height
         if (currentOffset >= 0 && currentOffset < this.partEnd.introduction) {
             this.setState({part_title: "Introduction"}); // update view
-            this.setState({current_navigation: 1})
+            this.setState({current_navigation: 1});
         }
         if (currentOffset >= this.partEnd.introduction && currentOffset < this.partEnd.disruption) {
             this.setState({part_title: "Problème"});
@@ -467,6 +491,38 @@ export default class Form extends React.Component {
                 break;
             default:
                 this.refs.FormScrollView.scrollTo({x: 0, y: 0, animated: true});
+                break;
+        }
+    };
+    scrollPrevTo = (index) => {
+        switch (index) {
+            case 3:
+                this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true});
+                break;
+            case 4:
+                this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true});
+                break;
+            case 5:
+                this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true});
+                break;
+            default:
+                this.refs.FormScrollView.scrollTo({x: 0, y: 0, animated: true}); // case 2
+                break;
+        }
+    };
+    scrollNextTo = (index) => {
+        switch (index) {
+            case 2:
+                this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true});
+                break;
+            case 3:
+                this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true});
+                break;
+            case 4:
+                this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.outcome + 1, animated: true});
+                break;
+            default:
+                this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true}); // case 1
                 break;
         }
     };

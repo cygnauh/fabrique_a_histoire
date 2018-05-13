@@ -1,7 +1,6 @@
 import React from 'react';
-import {Dimensions, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import { scaleWidth, scaleHeight, scaleDelta } from '../utils/scale';
-const { width, height } = Dimensions.get('window');
 
 export default StyleSheet.create({
 
@@ -32,7 +31,7 @@ export default StyleSheet.create({
         left: 0,
     },
     partNavigationContainer: {
-        width: scaleWidth(20),
+        width: scaleWidth(10),
         right: 0,
     },
     partTitleItem: {
@@ -49,7 +48,7 @@ export default StyleSheet.create({
     partNavigationItemContainer: {
         position: 'relative',
         top: scaleHeight(90),
-        left: scaleWidth(-10)
+        left: scaleWidth(-20),
     },
     partNavigationItem: {
         width: scaleWidth(20),
@@ -62,6 +61,19 @@ export default StyleSheet.create({
     partNavigationCurrentItem: {
         fontSize: scaleDelta(22, .5),
         color: '#47404F',
+    },
+    iconNav: {
+        width: scaleWidth(20),
+        height: scaleWidth(20),
+        position: 'relative',
+        left: scaleWidth(-20),
+    },
+    iconNavTop: {
+        position: 'absolute',
+    },
+    iconNavDown: {
+        position: 'relative',
+        top: scaleHeight(160),
     },
 
     /** RADIO BUTTON **/
