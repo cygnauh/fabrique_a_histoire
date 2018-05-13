@@ -6,7 +6,7 @@ import RectangleButton from '../../components/rectangleButton';
 import GlobalStyle from '../../styles/mainStyle';
 import FormStyle from "../../styles/formStyle";
 import { scaleDelta, scaleHeight } from "../../utils/scale";
-import { getRandomInt } from "../../utils/tools";
+import { getRandomInt, delEndDot, addEndDot, upperCaseFirst } from "../../utils/tools";
 import OnBoardingStyle from "../../styles/onboardingStyle";
 
 const data = require('../../assets/data/structure.json');
@@ -83,41 +83,41 @@ export default class Form extends React.Component {
         let intro_expression_1 = short_intro.expression_1.filter((exp) => {
                 return exp.selected === true
             }),
-            hero = state.introduction_hero_who,
+            hero = addEndDot(state.introduction_hero_who),
+            description = addEndDot(state.introduction_hero_description),
             characteristic = state.introduction_hero_characteristic,
-            description = state.introduction_hero_description,
             intro_expression_2 = state.introduction_and,
-            hobbies = state.introduction_hero_hobbies,
+            hobbies = addEndDot(state.introduction_hero_hobbies),
             current_action = state.introduction_hero_current_action,
-            place = state.introduction_place + '.',
+            place = addEndDot(state.introduction_place),
             disrupt_expression_1 = short_disrupt.expression_1.filter((exp) => {
                 return exp.selected === true
             }),
-            disrupt_event = state.disruption_event_description,
-            disrupt_reaction = state.disruption_event_reaction,
-            disrupt_decision = state.disruption_event_decision,
-            disrupt_then = state.disruption_event_then,
+            disrupt_event = addEndDot(state.disruption_event_description),
+            disrupt_reaction = addEndDot(state.disruption_event_reaction),
+            disrupt_decision = addEndDot(state.disruption_event_decision),
+            disrupt_then = addEndDot(state.disruption_event_then),
             adventure_expression_1 = short_adventure.expression_1.filter((exp) => {
                 return exp.selected === true
             }),
-            adventure_decision = state.adventure_event_decision,
-            adventure_consequence = state.adventure_event_consequence,
+            adventure_decision = addEndDot(state.adventure_event_decision),
+            adventure_consequence = addEndDot(state.adventure_event_consequence),
             imposed_event = imposed_events.meteorological[state.adventure_event_id].event,
             response_event = imposed_events.meteorological[state.adventure_event_id].choice.filter((exp) => {
                 return exp.selected === true
             }),
-            adventure_reaction = state.adventure_event_reaction,
-            adventure_then = state.adventure_event_then,
+            adventure_reaction = addEndDot(state.adventure_event_reaction),
+            adventure_then = addEndDot(state.adventure_event_then),
             outcome_expression_1 = short_outcome.expression_1.filter((exp) => {
                 return exp.selected === true
             }),
-            outcome_solution = state.outcome_description_solution,
-            outcome_then = state.outcome_description_then,
+            outcome_solution = addEndDot(state.outcome_description_solution),
+            outcome_then = addEndDot(state.outcome_description_then),
             conclusion_expression_1 = short_conclusion.expression_1.filter((exp) => {
                 return exp.selected === true
             }),
-            conclusion_change = state.conclusion_description_change,
-            conclusion_learn = state.conclusion_description_learn;
+            conclusion_change = addEndDot(state.conclusion_description_change),
+            conclusion_learn = addEndDot(state.conclusion_description_learn);
 
 
         // Check before retrieve
@@ -131,11 +131,12 @@ export default class Form extends React.Component {
                 {cancelable: false}
             )
         } else {
-            // Create the text
+
             let text_elm = [
                     intro_expression_1[0].label,
-                    hero, characteristic,
+                    hero,
                     description,
+                    characteristic,
                     intro_expression_2,
                     hobbies, current_action,
                     place,
@@ -158,21 +159,36 @@ export default class Form extends React.Component {
                     conclusion_change,
                     conclusion_learn
                 ],
+                title = '',
                 story = '';
-            for (let i = 0, count = text_elm.length; i < count; i++) {
-                if (i === text_elm.length - 1) {
-                    story += text_elm[i] + '.';
-                } else {
-                    if (text_elm[i] === place || text_elm[i] === disrupt_then || text_elm[i] === adventure_then || text_elm[i] === outcome_then) {
-                        console.log(text_elm[i]);
-                        story += text_elm[i] + '@'; // add @ previous custom words sentence
+
+            // Create the title
+            if (hero.indexOf("’") > - 1) {
+                let hero_parts = hero.split("d’"),
+                    hero_title = "";
+
+                for (let i = 1, count = hero_parts.length; i < count; i++) {
+                    if (i === hero_parts.length - 1) { // last part
+                        hero_title += delEndDot(hero_parts[i]); // subtract "."
                     } else {
-                        story += text_elm[i] + ' ';
+                        hero_title +=  hero_parts[i];
                     }
                 }
+                title = upperCaseFirst(hero_title + ' ' + delEndDot(place));
+            } else {
+                title = upperCaseFirst(hero + ' ' + delEndDot(place)); // hasn't apostrophe
             }
-            console.log(story);
-            this.props.navigation.navigate('Correction', {story: story});
+
+            // Create the text
+            for (let i = 0, count = text_elm.length; i < count; i++) {
+                if (text_elm[i] === place || text_elm[i] === disrupt_then || text_elm[i] === adventure_then || text_elm[i] === outcome_then) {
+                    story += text_elm[i] + '@'; // add @ previous custom words sentence
+                } else {
+                    story += text_elm[i] + ' ';
+                }
+            }
+            //console.log(story);
+            this.props.navigation.navigate('Correction', {story: story, title: title});
 
             // Send a request
             // TODO ckeck the address IP of the network to find the raspberry one
@@ -211,11 +227,14 @@ export default class Form extends React.Component {
             </View>
         )
     }
-    renderInput(name, placeholder, state) {
+    renderInput(name, placeholder, state, autoCapitalize = 'sentences') {
         let question = null,
             input = <TextInput
                 style={[FormStyle.inputItem, FormStyle.formItem, state !== "" && FormStyle.onChange]}
-                onChangeText={(text) => this.inputOnChange(name, text)} multiline={true} placeholder={placeholder}
+                onChangeText={(text) => this.inputOnChange(name, text)}
+                autoCapitalize={autoCapitalize}
+                multiline={true}
+                placeholder={placeholder}
                 value={state}/>;
 
         if (state.length > 0) {
@@ -333,11 +352,11 @@ export default class Form extends React.Component {
         let short_intro_render =
             <View>
                 {this.renderRadioBtn(short_intro.expression_1)}
-                {this.renderInput("introduction_hero_who", short_intro.hero.who.placeholder, state.introduction_hero_who)}
+                {this.renderInput("introduction_hero_who", short_intro.hero.who.placeholder, state.introduction_hero_who, 'none')}
                 {this.renderInput("introduction_hero_description", short_intro.hero.description.placeholder, state.introduction_hero_description)}
                 {this.renderInput("introduction_hero_characteristic", short_intro.hero.characteristic.placeholder, state.introduction_hero_characteristic)}
                 <TextInput style={[FormStyle.formItem, FormStyle.placeItem]} editable={false} selectTextOnFocus={false} value={state.introduction_and}/>
-                {this.renderInput("introduction_hero_hobbies", short_intro.hero_detail.hobbies.placeholder, state.introduction_hero_hobbies)}
+                {this.renderInput("introduction_hero_hobbies", short_intro.hero_detail.hobbies.placeholder, state.introduction_hero_hobbies, 'none')}
                 {this.renderInput("introduction_hero_current_action", short_intro.hero_detail.current_action.placeholder, state.introduction_hero_current_action)}
                 <TextInput style={[FormStyle.formItem, FormStyle.placeItem]} editable={false} selectTextOnFocus={false} value={state.introduction_place + '.'}/>
             </View>;
@@ -382,7 +401,7 @@ export default class Form extends React.Component {
                 })
             }}>
                 {this.renderRadioBtn(short_disruption.expression_1)}
-                {this.renderInput("disruption_event_description", short_disruption.event.description.placeholder, state.disruption_event_description)}
+                {this.renderInput("disruption_event_description", short_disruption.event.description.placeholder, state.disruption_event_description, 'none')}
                 {this.renderInput("disruption_event_reaction", short_disruption.event.hero_reaction.placeholder, state.disruption_event_reaction)}
                 {this.renderInput("disruption_event_decision", short_disruption.event.hero_decision.placeholder, state.disruption_event_decision)}
                 {this.renderInput("disruption_event_then", short_disruption.event.then.placeholder, state.disruption_event_then)}
@@ -403,7 +422,7 @@ export default class Form extends React.Component {
                 })
             }}>
                 {this.renderRadioBtn(short_adventure.expression_1)}
-                {this.renderInput("adventure_event_decision", short_adventure.event.hero_decision.placeholder, state.adventure_event_decision)}
+                {this.renderInput("adventure_event_decision", short_adventure.event.hero_decision.placeholder, state.adventure_event_decision, 'none')}
                 {this.renderInput("adventure_event_consequence", short_adventure.event.consequence.placeholder, state.adventure_event_consequence)}
                 {this.renderImposedEvent()}
                 {this.renderInput("adventure_event_reaction", short_adventure.event.hero_reaction.placeholder, state.adventure_event_reaction)}
@@ -425,7 +444,7 @@ export default class Form extends React.Component {
                 })
             }}>
                 {this.renderRadioBtn(short_outcome.expression_1)}
-                {this.renderInput("outcome_description_solution", short_outcome.description.solution.placeholder, state.outcome_description_solution)}
+                {this.renderInput("outcome_description_solution", short_outcome.description.solution.placeholder, state.outcome_description_solution, 'none')}
                 {this.renderInput("outcome_description_then", short_outcome.description.then.placeholder, state.outcome_description_then)}
             </View>
         );
@@ -438,7 +457,7 @@ export default class Form extends React.Component {
         return (
             <Animated.View style={[FormStyle.formContainer, {paddingBottom: this.keyboardHeight, opacity: opacity}]}>
                 {this.renderRadioBtn(short_conclusion.expression_1)}
-                {this.renderInput("conclusion_description_change", short_conclusion.description.change.placeholder, state.conclusion_description_change)}
+                {this.renderInput("conclusion_description_change", short_conclusion.description.change.placeholder, state.conclusion_description_change, 'none')}
                 {this.renderInput("conclusion_description_learn", short_conclusion.description.learn.placeholder, state.conclusion_description_learn)}
                 <View style={FormStyle.printBtnContainer}>
                     <RectangleButton
@@ -530,6 +549,7 @@ export default class Form extends React.Component {
     render() {
         return (
             <View style={[GlobalStyle.view, GlobalStyle.headerView, FormStyle.formView]}>
+                <Image style={GlobalStyle.backgroundImage} source={require('../../assets/images/background.png')} />
                 <Header onPress={() => this.props.navigation.goBack()}/>
                 {this.renderTitlePart()}
                 <ScrollView ref="FormScrollView" showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}

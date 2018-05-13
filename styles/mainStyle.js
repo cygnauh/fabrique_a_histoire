@@ -2,6 +2,7 @@ import React from 'react';
 import { Dimensions, StyleSheet } from 'react-native';
 import { scaleWidth, scaleHeight, scaleDelta } from '../utils/scale';
 const { width, height } = Dimensions.get('window');
+const resizeMode = 'repeat';
 
 export default StyleSheet.create({
 
@@ -14,6 +15,15 @@ export default StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between', // vertical
         alignItems: 'center', // horizontal
+    },
+    backgroundImage: {
+        position: 'absolute',
+        flex: 1,
+        width: width,
+        height: height,
+        resizeMode,
+        justifyContent: 'center',
+        opacity: .15,
     },
 
     /** HEADER **/
@@ -94,12 +104,6 @@ export default StyleSheet.create({
     },
 
     /** PLACE **/
-    placeContainer : {
-
-
-
-
-    },
     placePhrase: {
         color: "#FFFFFF",
         fontSize: scaleDelta(18, .5),
@@ -119,5 +123,17 @@ export default StyleSheet.create({
         position: 'relative',
         top: scaleWidth(-2),
         color: '#47404F',
+    },
+
+    /** RE-READING **/
+    reReadingBtnContainer: {
+        flexDirection: 'row',
+    },
+    storyTitle: {
+        marginBottom: scaleHeight(25),
+    },
+    storyText: {
+        textAlign: 'left',
+        marginBottom: scaleHeight(15),
     }
 });

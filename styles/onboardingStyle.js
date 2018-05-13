@@ -67,6 +67,7 @@ export default StyleSheet.create({
         borderColor: '#4F4640',
         paddingLeft: scaleWidth(15),
         paddingRight: scaleWidth(10),
+        marginHorizontal: scaleWidth(5),
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',

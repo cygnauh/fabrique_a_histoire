@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Text, Button, Slider } from 'react-native';
-import Logo from '../components/logo';
+import { View, Text, Slider, Image } from 'react-native';
 import Header from '../components/header';
 import RectangleButton from '../components/rectangleButton';
 import GlobalStyle from '../styles/mainStyle';
@@ -56,6 +55,7 @@ export default class Length extends React.Component{
     render() {
         return(
             <View style={[GlobalStyle.view, GlobalStyle.headerView]}>
+                <Image style={GlobalStyle.backgroundImage} source={require('../assets/images/background.png')} />
                 <Header onPress={() => this.props.navigation.goBack()}/>
                 <View>
                     <Text style={GlobalStyle.titleContent}>Longueur du récit</Text>

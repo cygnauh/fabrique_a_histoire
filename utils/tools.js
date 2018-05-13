@@ -6,4 +6,27 @@ const getRandomInt = (min, max) => { // min and max included
     return Math.floor(Math.random() * (max - min +1)) + min;
 };
 
-export { getRandomInt }
+const delEndDot = (string) => {
+    if (string.indexOf(".") > - 1) { // has dot
+        let string_parts = string.split(".");
+        return string_parts[0];
+    } else {
+        return string;
+    }
+};
+
+const addEndDot = (string) => { // add dot if no punctuations at the end
+    let last_character = string.slice(-1),
+        filter = /^[a-zA-Z]$/;
+    if (filter.test(last_character)) { // hasn't dot
+        return string + '.';
+    } else {
+        return string;
+    }
+};
+
+const upperCaseFirst = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1); // first letter + string without first letter
+};
+
+export { getRandomInt, delEndDot, addEndDot, upperCaseFirst }

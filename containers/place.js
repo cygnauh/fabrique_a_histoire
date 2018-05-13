@@ -1,6 +1,6 @@
 import React from 'react';
 // import Sound from 'react-native-sound';
-import { View, Text, Button, ActivityIndicator,FlatList, Animated, StyleSheet, Easing} from 'react-native';
+import { View, Text, Button, ActivityIndicator,FlatList, Animated, StyleSheet, Easing, Image} from 'react-native';
 import Logo from '../components/logo';
 import Header from '../components/header';
 import RectangleButton from '../components/rectangleButton';
@@ -82,7 +82,7 @@ export default class Place extends React.Component{
 
 
 
-    }
+    };
 
     componentDidMount(){
         this.animateBackgroundColor();
@@ -113,7 +113,7 @@ export default class Place extends React.Component{
 
     ShowHideTextComponentView = () =>{
 
-        if(this.state.status == true)
+        if(this.state.status === true)
         {
             this.setState({status: false})
         }
@@ -121,7 +121,7 @@ export default class Place extends React.Component{
         {
             this.setState({status: true})
         }
-    }
+    };
 
     render() {
 
@@ -146,6 +146,7 @@ export default class Place extends React.Component{
         }
         return(
             <Animated.View style={[GlobalStyle.view, GlobalStyle.headerView, { backgroundColor: backgroundColorVar }]}>
+                <Image style={GlobalStyle.backgroundImage} source={require('../assets/images/background.png')} />
                 <Header onPress={() => this.props.navigation.goBack()}/>
 
                 {/*<Animated.View style = {[ styles.container, { backgroundColor: backgroundColorVar } ]}>*/}

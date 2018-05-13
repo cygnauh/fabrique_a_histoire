@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, ScrollView, Dimensions, TouchableOpacity} from 'react-native';
+import { View, Text, ScrollView, Dimensions, TouchableOpacity, Image} from 'react-native';
 import Header from '../components/header';
 import RectangleButton from './rectangleButton';
 import OnBoardingStyle from '../styles/onboardingStyle';
+import GlobalStyle from "../styles/mainStyle";
 
 const { width, height } = Dimensions.get('window');
 
@@ -179,6 +180,7 @@ export default class OnBoardingSlide extends React.Component {
     render = ({ children } = this.props) => {
         return (
             <View style={[OnBoardingStyle.fullScreen, OnBoardingStyle.container]}>
+                <Image style={GlobalStyle.backgroundImage} source={require('../assets/images/background.png')} />
                 {this.renderHeader()}
                 {this.renderScrollView(children)} /*Render screens */
                 {this.renderPagination()} /*Render pagination */
