@@ -439,7 +439,7 @@ export default class Place extends React.Component{
                                     style={styles.fullScreen}
                                     rate={this.state.rate}
                                     paused={this.state.paused}
-                                    volume={this.state.volume}
+                                    volume={0.5}
                                     muted={this.state.muted}
                                     ignoreSilentSwitch={this.state.ignoreSilentSwitch}
                                     resizeMode={this.state.resizeMode}

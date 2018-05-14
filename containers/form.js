@@ -32,9 +32,37 @@ export default class Form extends React.Component{
             disruption_event_then: "",
             adventure_event_description: "",
             adventure_event_reaction: "",
+
+            //sound helper
+            // can_play: false
         };
 
+        this.onLoad = this.onLoad.bind(this);
+        this.onProgress = this.onProgress.bind(this);
+        this.onBuffer = this.onBuffer.bind(this);
+
         this.loadSoundsFromAPI()
+    }
+
+    onLoad(data) {
+        console.log('On load fired!');
+        this.setState({duration: data.duration});
+    }
+
+    onProgress(data) {
+        this.setState({currentTime: data.currentTime});
+    }
+
+    onBuffer({ isBuffering }: { isBuffering: boolean }) {
+        this.setState({ isBuffering });
+    }
+
+    getCurrentTimePercentage() {
+        if (this.state.currentTime > 0) {
+            return parseFloat(this.state.currentTime) / parseFloat(this.state.duration);
+        } else {
+            return 0;
+        }
     }
 
     radioBtnOnChange(index, array) {
@@ -177,18 +205,41 @@ export default class Form extends React.Component{
     //appel API
     searchSound(word){
         if(this.state.sounds){
-            console.log(this.state.sounds)
-
             for(var i = 0 ; i<this.state.sounds.length; i++){
-
-                console.log(word)
-
-                if(word.replace(/[^a-zA-Z ]/g, "") === this.state.sounds[i].name){
+                if(word.replace(/[^a-zA-Z ]/g, "").toLowerCase() === this.state.sounds[i].name){
                     console.log("word found", this.state.sounds[i].name)
+                    console.log(this.state.sounds[i].url)
+
+                    //Can Play
+
+                    this.setState({can_play: true, sound : this.state.sounds[i]})
+
                 }
             }
         }
     }
+
+    playASound(url){
+        return(
+
+
+            <Video
+                source={{uri: url }}
+                style={styles.fullScreen}
+                rate={this.state.rate}
+                paused={this.state.paused}
+                volume={this.state.volume}
+                muted={this.state.muted}
+                ignoreSilentSwitch={this.state.ignoreSilentSwitch}
+                resizeMode={this.state.resizeMode}
+                onLoad={this.onLoad}
+                onBuffer={this.onBuffer}
+                onProgress={this.onProgress}
+                // onEnd={() => { AlertIOS.alert('Done!') }}
+                repeat={true}
+            />
+
+    )}
 
 
     loadSoundsFromAPI(){
@@ -238,6 +289,8 @@ export default class Form extends React.Component{
             state = this.state;
         return (
             <View style={[FormStyle.formContainer]}>
+
+
                 {this.renderRadioBtn(intro.expression_1)}
                 {this.renderInput("introduction_hero_who", intro.hero.who.placeholder, state.introduction_hero_who)}
                 {this.renderInput("introduction_hero_characteristic", intro.hero.characteristic.placeholder, state.introduction_hero_characteristic)}
@@ -282,6 +335,29 @@ export default class Form extends React.Component{
             <View style={[GlobalStyle.view, GlobalStyle.headerView, FormStyle.formView]}>
                 <Header onPress={() => this.props.navigation.goBack()}/>
                 <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false} >
+                    {
+                        // Pass any View or Component inside the curly bracket.
+                        // Here the ? Question Mark represent the ternary operator.
+
+                        this.state.can_play ?
+                            <Video
+                                source={{uri: this.state.sound.url }}
+                                rate={this.state.rate}
+                                paused={this.state.paused}
+                                volume={this.state.volume}
+                                muted={this.state.muted}
+                                ignoreSilentSwitch={this.state.ignoreSilentSwitch}
+                                resizeMode={this.state.resizeMode}
+                                onLoad={this.onLoad}
+                                onBuffer={this.onBuffer}
+                                onProgress={this.onProgress}
+                                // onEnd={() => { AlertIOS.alert('Done!') }}
+                                repeat={true}
+                            />: null
+
+                    }
+
+
                     {this.renderIntroduction()}
                     {this.renderDisruption()}
                     {this.renderAdventure()}
