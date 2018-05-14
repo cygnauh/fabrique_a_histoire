@@ -361,6 +361,12 @@ export default class Place extends React.Component{
 
                 });
 
+                if(this.state.randomPlaceName.url){
+                    console.log(this.state.randomPlaceName.url)
+                }
+
+
+
             })
             .catch((error) =>{
                 console.error(error);
@@ -422,8 +428,14 @@ export default class Place extends React.Component{
 
                         <View style={styles.container}>
                             {/*<TouchableOpacity style={styles.fullScreen} onPress={() => {this.setState({paused: !this.state.paused})}}>*/}
-                                <Video
-                                    source={{uri: "https://christinehuang.fr/BDDI2018/sounds/WATER/LAKE.mp3"}}
+
+                            {
+                                // Pass any View or Component inside the curly bracket.
+                                // Here the ? Question Mark represent the ternary operator.
+
+                                this.state.randomPlaceName ?
+                                    <Video
+                                    source={{uri: this.state.randomPlaceName.url }}
                                     style={styles.fullScreen}
                                     rate={this.state.rate}
                                     paused={this.state.paused}
@@ -436,7 +448,10 @@ export default class Place extends React.Component{
                                     onProgress={this.onProgress}
                                     // onEnd={() => { AlertIOS.alert('Done!') }}
                                     repeat={true}
-                                />
+                                />: null
+
+                            }
+
                             {/*</TouchableOpacity>*/}
 
                             {/*<View style={styles.controls}>*/}

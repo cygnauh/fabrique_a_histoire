@@ -5,6 +5,7 @@ import RadioButton from '../components/radioButton';
 import RectangleButton from '../components/rectangleButton';
 import GlobalStyle from '../styles/mainStyle';
 import FormStyle from "../styles/formStyle";
+import Video from 'react-native-video';
 import {scaleDelta, scaleHeight} from "../utils/scale";
 
 const data = require('../assets/data/data_structure.json');
@@ -32,6 +33,8 @@ export default class Form extends React.Component{
             adventure_event_description: "",
             adventure_event_reaction: "",
         };
+
+        this.loadSoundsFromAPI()
     }
 
     radioBtnOnChange(index, array) {
@@ -136,7 +139,9 @@ export default class Form extends React.Component{
         let question = null,
             input = <TextInput
                 style={[FormStyle.inputItem, FormStyle.formItem, state !== "" && FormStyle.onChange]}
-                onChangeText={(text) => this.inputOnChange(name, text)} multiline={true} placeholder={placeholder} value={state}/>;
+                onChangeText={(text) => this.inputOnChange(name, text)}
+                onBlur={(e) => this.onBlurSearchSound(e)}
+                multiline={true} placeholder={placeholder} value={state}/>;
 
         if (state.length > 0) {
             question = <TextInput style={[FormStyle.question]} editable={false} selectTextOnFocus={false} value = {placeholder}/>;
@@ -147,6 +152,61 @@ export default class Form extends React.Component{
             </View>
         )
     }
+
+    // -------------------------------- test son
+
+    onBlurSearchSound(e){
+        console.log(e.nativeEvent.text)
+
+        var theString = e.nativeEvent.text
+        var res = theString.split(" ");
+
+        for(var i = 0; i < res.length; i++){
+            this.searchSound(res[i])
+        }
+
+        // console.log(res[2])
+
+        //break down the string
+
+
+
+
+    }
+
+    //appel API
+    searchSound(word){
+        if(this.state.sounds){
+            console.log(this.state.sounds)
+
+            for(var i = 0 ; i<this.state.sounds.length; i++){
+
+                console.log(word)
+
+                if(word.replace(/[^a-zA-Z ]/g, "") === this.state.sounds[i].name){
+                    console.log("word found", this.state.sounds[i].name)
+                }
+            }
+        }
+    }
+
+
+    loadSoundsFromAPI(){
+            return fetch('https://testappfabulab.herokuapp.com/sounds')
+                .then((response) => response.json())
+                .then((responseJson) => {
+                    this.setState({
+                        isLoading: false,
+                        sounds:responseJson
+                    }, function(){
+
+                    });
+                })
+                .catch((error) =>{
+                    console.error(error);
+                });
+    }
+
 
     componentWillMount () {
         this.keyboardWillShowSub = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow);
