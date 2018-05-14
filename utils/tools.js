@@ -29,4 +29,8 @@ const upperCaseFirst = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1); // first letter + string without first letter
 };
 
-export { getRandomInt, delEndDot, addEndDot, upperCaseFirst }
+const addNil = (digit) => {
+    return (digit < 10) ? ("0" + digit) : digit;
+};
+
+export { getRandomInt, delEndDot, addEndDot, upperCaseFirst, addNil }

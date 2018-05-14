@@ -135,5 +135,38 @@ export default StyleSheet.create({
     storyText: {
         textAlign: 'left',
         marginBottom: scaleHeight(15),
+    },
+
+    /** PRINT **/
+    printTitle: {
+        textAlign: 'center',
+        marginHorizontal: scaleWidth(60),
+    },
+    printQuantityContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    nbCopies: {
+        fontSize: scaleDelta(28, .5),
+        color: '#47404F',
+        fontFamily: 'Editor-Bold',
+        paddingHorizontal: scaleWidth(20),
+    },
+    manageQuantity: {
+        fontSize: scaleDelta(24, .5),
+        fontFamily: 'MaisonNeue-Light',
+        position: 'relative',
+        top: scaleHeight(2)
+    },
+    quantityBackground: {
+        width: scaleWidth(20),
+        height: scaleWidth(20),
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 2,
+        borderColor: '#C6C4C3',
+        borderRadius: scaleWidth(20),
     }
 });

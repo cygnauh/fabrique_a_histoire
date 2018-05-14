@@ -7,7 +7,6 @@ import GlobalStyle from '../../styles/mainStyle';
 import FormStyle from "../../styles/formStyle";
 import { scaleDelta, scaleHeight } from "../../utils/scale";
 import { getRandomInt, delEndDot, addEndDot, upperCaseFirst } from "../../utils/tools";
-import OnBoardingStyle from "../../styles/onboardingStyle";
 
 const data = require('../../assets/data/structure.json');
 const imposed_events = require('../../assets/data/imposed_events');
@@ -71,7 +70,7 @@ export default class Form extends React.Component {
         choices[index].selected = true;
         this.setState({voteItems: choices}); // update view
     };
-    printStory() {
+    prepareStory() {
         // Retrieve text
         let short_intro = data.introduction.short,
             short_disrupt = data.disruption.short,
@@ -176,7 +175,7 @@ export default class Form extends React.Component {
                 }
                 title = upperCaseFirst(hero_title + ' ' + delEndDot(place));
             } else {
-                title = upperCaseFirst(hero + ' ' + delEndDot(place)); // hasn't apostrophe
+                title = upperCaseFirst(delEndDot(hero) + ' ' + delEndDot(place)); // hasn't apostrophe
             }
 
             // Create the text
@@ -189,28 +188,6 @@ export default class Form extends React.Component {
             }
             //console.log(story);
             this.props.navigation.navigate('Correction', {story: story, title: title});
-
-            // Send a request
-            // TODO ckeck the address IP of the network to find the raspberry one
-            let home_url = 'http://192.168.0.37:8080/',
-                christine_url = 'http://192.168.43.70:8080/';
-            fetch(christine_url, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    text: story
-                })
-            }).then(function (response) {
-                console.log(response);
-                return response;
-            }).catch(function (error) {
-                return error;
-            });
-
-            // TODO Save the story in the database
         }
     }
 
@@ -463,7 +440,7 @@ export default class Form extends React.Component {
                     <RectangleButton
                         content={'Terminer'}
                         src={require('../../assets/images/validate.png')}
-                        onPress={this.printStory.bind(this)}/>
+                        onPress={this.prepareStory.bind(this)}/>
                 </View>
             </Animated.View>
         );
@@ -552,8 +529,10 @@ export default class Form extends React.Component {
                 <Image style={GlobalStyle.backgroundImage} source={require('../../assets/images/background.png')} />
                 <Header onPress={() => this.props.navigation.goBack()}/>
                 {this.renderTitlePart()}
-                <ScrollView ref="FormScrollView" showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}
-                            onScroll={this.onScroll}>
+                <ScrollView ref="FormScrollView"
+                    showsHorizontalScrollIndicator={false}
+                    showsVerticalScrollIndicator={false}
+                    onScroll={this.onScroll}>
                     <View>
                         {this.renderIntroduction()}
                         {this.renderDisruption()}

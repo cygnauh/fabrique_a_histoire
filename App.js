@@ -7,7 +7,6 @@ import Length from './containers/length';
 import Place from './containers/place';
 import Form from './containers/form/form';
 import Correction from './containers/reReading';
-//import Print from './containers/print';
 
 const StackNavigation = StackNavigator(
     {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
-import Header from '../components/header';
-import RectangleButton from '../components/rectangleButton';
+import Logo from '../components/logo';
+import Print from '../containers/print';
 import GlobalStyle from "../styles/mainStyle";
 
 export default class Correction extends React.Component {
@@ -13,7 +13,6 @@ export default class Correction extends React.Component {
     renderStory() {
         let story_parts = this.story.split("@"),
             paragraphs = [];
-
         for (let key = 0, nbParts = story_parts.length; key < nbParts; key++) {
             let paragraph = <Text style={[GlobalStyle.text, GlobalStyle.storyText]}>{story_parts[key]}</Text>;
             paragraphs.push(React.cloneElement(paragraph, {key}));
@@ -28,19 +27,11 @@ export default class Correction extends React.Component {
     }
     render() {
         return(
-            <View style={[GlobalStyle.view, GlobalStyle.headerView]}>
+            <View style={[GlobalStyle.view]}>
                 <Image style={GlobalStyle.backgroundImage} source={require('../assets/images/background.png')} />
-                <Header onPress={() => this.props.navigation.goBack()}/>
+                <Logo/>
                 {this.renderStory()}
-                <View style={GlobalStyle.reReadingBtnContainer}>
-                    <RectangleButton
-                        content={'Modifier'}
-                        src={require('../assets/images/arrowNext.png')}
-                        onPress={() => this.props.navigation.goBack()}/>
-                    <RectangleButton
-                        content={'Imprimer'}
-                        src={require('../assets/images/print.png')}/>
-                </View>
+                <Print prevNav={this.props.navigation} title={this.title} story={this.story}/>
             </View>
         )
     }
