@@ -42,6 +42,7 @@
 		6CB90A7AB080477AB710C447 /* MaisonNeue-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 76EF4ABAB9B64F6BA1B50E2F /* MaisonNeue-Medium.otf */; };
 		FB1DB0DDF9F0405C82493502 /* MaisonNeue-Demi.otf in Resources */ = {isa = PBXBuildFile; fileRef = B77AAA64B1B04D29B80C4ED8 /* MaisonNeue-Demi.otf */; };
 		1D933BBD26584BC7BDCC3FBF /* MaisonNeue-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 33231CBB23D7466CBDAD0B10 /* MaisonNeue-Bold.otf */; };
+		203655C0F2714892AAB569EE /* MaisonNeue-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 407E839E59954383A9549A3C /* MaisonNeue-Light.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -352,6 +353,7 @@
 		76EF4ABAB9B64F6BA1B50E2F /* MaisonNeue-Medium.otf */ = {isa = PBXFileReference; name = "MaisonNeue-Medium.otf"; path = "../assets/fonts/MaisonNeue-Medium.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		B77AAA64B1B04D29B80C4ED8 /* MaisonNeue-Demi.otf */ = {isa = PBXFileReference; name = "MaisonNeue-Demi.otf"; path = "../assets/fonts/MaisonNeue-Demi.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		33231CBB23D7466CBDAD0B10 /* MaisonNeue-Bold.otf */ = {isa = PBXFileReference; name = "MaisonNeue-Bold.otf"; path = "../assets/fonts/MaisonNeue-Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		407E839E59954383A9549A3C /* MaisonNeue-Light.otf */ = {isa = PBXFileReference; name = "MaisonNeue-Light.otf"; path = "../assets/fonts/MaisonNeue-Light.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -622,6 +624,7 @@
 				76EF4ABAB9B64F6BA1B50E2F /* MaisonNeue-Medium.otf */,
 				B77AAA64B1B04D29B80C4ED8 /* MaisonNeue-Demi.otf */,
 				33231CBB23D7466CBDAD0B10 /* MaisonNeue-Bold.otf */,
+				407E839E59954383A9549A3C /* MaisonNeue-Light.otf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1082,6 +1085,7 @@
 				6CB90A7AB080477AB710C447 /* MaisonNeue-Medium.otf in Resources */,
 				FB1DB0DDF9F0405C82493502 /* MaisonNeue-Demi.otf in Resources */,
 				1D933BBD26584BC7BDCC3FBF /* MaisonNeue-Bold.otf in Resources */,
+				203655C0F2714892AAB569EE /* MaisonNeue-Light.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
