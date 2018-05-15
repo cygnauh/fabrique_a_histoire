@@ -59,6 +59,9 @@ export default class Place extends React.Component{
         setTimeout( ()=>{
             this.ShowHideTextComponentView();
         }, 3000);
+
+        global.test = this.state.currentTime
+
     }
 
     //Test
@@ -389,6 +392,10 @@ export default class Place extends React.Component{
         const flexCompleted = this.getCurrentTimePercentage() * 100;
         const flexRemaining = (1 - this.getCurrentTimePercentage()) * 100;
 
+        // console.log(this.getCurrentTimePercentage())
+
+        this.baseGetCurrentTimePercentage = this.getCurrentTimePercentage()
+
 
         const backgroundColorVar = this.animatedValue.interpolate(
             {
@@ -433,28 +440,28 @@ export default class Place extends React.Component{
                                 // Pass any View or Component inside the curly bracket.
                                 // Here the ? Question Mark represent the ternary operator.
 
-                                this.state.randomPlaceName ?
-                                    <Video
-                                    source={{uri: this.state.randomPlaceName.url }}
-                                    style={styles.fullScreen}
-                                    rate={this.state.rate}
-                                    paused={this.state.paused}
-                                    volume={0.5}
-                                    muted={this.state.muted}
-                                    ignoreSilentSwitch={this.state.ignoreSilentSwitch}
-                                    resizeMode={this.state.resizeMode}
-                                    onLoad={this.onLoad}
-                                    onBuffer={this.onBuffer}
-                                    onProgress={this.onProgress}
-                                    // onEnd={() => { AlertIOS.alert('Done!') }}
-                                    repeat={true}
-                                />: null
+                                // this.state.randomPlaceName ?
+                                //     <Video
+                                //     source={{uri: this.state.randomPlaceName.url }}
+                                //     style={styles.fullScreen}
+                                //     rate={this.state.rate}
+                                //     paused={this.state.paused}
+                                //     volume={0.5}
+                                //     muted={this.state.muted}
+                                //     ignoreSilentSwitch={this.state.ignoreSilentSwitch}
+                                //     resizeMode={this.state.resizeMode}
+                                //     onLoad={this.onLoad}
+                                //     onBuffer={this.onBuffer}
+                                //     onProgress={this.onProgress}
+                                //     // onEnd={() => { AlertIOS.alert('Done!') }}
+                                //     repeat={false}
+                                // />: null
 
                             }
 
                             {/*</TouchableOpacity>*/}
 
-                            {/*<View style={styles.controls}>*/}
+                            <View style={styles.controls}>
                                 {/*<View style={styles.generalControls}>*/}
                                     {/*<View style={styles.skinControl}>*/}
                                         {/*{this.renderSkinControl('custom')}*/}
@@ -491,13 +498,13 @@ export default class Place extends React.Component{
                                     {/*}*/}
                                 {/*</View>*/}
 
-                                {/*<View style={styles.trackingControls}>*/}
-                                    {/*<View style={styles.progress}>*/}
-                                        {/*<View style={[styles.innerProgressCompleted, {flex: flexCompleted}]} />*/}
-                                        {/*<View style={[styles.innerProgressRemaining, {flex: flexRemaining}]} />*/}
-                                    {/*</View>*/}
-                                {/*</View>*/}
-                            {/*</View>*/}
+                                <View style={styles.trackingControls}>
+                                    <View style={styles.progress}>
+                                        <View style={[styles.innerProgressCompleted, {flex: flexCompleted}]} />
+                                        <View style={[styles.innerProgressRemaining, {flex: flexRemaining}]} />
+                                    </View>
+                                </View>
+                            </View>
                         </View>
                         {/*TEST VIDEO*/}
 
@@ -514,7 +521,7 @@ export default class Place extends React.Component{
                     </View>
                 </View>
                 <RectangleButton content={'Continuer'} src={require('../assets/images/validate.png')} onPress={
-                    () => this.props.navigation.navigate('Form',{place: this.state.randomPlaceName.name} )}/>
+                    () => this.props.navigation.navigate('Form',{place: this.state.randomPlaceName.name, basesound : this.baseGetCurrentTimePercentage} )}/>
                 {/*<RectangleButton title={'Continuer'()} onPress={() => this.props.navigation.navigate('Form', {place: this.state.randomPlaceName.name} )} />*/}
             </Animated.View>
 
@@ -582,14 +589,6 @@ const styles = StyleSheet.create({
         borderRadius: 3,
         overflow: 'hidden',
     },
-    innerProgressCompleted: {
-        height: 20,
-        backgroundColor: '#cccccc',
-    },
-    innerProgressRemaining: {
-        height: 20,
-        backgroundColor: '#2C2C2C',
-    },
     generalControls: {
         flex: 1,
         flexDirection: 'row',
@@ -634,7 +633,15 @@ const styles = StyleSheet.create({
     nativeVideoControls: {
         top: 184,
         height: 300
-    }
+    },
+    innerProgressCompleted: {
+        height: 20,
+        backgroundColor: '#cccccc',
+    },
+    innerProgressRemaining: {
+        height: 20,
+        backgroundColor: '#2C2C2C',
+    },
 
 });
 
@@ -666,14 +673,7 @@ const styles = StyleSheet.create({
 //         borderRadius: 3,
 //         overflow: 'hidden',
 //     },
-//     innerProgressCompleted: {
-//         height: 20,
-//         backgroundColor: '#cccccc',
-//     },
-//     innerProgressRemaining: {
-//         height: 20,
-//         backgroundColor: '#2C2C2C',
-//     },
+//
 //     generalControls: {
 //         flex: 1,
 //         flexDirection: 'row',

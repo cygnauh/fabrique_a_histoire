@@ -14,6 +14,9 @@ export default class Form extends React.Component{
     constructor(props) {
         super(props);
         this.length = this.props.navigation.state.params.length;
+        this.basesound = this.props.navigation.state.params.basesound;
+
+
 
         this.place = this.props.navigation.state.params.place
 
@@ -331,6 +334,8 @@ export default class Form extends React.Component{
     }
 
     render() {
+
+        console.log(global.test)
         return(
             <View style={[GlobalStyle.view, GlobalStyle.headerView, FormStyle.formView]}>
                 <Header onPress={() => this.props.navigation.goBack()}/>
