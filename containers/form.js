@@ -23,7 +23,7 @@ export default class Form extends React.Component{
         this.keyboardHeight = new Animated.Value(0);
         this.state = {
             // introduction_place: "dans la jungle" + ".",
-            introduction_place: this.place  + ".",
+            introduction_place: this.place.name  + ".",
             introduction_hero_who: "",
             introduction_hero_characteristic: "",
             introduction_hero_description: "",
@@ -194,15 +194,11 @@ export default class Form extends React.Component{
 
         for(var i = 0; i < res.length; i++){
             this.searchSound(res[i])
+            console.log("hello")
         }
 
         // console.log(res[2])
-
         //break down the string
-
-
-
-
     }
 
     //appel API
@@ -222,13 +218,27 @@ export default class Form extends React.Component{
         }
     }
 
+    playBackgroundSound(){
+        return(
+            <Video
+                source={{uri: this.place.url }}
+                volume={0.5}
+                onLoad={this.onLoad}
+                onBuffer={this.onBuffer}
+                onProgress={this.onProgress}
+                // onEnd={() => { AlertIOS.alert('Done!') }}
+                repeat={false}
+            />
+        )
+    }
+
     playASound(url){
         return(
 
 
             <Video
                 source={{uri: url }}
-                style={styles.fullScreen}
+                // style={styles.fullScreen}
                 rate={this.state.rate}
                 paused={this.state.paused}
                 volume={this.state.volume}
@@ -334,30 +344,24 @@ export default class Form extends React.Component{
     }
 
     render() {
-
-        console.log(global.test)
         return(
             <View style={[GlobalStyle.view, GlobalStyle.headerView, FormStyle.formView]}>
                 <Header onPress={() => this.props.navigation.goBack()}/>
                 <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false} >
-                    {
-                        // Pass any View or Component inside the curly bracket.
-                        // Here the ? Question Mark represent the ternary operator.
 
+                    {this.place ? this.playBackgroundSound() : null}
+
+                    {
                         this.state.can_play ?
                             <Video
                                 source={{uri: this.state.sound.url }}
-                                rate={this.state.rate}
-                                paused={this.state.paused}
                                 volume={this.state.volume}
                                 muted={this.state.muted}
-                                ignoreSilentSwitch={this.state.ignoreSilentSwitch}
-                                resizeMode={this.state.resizeMode}
                                 onLoad={this.onLoad}
                                 onBuffer={this.onBuffer}
                                 onProgress={this.onProgress}
                                 // onEnd={() => { AlertIOS.alert('Done!') }}
-                                repeat={true}
+                                repeat={false}
                             />: null
 
                     }
