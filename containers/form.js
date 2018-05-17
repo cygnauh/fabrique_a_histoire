@@ -17,6 +17,7 @@ export default class Form extends React.Component {
         this.basesound = this.props.navigation.state.params.basesound;
         this.validationSound = "https://christinehuang.fr/BDDI2018/sounds/VALIDATION/validation.mp3"
         this.place = this.props.navigation.state.params.place
+        this.story_sounds=[]
 
         this.keyboardHeight = new Animated.Value(0);
         this.state = {
@@ -201,7 +202,6 @@ export default class Form extends React.Component {
 
         //can be analyse and play sound
         if (e.nativeEvent.text === "") {
-            console.log('is empty focus')
             this.canAnalyseTheString = true
         }
         // in case the input is already fill nothing happens
@@ -209,22 +209,16 @@ export default class Form extends React.Component {
             console.log(e.nativeEvent.text, 'onfocus')
             this.canAnalyseTheString = false
         }
-
-        console.log(this.canAnalyseTheString)
     }
 
     onBlurSearchSound(e) {
         var theString = e.nativeEvent.text
         if (this.canAnalyseTheString === true && theString !== "") {
-
             console.log("this.canAnalyseTheString", this.canAnalyseTheString)
-
             var res = theString.split(" ");
-
             for (var i = 0; i < res.length; i++) {
                 this.searchSound(res[i])
             }
-
             this.setCanPlayValidationSound()
         }
     }
@@ -238,11 +232,13 @@ export default class Form extends React.Component {
                     console.log('this currentTime', this.getCurrentTimePercentage())
                     console.log(this.state.sounds[i].url)
 
-                    //Can Play
-                    //TO DO
-
-                    this.setState({can_play: true, sound: this.state.sounds[i]})
-
+                    //Wait until validation sound is played
+                    var _i = i
+                    setTimeout(() => {
+                        // this.test(this.state.sounds[_i])
+                        this.setState({can_play: true, sound: this.state.sounds[_i]})
+                        console.log('this currentTime_2', this.getCurrentTimePercentage())
+                    }, 4000)
                 }
             }
         }
@@ -257,6 +253,8 @@ export default class Form extends React.Component {
         }
         else {
             this.setState({canPlayValidationSound: true})
+
+            //let the sound be played before reset it
             setTimeout(() => {
                 this.setCanPlayValidationSound();
             }, 3000);
