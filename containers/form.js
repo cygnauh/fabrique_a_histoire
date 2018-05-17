@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextInput, Animated, Keyboard, ScrollView, Alert } from 'react-native';
+import {View, TextInput, Animated, Keyboard, ScrollView, Alert} from 'react-native';
 import Header from '../components/header';
 import RadioButton from '../components/radioButton';
 import RectangleButton from '../components/rectangleButton';
@@ -10,20 +10,18 @@ import {scaleDelta, scaleHeight} from "../utils/scale";
 
 const data = require('../assets/data/data_structure.json');
 
-export default class Form extends React.Component{
+export default class Form extends React.Component {
     constructor(props) {
         super(props);
         this.length = this.props.navigation.state.params.length;
         this.basesound = this.props.navigation.state.params.basesound;
-
-
-
+        this.validationSound = "https://christinehuang.fr/BDDI2018/sounds/VALIDATION/validation.mp3"
         this.place = this.props.navigation.state.params.place
 
         this.keyboardHeight = new Animated.Value(0);
         this.state = {
             // introduction_place: "dans la jungle" + ".",
-            introduction_place: this.place.name  + ".",
+            introduction_place: this.place.name + ".",
             introduction_hero_who: "",
             introduction_hero_characteristic: "",
             introduction_hero_description: "",
@@ -36,6 +34,7 @@ export default class Form extends React.Component{
             adventure_event_description: "",
             adventure_event_reaction: "",
 
+            canPlayValidationSound: false
             //sound helper
             // can_play: false
         };
@@ -56,8 +55,8 @@ export default class Form extends React.Component{
         this.setState({currentTime: data.currentTime});
     }
 
-    onBuffer({ isBuffering }: { isBuffering: boolean }) {
-        this.setState({ isBuffering });
+    onBuffer({isBuffering}: { isBuffering: boolean }) {
+        this.setState({isBuffering});
     }
 
     getCurrentTimePercentage() {
@@ -69,14 +68,15 @@ export default class Form extends React.Component{
     }
 
     radioBtnOnChange(index, array) {
-        array.map( (item) => {
+        array.map((item) => {
             item.selected = false;
         });
         array[index].selected = true;
-        this.setState({ radioItems: array }); // update view
+        this.setState({radioItems: array}); // update view
     }
+
     inputOnChange = (name, value) => {
-        this.setState(() => ({ [name]: value }));
+        this.setState(() => ({[name]: value}));
     };
 
     printStory() {
@@ -86,20 +86,28 @@ export default class Form extends React.Component{
             adventure = data.adventure,
             state = this.state;
 
-        let intro_expression_1 = intro.expression_1.filter((exp) => {return exp.selected === true}),
+        let intro_expression_1 = intro.expression_1.filter((exp) => {
+                return exp.selected === true
+            }),
             hero = state.introduction_hero_who,
             characteristic = state.introduction_hero_characteristic,
             description = state.introduction_hero_description,
-            intro_expression_2 = intro.expression_2.filter((exp) => {return exp.selected === true}),
+            intro_expression_2 = intro.expression_2.filter((exp) => {
+                return exp.selected === true
+            }),
             hobbies = state.introduction_hero_hobbies,
             current_action = state.introduction_hero_current_action,
             place = state.introduction_place,
-            disrupt_expression_1 = disrupt.expression_1.filter((exp) => {return exp.selected === true}),
+            disrupt_expression_1 = disrupt.expression_1.filter((exp) => {
+                return exp.selected === true
+            }),
             disrupt_event = state.disruption_event_description,
             disrupt_reaction = state.disruption_event_reaction,
             disrupt_decision = state.disruption_event_decision,
             disrupt_then = state.disruption_event_then,
-            adventure_expression_1 = adventure.expression_1.filter((exp) => {return exp.selected === true}),
+            adventure_expression_1 = adventure.expression_1.filter((exp) => {
+                return exp.selected === true
+            }),
             adventure_description = state.adventure_event_description,
             adventure_reaction = state.adventure_event_reaction;
 
@@ -111,14 +119,14 @@ export default class Form extends React.Component{
                 [
                     {text: 'OK', onPress: () => console.log('OK Pressed')},
                 ],
-                { cancelable: false }
+                {cancelable: false}
             )
         } else {
             // Create the text
             let text_elm = [
-                intro_expression_1[0].label, hero, characteristic, description, intro_expression_2[0].label, hobbies, current_action, place,
-                disrupt_expression_1[0].label, disrupt_event, disrupt_reaction, disrupt_decision, disrupt_then,
-                adventure_expression_1[0].label, adventure_description, adventure_reaction],
+                    intro_expression_1[0].label, hero, characteristic, description, intro_expression_2[0].label, hobbies, current_action, place,
+                    disrupt_expression_1[0].label, disrupt_event, disrupt_reaction, disrupt_decision, disrupt_then,
+                    adventure_expression_1[0].label, adventure_description, adventure_reaction],
                 story = '';
             for (let i = 0, count = text_elm.length; i < count; i++) {
                 if (i === text_elm.length - 1) {
@@ -142,10 +150,10 @@ export default class Form extends React.Component{
                 body: JSON.stringify({
                     text: story
                 })
-            }).then(function(response) {
+            }).then(function (response) {
                 console.log(response);
                 return response;
-            }).catch(function(error) {
+            }).catch(function (error) {
                 return error;
             });
 
@@ -154,11 +162,11 @@ export default class Form extends React.Component{
     }
 
     renderRadioBtn(label) {
-        return(
+        return (
             <View style={FormStyle.radioGroup}>
                 {label.map(
                     (item, key) => (
-                        <RadioButton key = { key } button = { item } onClick = {
+                        <RadioButton key={key} button={item} onClick={
                             this.radioBtnOnChange.bind(this, key, label)
                         }/>
                     )
@@ -166,18 +174,21 @@ export default class Form extends React.Component{
             </View>
         )
     }
+
     renderInput(name, placeholder, state) {
         let question = null,
             input = <TextInput
                 style={[FormStyle.inputItem, FormStyle.formItem, state !== "" && FormStyle.onChange]}
                 onChangeText={(text) => this.inputOnChange(name, text)}
+                onFocus={(e) => this.onFocusHelper(e)}
                 onBlur={(e) => this.onBlurSearchSound(e)}
                 multiline={true} placeholder={placeholder} value={state}/>;
 
         if (state.length > 0) {
-            question = <TextInput style={[FormStyle.question]} editable={false} selectTextOnFocus={false} value = {placeholder}/>;
+            question = <TextInput style={[FormStyle.question]} editable={false} selectTextOnFocus={false}
+                                  value={placeholder}/>;
         }
-        return(
+        return (
             <View>
                 {question}{input}
             </View>
@@ -186,100 +197,137 @@ export default class Form extends React.Component{
 
     // -------------------------------- test son
 
-    onBlurSearchSound(e){
-        console.log(e.nativeEvent.text)
+    onFocusHelper(e) {
 
-        var theString = e.nativeEvent.text
-        var res = theString.split(" ");
-
-        for(var i = 0; i < res.length; i++){
-            this.searchSound(res[i])
-            console.log("hello")
+        //can be analyse and play sound
+        if (e.nativeEvent.text === "") {
+            console.log('is empty focus')
+            this.canAnalyseTheString = true
+        }
+        // in case the input is already fill nothing happens
+        else {
+            console.log(e.nativeEvent.text, 'onfocus')
+            this.canAnalyseTheString = false
         }
 
-        // console.log(res[2])
-        //break down the string
+        console.log(this.canAnalyseTheString)
+    }
+
+    onBlurSearchSound(e) {
+        var theString = e.nativeEvent.text
+        if (this.canAnalyseTheString === true && theString !== "") {
+
+            console.log("this.canAnalyseTheString", this.canAnalyseTheString)
+
+            var res = theString.split(" ");
+
+            for (var i = 0; i < res.length; i++) {
+                this.searchSound(res[i])
+            }
+
+            this.setCanPlayValidationSound()
+        }
     }
 
     //appel API
-    searchSound(word){
-        if(this.state.sounds){
-            for(var i = 0 ; i<this.state.sounds.length; i++){
-                if(word.replace(/[^a-zA-Z ]/g, "").toLowerCase() === this.state.sounds[i].name){
+    searchSound(word) {
+        if (this.state.sounds) {
+            for (var i = 0; i < this.state.sounds.length; i++) {
+                if (word.replace(/[^a-zA-Z ]/g, "").toLowerCase() === this.state.sounds[i].name) {
                     console.log("word found", this.state.sounds[i].name)
+                    console.log('this currentTime', this.getCurrentTimePercentage())
                     console.log(this.state.sounds[i].url)
 
                     //Can Play
+                    //TO DO
 
-                    this.setState({can_play: true, sound : this.state.sounds[i]})
+                    this.setState({can_play: true, sound: this.state.sounds[i]})
 
                 }
             }
         }
     }
 
-    playBackgroundSound(){
-        return(
-            <Video
-                source={{uri: this.place.url }}
-                volume={0.5}
-                onLoad={this.onLoad}
-                onBuffer={this.onBuffer}
-                onProgress={this.onProgress}
-                // onEnd={() => { AlertIOS.alert('Done!') }}
-                repeat={false}
-            />
-        )
+
+    setCanPlayValidationSound = () => {
+
+        if (this.state.canPlayValidationSound === true) {
+            this.setState({canPlayValidationSound: false})
+            console.log("A")
+        }
+        else {
+            this.setState({canPlayValidationSound: true})
+            setTimeout(() => {
+                this.setCanPlayValidationSound();
+            }, 3000);
+            console.log("B")
+        }
     }
 
-    playASound(url){
-        return(
+    playASound(url, volume, repeat, isValidation) {
+
+        if (repeat === "repeat") {
+            this.repeat = true
+        } else {
+            this.repeat = false
+        }
+
+        if (isValidation === true && this.canPlayValidationSound === true) {
+            //specific for the validation sound
+
+            return (
+                <Video
+                    source={{uri: url}}
+                    volume={volume}
+                    onLoad={this.onLoad}
+                    onBuffer={this.onBuffer}
+                    onProgress={this.onProgress}
+                    // onEnd={() => { this.setCanPlayValidationSound(), console.log() }}
+                    repeat={this.repeat}
+                />
+            )
+        } else {
+            return (
+                <Video
+                    source={{uri: url}}
+                    volume={volume}
+                    onLoad={this.onLoad}
+                    onBuffer={this.onBuffer}
+                    onProgress={this.onProgress}
+                    repeat={this.repeat}
+                />
+            )
+        }
+    }
 
 
-            <Video
-                source={{uri: url }}
-                // style={styles.fullScreen}
-                rate={this.state.rate}
-                paused={this.state.paused}
-                volume={this.state.volume}
-                muted={this.state.muted}
-                ignoreSilentSwitch={this.state.ignoreSilentSwitch}
-                resizeMode={this.state.resizeMode}
-                onLoad={this.onLoad}
-                onBuffer={this.onBuffer}
-                onProgress={this.onProgress}
-                // onEnd={() => { AlertIOS.alert('Done!') }}
-                repeat={true}
-            />
+    loadSoundsFromAPI() {
+        return fetch('https://testappfabulab.herokuapp.com/sounds')
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.setState({
+                    isLoading: false,
+                    sounds: responseJson
+                }, function () {
 
-    )}
-
-
-    loadSoundsFromAPI(){
-            return fetch('https://testappfabulab.herokuapp.com/sounds')
-                .then((response) => response.json())
-                .then((responseJson) => {
-                    this.setState({
-                        isLoading: false,
-                        sounds:responseJson
-                    }, function(){
-
-                    });
-                })
-                .catch((error) =>{
-                    console.error(error);
                 });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }
 
 
-    componentWillMount () {
+    componentWillMount() {
         this.keyboardWillShowSub = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow);
         this.keyboardWillHideSub = Keyboard.addListener('keyboardWillHide', this.keyboardWillHide);
     }
+
     componentWillUnmount() {
         this.keyboardWillShowSub.remove();
         this.keyboardWillHideSub.remove();
     }
+
     keyboardWillShow = (e) => {
         Animated.parallel([
             Animated.timing(this.keyboardHeight, {
@@ -314,10 +362,11 @@ export default class Form extends React.Component{
                 <TextInput
                     style={[FormStyle.formItem, FormStyle.placeItem]}
                     editable={false} selectTextOnFocus={false}
-                    value = {state.introduction_place + '.'}/>
+                    value={state.introduction_place + '.'}/>
             </View>
         );
     }
+
     renderDisruption() {
         let disruption = data.disruption,
             state = this.state;
@@ -331,11 +380,12 @@ export default class Form extends React.Component{
             </View>
         );
     }
+
     renderAdventure() {
         let adventure = data.adventure,
             state = this.state;
         return (
-            <Animated.View style={[FormStyle.formContainer, { paddingBottom: this.keyboardHeight }]}>
+            <Animated.View style={[FormStyle.formContainer, {paddingBottom: this.keyboardHeight}]}>
                 {this.renderRadioBtn(adventure.expression_1)}
                 {this.renderInput("adventure_event_description", adventure.event.description.placeholder, state.adventure_event_description)}
                 {this.renderInput("adventure_event_reaction", adventure.event.hero_reaction.placeholder, state.adventure_event_reaction)}
@@ -344,28 +394,22 @@ export default class Form extends React.Component{
     }
 
     render() {
-        return(
+        return (
             <View style={[GlobalStyle.view, GlobalStyle.headerView, FormStyle.formView]}>
                 <Header onPress={() => this.props.navigation.goBack()}/>
-                <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false} >
+                <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
 
-                    {this.place ? this.playBackgroundSound() : null}
-
-                    {
-                        this.state.can_play ?
-                            <Video
-                                source={{uri: this.state.sound.url }}
-                                volume={this.state.volume}
-                                muted={this.state.muted}
-                                onLoad={this.onLoad}
-                                onBuffer={this.onBuffer}
-                                onProgress={this.onProgress}
-                                // onEnd={() => { AlertIOS.alert('Done!') }}
-                                repeat={false}
-                            />: null
-
+                    {// background sound
+                        this.place ? this.playASound(this.place.url, 0.5, "no-repeat", false) : null
                     }
 
+                    {//added sound
+                        this.state.can_play ? this.playASound(this.state.sound.url, 0.5, "no-repeat", false) : null
+                    }
+
+                    {//validation sound
+                        this.state.canPlayValidationSound ? this.playASound(this.validationSound, 0.5, "no-repeat", true) : null
+                    }
 
                     {this.renderIntroduction()}
                     {this.renderDisruption()}
@@ -374,7 +418,7 @@ export default class Form extends React.Component{
                         <RectangleButton
                             content={'Imprimer'}
                             src={require('../assets/images/print.png')}
-                            onPress = { this.printStory.bind(this) }/>
+                            onPress={this.printStory.bind(this)}/>
                     </View>
                 </ScrollView>
                 {/*<Text>{'Length : ' + this.length}</Text>*/}
