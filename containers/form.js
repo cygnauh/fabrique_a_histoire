@@ -138,27 +138,49 @@ export default class Form extends React.Component {
             }
             console.log(story);
 
-            // Send a request
-            // TODO ckeck the address IP of the network to find the raspberry one
-            let home_url = 'http://192.168.0.37:8080/',
-                christine_url = 'http://192.168.43.70:8080/';
-            fetch(home_url, {
-                method: 'POST',
+            // // Send a request
+            // // TODO ckeck the address IP of the network to find the raspberry one
+            // let home_url = 'http://192.168.0.37:8080/',
+            //     christine_url = 'http://192.168.43.70:8080/';
+            // fetch(home_url, {
+            //     method: 'POST',
+            //     headers: {
+            //         'Accept': 'application/json',
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify({
+            //         text: story
+            //     })
+            // }).then(function (response) {
+            //     console.log(response);
+            //     return response;
+            // }).catch(function (error) {
+            //     return error;
+            // });
+
+            // TODO Save the story in the database
+
+            // send the story and the title
+
+            var api_url = "https://testappfabulab.herokuapp.com/createStory"
+
+            return fetch(api_url, {
+                method: "POST",
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json',
+                    "Content-Type": "text/plain"
                 },
-                body: JSON.stringify({
-                    text: story
+                body:JSON.stringify({
+                    "title" : "title",
+                    "content":story.toString()
                 })
             }).then(function (response) {
+
                 console.log(response);
                 return response;
             }).catch(function (error) {
                 return error;
-            });
-
-            // TODO Save the story in the database
+            })
         }
     }
 
@@ -212,6 +234,9 @@ export default class Form extends React.Component {
     }
 
     onBlurSearchSound(e) {
+
+
+
         var theString = e.nativeEvent.text
         if (this.canAnalyseTheString === true && theString !== "") {
             console.log("this.canAnalyseTheString", this.canAnalyseTheString)
@@ -221,10 +246,42 @@ export default class Form extends React.Component {
             }
             this.setCanPlayValidationSound()
         }
+        //
+        // var story_data = {
+        //     'name':"name",
+        //     'url':"url",
+        //     'type':"type"
+        // }
+        //
+        //
+        // // send the story and the title
+        // // var api_url = "http://localhost:5000/testpost"
+        // var api_url = "https://testappfabulab.herokuapp.com/createStory"
+        //
+        // return fetch(api_url, {
+        //     method: "POST",
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         "Content-Type": "text/plain"
+        //         // "Content-Type": "application/json"
+        //     },
+        //     body:JSON.stringify({
+        //         "title" : "o",
+        //         "content":"koko"
+        //     })
+        // }).then(function (response) {
+        //
+        //     console.log(response);
+        //     return response;
+        // }).catch(function (error) {
+        //     return error;
+        // })
     }
 
     //appel API
     searchSound(word) {
+
+
         if (this.state.sounds) {
             for (var i = 0; i < this.state.sounds.length; i++) {
                 if (word.replace(/[^a-zA-Z ]/g, "").toLowerCase() === this.state.sounds[i].name) {
@@ -232,12 +289,21 @@ export default class Form extends React.Component {
                     console.log('this currentTime', this.getCurrentTimePercentage())
                     console.log(this.state.sounds[i].url)
 
+
+
                     //Wait until validation sound is played
                     var _i = i
                     setTimeout(() => {
-                        // this.test(this.state.sounds[_i])
                         this.setState({can_play: true, sound: this.state.sounds[_i]})
-                        console.log('this currentTime_2', this.getCurrentTimePercentage())
+
+                        //stock the sound id
+                        var name = this.state.sounds[_i]
+
+                        var story_sound={ name : this.state.sounds[_i], time : this.getCurrentTimePercentage() }
+                        console.log(story_sound)
+                        this.story_sounds.push(story_sound)
+                        console.log(this.story_sounds)
+                        // console.log('this currentTime_2', this.getCurrentTimePercentage())
                     }, 4000)
                 }
             }
