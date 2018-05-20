@@ -40,7 +40,7 @@ export default StyleSheet.create({
         fontSize: scaleDelta(24, .5),
         marginBottom: scaleWidth(30),
         fontFamily: 'Editor-Bold',
-        color: '#47404F',
+        color: '#300365',
         textAlign: 'center',
     },
     text: {
@@ -86,15 +86,15 @@ export default StyleSheet.create({
     line: {
         position: 'relative',
         top: scaleHeight(-110),
-        borderBottomColor: '#4F4640',
+        borderBottomColor: '#c9c6c5',
         borderBottomWidth: 2,
         width: width - scaleWidth(160), // subtract margin + btn width
     },
 
     /**  SKIP **/
     skipBtn: {
-        marginLeft: scaleWidth(40),
-        marginBottom: scaleHeight(10),
+        textAlign: 'center',
+        marginBottom: scaleHeight(0),
         fontFamily: 'MaisonNeue-Bold',
         color: '#47404F',
         fontSize: scaleDelta(12, .5),
@@ -103,11 +103,10 @@ export default StyleSheet.create({
     /** PAGINATION **/
     paginationContainer: {
         position: 'absolute',
-        bottom: scaleWidth(40),
-        right: scaleWidth(40),
+        bottom: scaleWidth(60), // 40 after delete skip btn
         flexDirection: 'row',
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end'
+        justifyContent: 'center',
+        alignItems: 'flex-end',
     },
     paginationItem: {
         paddingHorizontal: scaleWidth(8),
@@ -119,6 +118,6 @@ export default StyleSheet.create({
         fontSize: scaleDelta(22, .5),
         position: 'relative',
         top: scaleWidth(4),
-        color: '#47404F',
+        color: '#300365',
     }
 });

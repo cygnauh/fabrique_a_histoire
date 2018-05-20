@@ -4,13 +4,10 @@
       "expression_1": [
         {
           "label": "Il était une fois,",
-          "selected": true
+          "selected": "none"
         }, {
           "label": "Il y a bien longtemps,",
-          "selected": false
-        }, {
-          "label": "C'est l'histoire",
-          "selected": false
+          "selected": "none"
         }
       ],
       "hero": {
@@ -41,6 +38,14 @@
           "placeholder": "Qu'est-ce que le ou les personnages font en ce moment ?"
         }
       }
+    },
+    "long": {
+      "expression_1": [
+        {
+          "label": "Jadis",
+          "selected": "none"
+        }
+      ]
     }
   },
   "disruption": {
@@ -48,14 +53,14 @@
       "expression_1": [
         {
           "label": "Soudain,",
-          "selected": true
+          "selected": "none"
         }, {
           "label": "Tout à coup,",
-          "selected": false
+          "selected": "none"
         },
         {
           "label": "Un jour,",
-          "selected": false
+          "selected": "none"
         }
       ],
       "event": {
@@ -79,16 +84,16 @@
       "expression_1": [
         {
           "label": "Le lendemain,",
-          "selected": true
+          "selected": "none"
         }, {
           "label": "Quelques heures plus tard,",
-          "selected": false
+          "selected": "none"
         }, {
           "label": "Peu de temps après,",
-          "selected": false
+          "selected": "none"
         }, {
           "label": "Puis,",
-          "selected": false
+          "selected": "none"
         }
       ],
       "event": {
@@ -112,13 +117,13 @@
       "expression_1": [
         {
           "label": "Ensuite,",
-          "selected": true
+          "selected": "none"
         }, {
           "label": "Peu après,",
-          "selected": false
+          "selected": "none"
         }, {
           "label": "Un jour,",
-          "selected": false
+          "selected": "none"
         }
       ],
       "description": {
@@ -136,13 +141,13 @@
       "expression_1": [
         {
           "label": "Et c'est ainsi",
-          "selected": true
+          "selected": "none"
         }, {
           "label": "Depuis ce jour,",
-          "selected": false
+          "selected": "none"
         }, {
           "label": "Désormais,",
-          "selected": false
+          "selected": "none"
         }
       ],
       "description": {

@@ -60,7 +60,7 @@ export default StyleSheet.create({
     },
     partNavigationCurrentItem: {
         fontSize: scaleDelta(22, .5),
-        color: '#47404F',
+        color: '#300365',
     },
     iconNav: {
         width: scaleWidth(20),
@@ -88,15 +88,37 @@ export default StyleSheet.create({
         position: 'relative',
         top: scaleHeight(0),
         fontFamily: 'Editor-Bold',
-        color: '#47404F',
+        color: '#300365',
+        borderWidth: 2,
+        borderColor:'#c0b5cd',
+        paddingHorizontal: scaleWidth(10),
+        paddingVertical: scaleWidth(4),
+        borderRadius: scaleWidth(12),
     },
     radioUnselected: {
-        backgroundColor: '#DBDAD9',
         paddingVertical: scaleWidth(2),
         paddingHorizontal: scaleHeight(10),
         fontSize: scaleDelta(11, .5),
         fontFamily: 'Editor-Bold',
-        color: '#47404F',
+        color: '#300365',
+    },
+    radioBtnContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    radioBtnChange: {
+        width: scaleWidth(14), // 78
+        height: scaleWidth(8), // 45
+        position: 'relative',
+        left: scaleWidth(-28)
+    },
+    itemChange: {
+        paddingRight: scaleWidth(30)
+    },
+    radioBtnLine: {
+        backgroundColor: '#c0b5cd',
+        height: scaleHeight(20),
+        width: 2
     },
 
     /** TEXT INPUT **/
@@ -113,7 +135,7 @@ export default StyleSheet.create({
         fontSize: scaleDelta(16, .5),
         marginVertical: scaleHeight(15),
         fontFamily: 'Editor-Bold',
-        color: '#47404F',
+        color: '#300365',
     },
     onChange: {
         position: 'relative',

@@ -30,7 +30,7 @@ export default class Print extends React.Component {
         let home_url = 'http://192.168.0.37:8080/',
             christine_url = 'http://192.168.43.70:8080/';
 
-        fetch(christine_url, {
+        fetch(home_url, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -43,7 +43,6 @@ export default class Print extends React.Component {
             })
         }).then(function (response) {
             console.log(response);
-            this.setState({updateBtnVisible: false,});
             return response;
         }).catch(function (error) {
             return error;
@@ -106,6 +105,7 @@ export default class Print extends React.Component {
 
 
         /** Hide modal **/
+        this.setState({updateBtnVisible: false,});
         this.setModalVisible(!this.state.modalVisible);
     }
 
