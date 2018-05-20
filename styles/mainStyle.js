@@ -93,9 +93,18 @@ export default StyleSheet.create({
     },
 
     /** LENGTH **/
+    lengthSliderContainer: {
+        flexDirection: 'row'
+    },
     lengthSlider: {
-        width: width - scaleWidth(80),
-
+        width: width - scaleWidth(120),
+    },
+    manageLength: {
+        fontSize: scaleDelta(20, .5),
+        fontFamily: 'MaisonNeue-Light',
+        position: 'relative',
+        top: scaleHeight(3),
+        paddingHorizontal: scaleWidth(8)
     },
     lengthContainer : {
         marginTop: scaleHeight(15),

@@ -51,10 +51,13 @@ export default class Form extends React.Component {
     }
 
     radioBtnOnChange(index, array) {
-        array.map((item) => {
-            item.selected = false;
-        });
-        array[index].selected = true;
+        if (array[index].selected === true && array[index].selected !== "none") {
+            array.map((item) => { item.selected = "none"; });
+            array[index].selected = "none";
+        } else {
+            array.map((item) => { item.selected = false; });
+            array[index].selected = true;
+        }
         this.setState({radioItems: array}); // update view
     }
     inputOnChange = (name, value) => {
