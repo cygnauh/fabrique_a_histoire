@@ -61,12 +61,13 @@ export default StyleSheet.create({
     },
     buttonItem: {
         alignSelf: 'center', // self width
-        width: scaleWidth(80),
+        width: scaleWidth(90),
         backgroundColor: 'white',
         borderWidth: 2,
         borderColor: '#4F4640',
         paddingLeft: scaleWidth(15),
         paddingRight: scaleWidth(10),
+        marginHorizontal: scaleWidth(5),
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',

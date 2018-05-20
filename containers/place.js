@@ -40,7 +40,6 @@ export default class Place extends React.Component{
         setTimeout( ()=>{
             this.ShowHideTextComponentView();
         }, 3000);
-
     }
 
     animateBackgroundColor = () =>
@@ -118,7 +117,7 @@ export default class Place extends React.Component{
         else {
             this.setState({status: true})
         }
-    }
+    };
 
     render() {
 
@@ -138,9 +137,7 @@ export default class Place extends React.Component{
                 </View>
             )
         }
-
         return(
-
             <Animated.View style={[GlobalStyle.view, GlobalStyle.headerView, { backgroundColor: backgroundColorVar }]}>
                 <Header onPress={() => this.props.navigation.goBack()}/>
                 <View>
@@ -152,7 +149,6 @@ export default class Place extends React.Component{
 
                     </View>
                 </View>
-
                 <RectangleButton content={'Continuer'} src={require('../assets/images/validate.png')} onPress={
                     () => this.props.navigation.navigate('Form',{place: this.state.randomPlaceName} )}/>
             </Animated.View>

@@ -1,0 +1,158 @@
+{
+  "introduction": {
+    "short": {
+      "expression_1": [
+        {
+          "label": "Il était une fois,",
+          "selected": true
+        }, {
+          "label": "Il y a bien longtemps,",
+          "selected": false
+        }, {
+          "label": "C'est l'histoire",
+          "selected": false
+        }
+      ],
+      "hero": {
+        "who": {
+          "placeholder": "Qui va vivre des aventures dans notre histoire ?"
+        },
+        "characteristic": {
+          "placeholder": "Quelles sont les particularités du ou des personnages ?"
+        },
+        "description": {
+          "placeholder": "Décrivez moi le ou les personnages."
+        }
+      },
+      "expression_2": [
+        {
+          "label" : "qui",
+          "selected": true
+        }, {
+          "label" : "et",
+          "selected": false
+        }
+      ],
+      "hero_detail": {
+        "hobbies": {
+          "placeholder": "Quelles sont les activités préférées du ou des personnages ?"
+        },
+        "current_action": {
+          "placeholder": "Qu'est-ce que le ou les personnages font en ce moment ?"
+        }
+      }
+    }
+  },
+  "disruption": {
+    "short": {
+      "expression_1": [
+        {
+          "label": "Soudain,",
+          "selected": true
+        }, {
+          "label": "Tout à coup,",
+          "selected": false
+        },
+        {
+          "label": "Un jour,",
+          "selected": false
+        }
+      ],
+      "event": {
+        "description": {
+          "placeholder": "Il se passe quelque chose d'incroyable : que se passe-t-il ?"
+        },
+        "hero_reaction": {
+          "placeholder": "Comment est-ce que le ou les héros réagissent ?"
+        },
+        "hero_decision": {
+          "placeholder": "Que décide le ou les héros ?"
+        },
+        "then": {
+          "placeholder": "Que se passe-t-il ensuite ?"
+        }
+      }
+    }
+  },
+  "adventure": {
+    "short": {
+      "expression_1": [
+        {
+          "label": "Le lendemain,",
+          "selected": true
+        }, {
+          "label": "Quelques heures plus tard,",
+          "selected": false
+        }, {
+          "label": "Peu de temps après,",
+          "selected": false
+        }, {
+          "label": "Puis,",
+          "selected": false
+        }
+      ],
+      "event": {
+        "hero_decision": {
+          "placeholder": "Que décide le ou les héros ?"
+        },
+        "consequence": {
+          "placeholder": "Qu'est-ce que ça provoque ? (Comment est-ce que ça change la situation ?)"
+        },
+        "hero_reaction": {
+          "placeholder": "Comment est-ce que le ou les héros réagissent ?"
+        },
+        "then": {
+          "placeholder": "Que se passe-t-il par la suite ?"
+        }
+      }
+    }
+  },
+  "outcome": {
+    "short": {
+      "expression_1": [
+        {
+          "label": "Ensuite,",
+          "selected": true
+        }, {
+          "label": "Peu après,",
+          "selected": false
+        }, {
+          "label": "Un jour,",
+          "selected": false
+        }
+      ],
+      "description": {
+        "solution": {
+          "placeholder": "Comment est-ce que le ou les héros règlent-ils leurs problèmes ?"
+        },
+        "then": {
+          "placeholder": "Qu'est-ce qui arrive au(x) personnage(s) ?"
+        }
+      }
+    }
+  },
+  "conclusion": {
+    "short": {
+      "expression_1": [
+        {
+          "label": "Et c'est ainsi",
+          "selected": true
+        }, {
+          "label": "Depuis ce jour,",
+          "selected": false
+        }, {
+          "label": "Désormais,",
+          "selected": false
+        }
+      ],
+      "description": {
+        "change": {
+          "placeholder": "Qu\'est ce qui a changé pour le ou les personnages depuis le début de l'histoire ?"
+        },
+        "learn": {
+          "placeholder": "Qu\'est-ce que le ou les personnages ont appris de leurs aventures? "
+        }
+      }
+    }
+  }
+}

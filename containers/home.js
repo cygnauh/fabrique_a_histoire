@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StatusBar } from 'react-native';
+import { View, Text, TouchableOpacity, StatusBar, Image } from 'react-native';
 import Logo from '../components/logo';
 import GlobalStyle from '../styles/mainStyle.js';
 
@@ -12,6 +12,7 @@ export default class Home extends React.Component {
 render() {
         return(
             <View style={GlobalStyle.view}>
+                <Image style={GlobalStyle.backgroundImage} source={require('../assets/images/background.png')} />
                 <Logo/>
                 <View style={GlobalStyle.titleHeader}>
                     <View style={GlobalStyle.titleContainer}>

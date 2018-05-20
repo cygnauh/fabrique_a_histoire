@@ -5,8 +5,8 @@ import Home from './containers/home';
 import OnBoarding from './containers/onboarding';
 import Length from './containers/length';
 import Place from './containers/place';
-import Form from './containers/form';
-import {Animated} from "react-native";
+import Form from './containers/form/form';
+import Correction from './containers/reReading';
 
 const StackNavigation = StackNavigator(
     {
@@ -14,7 +14,8 @@ const StackNavigation = StackNavigator(
         Onboarding: { screen: OnBoarding },
         Length: { screen: Length },
         Place: { screen: Place },
-        Form: { screen: Form},
+        Form: { screen: Form },
+        Correction: { screen: Correction },
     },
     {
         initialRouteName: 'Home',
@@ -22,13 +23,10 @@ const StackNavigation = StackNavigator(
     }
 );
 
-
-
 export default class App extends React.Component {
-
     render() {
         return (
-                <StackNavigation/>
+            <StackNavigation/>
         );
     }
 }
