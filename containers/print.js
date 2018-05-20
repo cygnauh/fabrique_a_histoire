@@ -51,6 +51,60 @@ export default class Print extends React.Component {
 
         // TODO Save the story in the database
 
+        var api_url = "https://testappfabulab.herokuapp.com/createStory"
+        var api_url_storysounds = "https://testappfabulab.herokuapp.com/createstorysound"
+
+        fetch(api_url, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                "Content-Type": "text/plain"
+            },
+            body: JSON.stringify({
+                "title": this.props.title,
+                "content": this.props.story
+            })
+        }).then(function (response) {
+
+            console.log(response);
+            return response.json();
+        }).then((responseJson) => {
+
+            this.story_id = responseJson[0].insertId
+
+            console.log(this.props.sounds)
+
+            // ---------------------------------------------------- send the story sounds
+
+            if (this.story_id) {
+                for (var i = 0; i < this.props.sounds.length; i++) {
+
+                    fetch(api_url_storysounds, {
+                        method: "POST",
+                        headers: {
+                            'Accept': 'application/json',
+                            "Content-Type": "text/plain"
+                        },
+                        body: JSON.stringify({
+                            'storyId': this.story_id,
+                            'soundId': this.props.sounds[i].sound.id,
+                            'addAtTime': this.props.sounds[i].time
+                        })
+                    }).then(function (response) {
+                        console.log(response)
+                        console.log("good")
+                        return response;
+                    }).catch(function (error) {
+                        return error;
+                    })
+                }
+            }
+        }).catch(function (error) {
+            return error;
+        })
+
+
+
         /** Hide modal **/
         this.setModalVisible(!this.state.modalVisible);
     }
