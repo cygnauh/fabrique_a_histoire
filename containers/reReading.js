@@ -9,6 +9,7 @@ export default class Correction extends React.Component {
         super(props);
         this.story = this.props.navigation.state.params.story;
         this.title = this.props.navigation.state.params.title;
+        this.sounds = this.props.navigation.state.params.sounds;
     }
     renderStory() {
         let story_parts = this.story.split("@"),
@@ -31,7 +32,7 @@ export default class Correction extends React.Component {
                 <Image style={GlobalStyle.backgroundImage} source={require('../assets/images/background.png')} />
                 <Logo/>
                 {this.renderStory()}
-                <Print prevNav={this.props.navigation} title={this.title} story={this.story}/>
+                <Print prevNav={this.props.navigation} title={this.title} story={this.story} sounds={this.sounds}/>
             </View>
         )
     }

@@ -1,25 +1,27 @@
 import React from 'react';
-// import Sound from 'react-native-sound';
-import { View, Text, Button, ActivityIndicator,FlatList, Animated, StyleSheet, Easing, Image} from 'react-native';
-import Logo from '../components/logo';
+import {
+    View,
+    Text,
+    ActivityIndicator,
+    Animated,
+    StyleSheet,
+    Easing,
+  } from 'react-native';
 import Header from '../components/header';
 import RectangleButton from '../components/rectangleButton';
 import GlobalStyle from '../styles/mainStyle';
 import TimerMixin from 'react-timer-mixin';
 
-
 export default class Place extends React.Component{
     constructor(props) {
         super(props);
-        this.length =
+        this.length = this.props.navigation.state.params.length
         this.state = {
             value: 1,
             isLoading: true,
             opacity: new Animated.Value(0.7),
-            status:false,
-            length: this.props.navigation.state.params.length
+            status:false
         };
-
         this.colors =[
 
             '#e0650b', //volvan
@@ -33,9 +35,6 @@ export default class Place extends React.Component{
             '#7d7d7d', //ville
             // '#4f4640', //grotte
         ]
-
-        // this.color="#aaa"
-        // // this.changeColor(Colors, this.color)
 
         this.animatedValue = new Animated.Value(0);
 
@@ -79,10 +78,7 @@ export default class Place extends React.Component{
         setTimeout( ()=>{
             stopAnimation(this.animatedValue);
         }, 3000);
-
-
-
-    };
+    }
 
     componentDidMount(){
         this.animateBackgroundColor();
@@ -93,7 +89,7 @@ export default class Place extends React.Component{
 
                 // console.log(responseJson)
 
-                var random = Math.floor(Math.random() * Math.floor(responseJson.length));
+                let random = Math.floor(Math.random() * Math.floor(responseJson.length));
 
                 this.setState({
                     isLoading: false,
@@ -105,6 +101,9 @@ export default class Place extends React.Component{
 
                 });
 
+                if(this.state.randomPlaceName.url){
+                    console.log(this.state.randomPlaceName.url)
+                }
             })
             .catch((error) =>{
                 console.error(error);
@@ -113,12 +112,10 @@ export default class Place extends React.Component{
 
     ShowHideTextComponentView = () =>{
 
-        if(this.state.status === true)
-        {
+        if(this.state.status === true) {
             this.setState({status: false})
         }
-        else
-        {
+        else {
             this.setState({status: true})
         }
     };
@@ -131,14 +128,11 @@ export default class Place extends React.Component{
                 outputRange:  this.colors
             });
 
-
         if(this.state.isLoading){
             return(
                 <View style={[GlobalStyle.view, GlobalStyle.headerView]}>
                     <Header onPress={() => this.props.navigation.goBack()}/>
                     <View style={{flex: 1,  justifyContent: 'center'}}>
-
-
                         <ActivityIndicator/>
                     </View>
                 </View>
@@ -146,47 +140,20 @@ export default class Place extends React.Component{
         }
         return(
             <Animated.View style={[GlobalStyle.view, GlobalStyle.headerView, { backgroundColor: backgroundColorVar }]}>
-                <Image style={GlobalStyle.backgroundImage} source={require('../assets/images/background.png')} />
                 <Header onPress={() => this.props.navigation.goBack()}/>
-
-                {/*<Animated.View style = {[ styles.container, { backgroundColor: backgroundColorVar } ]}>*/}
-                    {/*<Text style = { styles.text }>Animated </Text>*/}
-                {/*</Animated.View>*/}
-
                 <View>
                     <Text style={GlobalStyle.placePhrase}>Cette histoire se passe </Text>
 
                     <View style={GlobalStyle.placeContainer}>
-                        {/*<Text>{this.state.dataSource[this.state.randomPlace].name}</Text>*/}
 
-                        {
-                            // Pass any View or Component inside the curly bracket.
-                            // Here the ? Question Mark represent the ternary operator.
-
-                            this.state.status ?  <Text style={GlobalStyle.placeTitle}>{this.state.randomPlaceName.name}</Text> : null
-                        }
+                        {this.state.status ?  <Text style={GlobalStyle.placeTitle}>{this.state.randomPlaceName.name}</Text> : null}
 
                     </View>
                 </View>
                 <RectangleButton content={'Continuer'} src={require('../assets/images/validate.png')} onPress={
-                    () => this.props.navigation.navigate('Form',{place: this.state.randomPlaceName.name, length: this.state.length} )}/>
-                {/*<RectangleButton title={'Continuer'()} onPress={() => this.props.navigation.navigate('Form', {place: this.state.randomPlaceName.name} )} />*/}
+                    () => this.props.navigation.navigate('Form',{place: this.state.randomPlaceName, length: this.length} )}/>
             </Animated.View>
 
         );
     }
 }
-
-
-const styles = StyleSheet.create({
-
-    MainContainer :{
-
-// Setting up View inside content in Vertically center.
-        justifyContent: 'center',
-        flex:1,
-        margin: 10
-
-    }
-
-});
