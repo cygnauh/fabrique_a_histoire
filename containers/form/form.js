@@ -361,7 +361,7 @@ export default class Form extends React.Component {
                 }
             }
             console.log(this.story_sounds);
-            this.props.navigation.navigate('Correction', {story: story, title: title, sounds:this.story_sounds});
+            this.props.navigation.navigate('Correction', {story: story, title: title, sounds:this.story_sounds, place:this.place});
         }
     }
 

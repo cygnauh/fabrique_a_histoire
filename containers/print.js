@@ -54,6 +54,8 @@ export default class Print extends React.Component {
         var api_url = "https://testappfabulab.herokuapp.com/createStory"
         var api_url_storysounds = "https://testappfabulab.herokuapp.com/createstorysound"
 
+        console.log(this.props.place)
+
         fetch(api_url, {
             method: "POST",
             headers: {
@@ -62,7 +64,9 @@ export default class Print extends React.Component {
             },
             body: JSON.stringify({
                 "title": this.props.title,
-                "content": this.props.story
+                "content": this.props.story,
+                "base_sound":this.props.place.id,
+                "light":this.props.place.color
             })
         }).then(function (response) {
 
