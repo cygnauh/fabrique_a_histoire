@@ -15,6 +15,7 @@ import TimerMixin from 'react-timer-mixin';
 export default class Place extends React.Component{
     constructor(props) {
         super(props);
+        this.length = this.props.navigation.state.params.length
         this.state = {
             value: 1,
             isLoading: true,
@@ -150,7 +151,7 @@ export default class Place extends React.Component{
                     </View>
                 </View>
                 <RectangleButton content={'Continuer'} src={require('../assets/images/validate.png')} onPress={
-                    () => this.props.navigation.navigate('Form',{place: this.state.randomPlaceName} )}/>
+                    () => this.props.navigation.navigate('Form',{place: this.state.randomPlaceName, length: this.length} )}/>
             </Animated.View>
 
         );
