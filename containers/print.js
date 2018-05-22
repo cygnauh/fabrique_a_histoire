@@ -69,14 +69,14 @@ export default class Print extends React.Component {
             return response.json();
         }).then((responseJson) => {
 
-            this.story_id = responseJson[0].insertId
+            this.story_id = responseJson[0].insertId;
 
-            console.log(this.props.sounds)
+            console.log(this.props.sounds);
 
             // ---------------------------------------------------- send the story sounds
 
             if (this.story_id) {
-                for (var i = 0; i < this.props.sounds.length; i++) {
+                for (let i = 0; i < this.props.sounds.length; i++) {
 
                     fetch(api_url_storysounds, {
                         method: "POST",
@@ -90,8 +90,8 @@ export default class Print extends React.Component {
                             'addAtTime': this.props.sounds[i].time
                         })
                     }).then(function (response) {
-                        console.log(response)
-                        console.log("good")
+                        console.log(response);
+                        console.log("good");
                         return response;
                     }).catch(function (error) {
                         return error;

@@ -1,6 +1,8 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 import { scaleWidth, scaleHeight, scaleDelta } from '../utils/scale';
+
+const { width, height } = Dimensions.get('window');
 
 export default StyleSheet.create({
 
@@ -150,6 +152,23 @@ export default StyleSheet.create({
         fontSize: scaleDelta(10, .5),
         color: '#A6A2A0',
     },
+
+    /** UNDERLINE INPUT **/
+    underlineInputItem: {
+        borderBottomWidth: 2,
+        width: width - scaleWidth(80),
+        paddingBottom: scaleHeight(5),
+        paddingLeft: scaleWidth(5),
+        marginBottom: scaleHeight(10),
+    },
+    textInput : {
+        fontFamily: 'MaisonNeue-Demi',
+        fontSize: scaleDelta(12, .5),
+        lineHeight: scaleDelta(14, .5),
+        paddingTop: scaleHeight(10),
+        color: '#47404F',
+    },
+
 
     /** VOTE **/
     voteItem: {

@@ -1,8 +1,9 @@
 import React from 'react';
-import {View, Text, TextInput, Animated, Keyboard, ScrollView, Alert, UIManager, findNodeHandle, TouchableOpacity, Image} from 'react-native';
+import {View, Text, TextInput, Animated, Keyboard, ScrollView, Alert, UIManager, findNodeHandle, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import Header from '../../components/header';
 import RadioButton from '../../components/radioButton';
 import RectangleButton from '../../components/rectangleButton';
+import FormInput from '../../components/formInput';
 import GlobalStyle from '../../styles/mainStyle';
 import FormStyle from "../../styles/formStyle";
 import Video from 'react-native-video';
@@ -18,15 +19,16 @@ export default class Form extends React.Component {
         super(props);
         this.length = this.props.navigation.state.params.length;
         this.basesound = this.props.navigation.state.params.basesound;
-        this.validationSound = "https://christinehuang.fr/BDDI2018/sounds/VALIDATION/validation.mp3"
-        this.place = this.props.navigation.state.params.place
-        this.story_sounds = []
+        this.validationSound = "https://christinehuang.fr/BDDI2018/sounds/VALIDATION/validation.mp3";
+        this.place = this.props.navigation.state.params.place;
+        this.story_sounds = [];
         this.state = {
+            fieldVal: "",
             introduction_place: this.place.name,
             introduction_and: "et",
-            introduction_hero_who: "",
-            introduction_hero_characteristic: "",
-            introduction_hero_description: "",
+            introduction_hero_who: null,
+            introduction_hero_characteristic: null,
+            introduction_hero_description: null,
             introduction_hero_hobbies: "",
             introduction_hero_current_action: "",
             disruption_event_description: "",
@@ -52,14 +54,13 @@ export default class Form extends React.Component {
             outcome: '',
         };
         this.keyboardHeight = new Animated.Value(0);
+        this.animatedInputValue = new Animated.Value(0);
 
         this.onLoad = this.onLoad.bind(this);
         this.onProgress = this.onProgress.bind(this);
         this.onBuffer = this.onBuffer.bind(this);
-
-        this.loadSoundsFromAPI()
+        this.loadSoundsFromAPI();
     }
-
 
     onLoad(data) {
         console.log('On load fired!');
@@ -82,7 +83,6 @@ export default class Form extends React.Component {
         }
     }
 
-
     radioBtnOnChange(index, array) {
         if (array[index].selected === true && array[index].selected !== "none") {
             array.map((item) => { item.selected = "none"; });
@@ -93,9 +93,18 @@ export default class Form extends React.Component {
         }
         this.setState({radioItems: array}); // update view
     }
+
     inputOnChange = (name, value) => {
         this.setState(() => ({[name]: value}));
     };
+
+    underlineInputOnChange = (name, value) => {
+        this.setState({
+            [name]: value
+        });
+        console.log('parent : ' + value);
+    };
+
     eventOnVote(index) {
         let events = imposed_events.meteorological,
             imposed_event = events[this.state.adventure_event_id],
@@ -105,6 +114,34 @@ export default class Form extends React.Component {
         });
         choices[index].selected = true;
         this.setState({voteItems: choices}); // update view
+    };
+
+    componentWillMount() {
+        this.keyboardWillShowSub = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow);
+        this.keyboardWillHideSub = Keyboard.addListener('keyboardWillHide', this.keyboardWillHide);
+    }
+
+    componentWillUnmount() {
+        this.keyboardWillShowSub.remove();
+        this.keyboardWillHideSub.remove();
+    }
+
+    keyboardWillShow = (e) => {
+        Animated.parallel([
+            Animated.timing(this.keyboardHeight, {
+                duration: e.duration,
+                toValue: e.endCoordinates.height,
+            }),
+        ]).start();
+    };
+
+    keyboardWillHide = (e) => {
+        Animated.parallel([
+            Animated.timing(this.keyboardHeight, {
+                duration: e.duration,
+                toValue: 0,
+            }),
+        ]).start();
     };
 
     // -------------------------------- test son
@@ -117,54 +154,53 @@ export default class Form extends React.Component {
         }
         // in case the input is already fill nothing happens
         else {
-            console.log(e.nativeEvent.text, 'onfocus')
-            this.canAnalyseTheString = false
+            //console.log(e.nativeEvent.text, 'onfocus');
+            this.canAnalyseTheString = false;
         }
     }
 
     onBlurSearchSound(e) {
-        console.log(this.getCurrentTimePercentage())
+        console.log(this.getCurrentTimePercentage());
 
-        var theString = e.nativeEvent.text
+        let theString = e.nativeEvent.text;
         if (this.canAnalyseTheString === true && theString !== "") {
-            console.log("this.canAnalyseTheString", this.canAnalyseTheString)
-            var res = theString.split(" ");
-            for (var i = 0; i < res.length; i++) {
+            //console.log("this.canAnalyseTheString", this.canAnalyseTheString);
+            let res = theString.split(" ");
+            for (let i = 0; i < res.length; i++) {
                 this.searchSound(res[i])
             }
             this.setCanPlayValidationSound()
         }
     }
 
-    //appel API
+    // API Call
     searchSound(word) {
 
-
         if (this.state.sounds) {
-            for (var i = 0; i < this.state.sounds.length; i++) {
+            for (let i = 0; i < this.state.sounds.length; i++) {
                 if (word.replace(/[^a-zA-Z ]/g, "").toLowerCase() === this.state.sounds[i].name) {
 
                     //Wait until validation sound is played
-                    var _i = i
+                    let _i = i;
                     setTimeout(() => {
 
 
                         //check if the sound is already there
-                        var found = this.story_sounds.some( (el)  =>{
+                        let found = this.story_sounds.some( (el)  =>{
                             return el.sound === this.state.sounds[_i];
                         });
                         if (!found) {
 
-                            this.setState({can_play: true, sound: this.state.sounds[_i]})
+                            this.setState({can_play: true, sound: this.state.sounds[_i]});
 
                             //stock the sound id
-                            var name = this.state.sounds[_i]
+                            let name = this.state.sounds[_i];
 
-                            var story_sound = {sound: this.state.sounds[_i], time: this.getCurrentTimePercentage()}
-                            console.log(story_sound)
-                            this.story_sounds.push(story_sound)
-                            console.log("this.story_sounds")
-                            console.log(this.story_sounds)
+                            let story_sound = {sound: this.state.sounds[_i], time: this.getCurrentTimePercentage()}
+                            //console.log(story_sound);
+                            this.story_sounds.push(story_sound);
+                            //console.log("this.story_sounds");
+                            //console.log(this.story_sounds);
 
                         }
 
@@ -174,23 +210,22 @@ export default class Form extends React.Component {
         }
     }
 
-
     setCanPlayValidationSound = () => {
 
         if (this.state.canPlayValidationSound === true) {
-            this.setState({canPlayValidationSound: false})
-            console.log("A")
+            this.setState({canPlayValidationSound: false});
+            //console.log("A");
         }
         else {
-            this.setState({canPlayValidationSound: true})
+            this.setState({canPlayValidationSound: true});
 
             //let the sound be played before reset it
             setTimeout(() => {
                 this.setCanPlayValidationSound();
             }, 3000);
-            console.log("B")
+            //console.log("B");
         }
-    }
+    };
 
     playASound(url, volume, repeat, isValidation) {
 
@@ -228,7 +263,6 @@ export default class Form extends React.Component {
         }
     }
 
-
     loadSoundsFromAPI() {
         return fetch('https://testappfabulab.herokuapp.com/sounds')
             .then((response) => response.json())
@@ -245,9 +279,8 @@ export default class Form extends React.Component {
             });
     }
 
-
-
     prepareStory() {
+
         // Retrieve text
         let short_intro = data.introduction.short,
             short_disrupt = data.disruption.short,
@@ -295,6 +328,7 @@ export default class Form extends React.Component {
             conclusion_change = addEndDot(state.conclusion_description_change),
             conclusion_learn = addEndDot(state.conclusion_description_learn);
 
+        console.log(short_intro.expression_1);
 
         // Check before retrieve
         if (!hero || !characteristic || !description || !hobbies || !current_action || !disrupt_event || !disrupt_reaction || !disrupt_decision || !disrupt_then || !adventure_decision || !adventure_consequence || !response_event || !adventure_reaction || !adventure_then || !outcome_solution || !outcome_then || !conclusion_change || !conclusion_learn) {
@@ -363,7 +397,7 @@ export default class Form extends React.Component {
                     story += text_elm[i] + ' ';
                 }
             }
-            console.log(this.story_sounds);
+            //console.log(this.story_sounds);
             this.props.navigation.navigate('Correction', {story: story, title: title, sounds:this.story_sounds});
         }
     }
@@ -425,31 +459,6 @@ export default class Form extends React.Component {
         );
     }
 
-    componentWillMount() {
-        this.keyboardWillShowSub = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow);
-        this.keyboardWillHideSub = Keyboard.addListener('keyboardWillHide', this.keyboardWillHide);
-    }
-    componentWillUnmount() {
-        this.keyboardWillShowSub.remove();
-        this.keyboardWillHideSub.remove();
-    }
-    keyboardWillShow = (e) => {
-        Animated.parallel([
-            Animated.timing(this.keyboardHeight, {
-                duration: e.duration,
-                toValue: e.endCoordinates.height,
-            }),
-        ]).start();
-    };
-    keyboardWillHide = (e) => {
-        Animated.parallel([
-            Animated.timing(this.keyboardHeight, {
-                duration: e.duration,
-                toValue: 0,
-            }),
-        ]).start();
-    };
-
     renderTitlePart() {
         return (
             <View style={[FormStyle.partContainer, FormStyle.partTitleContainer]}>
@@ -508,9 +517,12 @@ export default class Form extends React.Component {
         let short_intro_render =
             <View>
                 {this.renderRadioBtn(short_intro.expression_1)}
-                {this.renderInput("introduction_hero_who", short_intro.hero.who.placeholder, state.introduction_hero_who, 'none')}
-                {this.renderInput("introduction_hero_description", short_intro.hero.description.placeholder, state.introduction_hero_description)}
-                {this.renderInput("introduction_hero_characteristic", short_intro.hero.characteristic.placeholder, state.introduction_hero_characteristic)}
+                <FormInput inputOnChange={(text) => this.underlineInputOnChange("introduction_hero_who", text)}
+                    placeholder={short_intro.hero.who.placeholder} autoCapitalize={'none'}/>
+                <FormInput inputOnChange={(text) => this.underlineInputOnChange("introduction_hero_description", text)}
+                    placeholder={short_intro.hero.description.placeholder}/>
+                <FormInput inputOnChange={(text) => this.underlineInputOnChange("introduction_hero_characteristic", text)}
+                    placeholder={short_intro.hero.characteristic.placeholder}/>
                 <TextInput style={[FormStyle.formItem, FormStyle.placeItem]} editable={false} selectTextOnFocus={false} value={state.introduction_and}/>
                 {this.renderInput("introduction_hero_hobbies", short_intro.hero_detail.hobbies.placeholder, state.introduction_hero_hobbies, 'none')}
                 {this.renderInput("introduction_hero_current_action", short_intro.hero_detail.current_action.placeholder, state.introduction_hero_current_action)}
@@ -705,7 +717,7 @@ export default class Form extends React.Component {
     render() {
         return (
             <View style={[GlobalStyle.view, GlobalStyle.headerView, FormStyle.formView]}>
-                <Image style={GlobalStyle.backgroundImage} source={require('../../assets/images/background.png')} />
+                {/*<Image style={GlobalStyle.backgroundImage} source={require('../../assets/images/background.png')} />*/}
                 <Header onPress={() => this.props.navigation.goBack()}/>
                 {this.renderTitlePart()}
                 <ScrollView ref="FormScrollView"
@@ -713,16 +725,13 @@ export default class Form extends React.Component {
                     showsVerticalScrollIndicator={false}
                     onScroll={this.onScroll}>
                     <View>
-
-                        {// background sound
+                        { // background sound
                             this.place ? this.playASound(this.place.url, 0.5, "repeat", false) : null
                         }
-
-                        {//added sound
+                        { //added sound
                             this.state.can_play ? this.playASound(this.state.sound.url, 0.5, "no-repeat", false) : null
                         }
-
-                        {//validation sound
+                        { //validation sound
                             this.state.canPlayValidationSound ? this.playASound(this.validationSound, 0.5, "no-repeat", true) : null
                         }
                         {this.renderIntroduction()}
