@@ -43,39 +43,31 @@ export default class readingMode extends React.Component {
             });
     }
 
-    getSounds(){
-        return fetch('https://testappfabulab.herokuapp.com/places')
+    getSounds(id, test){
+
+        var num = parseInt(test)
+        console.log(num + 5)
+        // return fetch('https://testappfabulab.herokuapp.com/storysoundsforreading?story='+id)
+        return fetch('https://testappfabulab.herokuapp.com/storysoundsforreading?story='+num)
             .then((response) => response.json())
             .then((responseJson) => {
 
-                // console.log(responseJson)
+                console.log(responseJson)
 
-                let random = Math.floor(Math.random() * Math.floor(responseJson.length));
+
 
                 this.setState({
-                    isLoading: false,
-                    dataSource: responseJson,
-                    randomPlace:random,
-                    randomPlaceName:responseJson[random],
-                    colors:responseJson.color
+
                 }, function(){
 
                 });
 
-                if(this.state.randomPlaceName.url){
-                    console.log(this.state.randomPlaceName.url)
-                }
             })
             .catch((error) =>{
                 console.error(error);
             });
     }
 
-    getStory(){
-
-    }
-
-    get
 
 
 
@@ -93,22 +85,10 @@ export default class readingMode extends React.Component {
                                onChangeText={(text) => this.setState({input: text})}
                     />
 
-                    <TextInput
-                        style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-                        onChangeText={(text) => this.setState({input: text})}
-                    />
-                    <Text>{'user input: ' + this.state.input}</Text>
-
-                    <TouchableOpacity onPress={() => { this.getSounds()} }>
+                    <TouchableOpacity onPress={() => { this.getSounds(1052,this.state.input )} }>
                         <Text style={GlobalStyle.homeBtn}>{'Relire mon histoire'}</Text>
                     </TouchableOpacity>
-                    {/*<Text style={GlobalStyle.placePhrase}>Cette histoire se passe </Text>*/}
 
-                    {/*<View style={GlobalStyle.placeContainer}>*/}
-
-                        {/*{this.state.status ?  <Text style={GlobalStyle.placeTitle}>{this.state.randomPlaceName.name}</Text> : null}*/}
-
-                    {/*</View>*/}
                 </View>
             </View>
         )
