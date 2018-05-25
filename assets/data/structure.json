@@ -10,42 +10,60 @@
           "selected": "none"
         }
       ],
-      "hero": {
-        "who": {
-          "placeholder": "Qui va vivre des aventures dans notre histoire ?"
-        },
-        "characteristic": {
-          "placeholder": "Quelles sont les particularités du ou des personnages ?"
-        },
-        "description": {
-          "placeholder": "Décrivez moi le ou les personnages."
-        }
-      },
       "expression_2": [
         {
-          "label" : "qui",
-          "selected": true
+          "label" : "De temps en temps,",
+          "selected": "none"
         }, {
-          "label" : "et",
-          "selected": false
+          "label" : "D'habitude,",
+          "selected": "none"
+        }, {
+          "label" : "Parfois,",
+          "selected": "none"
         }
       ],
-      "hero_detail": {
-        "hobbies": {
-          "placeholder": "Quelles sont les activités préférées du ou des personnages ?"
-        },
-        "current_action": {
-          "placeholder": "Qu'est-ce que le ou les personnages font en ce moment ?"
+      "expression_3": [
+        {
+          "label" : "Cette fois-ci,",
+          "selected": "none"
+        }, {
+          "label" : "Ce jour là,",
+          "selected": "none"
+        }, {
+          "label" : "Pour une fois,",
+          "selected": "none"
         }
+      ],
+      "hero": {
+        "who": "Qui est le héros de cette histoire ? Quel est son but dans la vie ?",
+        "characteristic": "Est-ce qu'il a quelque chose de spécial ?",
+        "hobbies": "Quelles sont ses activités préférées ?",
+        "current_action":"Qu'est-ce que le héros fait en ce moment ?"
+      }
+    },
+    "medium": {
+      "partner": {
+        "who": "Qui se trouve avec le héros ? ",
+        "how": "Comment se sont-ils rencontrés ?"
       }
     },
     "long": {
       "expression_1": [
         {
+          "label": "Il était une fois,",
+          "selected": "none"
+        }, {
+          "label": "Il y a bien longtemps,",
+          "selected": "none"
+        }, {
           "label": "Jadis",
           "selected": "none"
         }
-      ]
+      ],
+      "description": {
+        "where": "À quoi ressemble l'endroit ou les personnages sont ?",
+        "time": "Quel temps fait-il ? Quel est le moment de la journée ?"
+      }
     }
   },
   "disruption": {

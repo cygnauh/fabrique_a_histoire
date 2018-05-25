@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TextInput, Animated} from 'react-native';
+import {View, TextInput, Animated, Button} from 'react-native';
 import {scaleDelta} from "../utils/scale";
 import FormStyle from "../styles/formStyle";
 
@@ -7,6 +7,8 @@ export default class FormInput extends React.Component {
 
     constructor(props) {
         super(props);
+        this.onFocusField = this.onFocusField.bind(this);
+        this.onBlurField = this.onBlurField.bind(this);
         this.state = {
             isComplete: null
         };
@@ -18,7 +20,7 @@ export default class FormInput extends React.Component {
     }
 
     inputOnChange = (text) => {
-        console.log('child :' + text);
+        //console.log('child :' + text);
         this.props.inputOnChange(text);
         this.inputValue = text;
         this.setState({
@@ -26,14 +28,22 @@ export default class FormInput extends React.Component {
         });
     };
 
-    onFocusField() {
+    onFocusField(e) {
+        console.log("in child on focus");
+        // let text = e.nativeEvent.text;
+        // let canAnalyseTheString = (text ? "true" : "false");
+        // this.props.onParentFocusField(text); // execute the function on parent side
+
         Animated.timing(this.animatedInputValue, {
             toValue: 100,
             duration: 200
         }).start();
-    }
+    };
 
-    onBlurField() {
+    onBlurField(e) {
+        // console.log("in child on blur");
+        // this.props.onBlurField(e);
+
         if (this.inputValue.length> 0) {
             return;
         }
@@ -60,8 +70,8 @@ export default class FormInput extends React.Component {
                 </Animated.Text>
                 <TextInput
                     style={FormStyle.textInput}
-                    onFocus={()=> {this.onFocusField()}}
-                    onBlur={()=> {this.onBlurField()}}
+                    onFocus={this.onFocusField}
+                    onBlur={this.onBlurField}
                     onChangeText={this.inputOnChange}
                     autoCapitalize={this.props.autoCapitalize}
                     multiline={true}

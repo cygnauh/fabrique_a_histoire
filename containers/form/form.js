@@ -3,7 +3,6 @@ import {View, Text, TextInput, Animated, Keyboard, ScrollView, Alert, UIManager,
 import Header from '../../components/header';
 import RadioButton from '../../components/radioButton';
 import RectangleButton from '../../components/rectangleButton';
-import FormInput from '../../components/formInput';
 import GlobalStyle from '../../styles/mainStyle';
 import FormStyle from "../../styles/formStyle";
 import Video from 'react-native-video';
@@ -25,12 +24,16 @@ export default class Form extends React.Component {
         this.state = {
             fieldVal: "",
             introduction_place: this.place.name,
-            introduction_and: "et",
-            introduction_hero_who: null,
-            introduction_hero_characteristic: null,
-            introduction_hero_description: null,
+            introduction_hero_who: "",
+            introduction_hero_characteristic: "",
+            introduction_hero_habit: data.introduction.short.expression_2[getRandomInt(0, data.introduction.short.expression_2.length - 1)].label,
             introduction_hero_hobbies: "",
+            introduction_hero_now: data.introduction.short.expression_3[getRandomInt(0, data.introduction.short.expression_3.length - 1)].label,
             introduction_hero_current_action: "",
+            introduction_partner_who: "",
+            introduction_partner_how: "",
+            introduction_description_where: "",
+            introduction_description_time: "",
             disruption_event_description: "",
             disruption_event_reaction: "",
             disruption_event_decision: "",
@@ -98,12 +101,12 @@ export default class Form extends React.Component {
         this.setState(() => ({[name]: value}));
     };
 
-    underlineInputOnChange = (name, value) => {
+/*    underlineInputOnChange = (name, value) => {
         this.setState({
             [name]: value
         });
-        console.log('parent : ' + value);
-    };
+        //console.log('parent : ' + value);
+    };*/
 
     eventOnVote(index) {
         let events = imposed_events.meteorological,
@@ -289,16 +292,18 @@ export default class Form extends React.Component {
             short_conclusion = data.conclusion.short,
             state = this.state;
 
-        let intro_expression_1 = short_intro.expression_1.filter((exp) => {
-                return exp.selected === true
-            }),
+        let intro_expression_1 = short_intro.expression_1.filter((exp) => { return exp.selected === true }),
             hero = addEndDot(state.introduction_hero_who),
-            description = addEndDot(state.introduction_hero_description),
             characteristic = state.introduction_hero_characteristic,
-            intro_expression_2 = state.introduction_and,
+            intro_expression_2 = state.introduction_hero_habit,
             hobbies = addEndDot(state.introduction_hero_hobbies),
+            intro_expression_3 = state.introduction_hero_now,
             current_action = state.introduction_hero_current_action,
             place = addEndDot(state.introduction_place),
+            partner_who = addEndDot(state.introduction_partner_who),
+            partner_how = addEndDot(state.introduction_partner_how),
+            intro_where = addEndDot(state.introduction_description_where),
+            intro_time = addEndDot(state.introduction_description_time),
             disrupt_expression_1 = short_disrupt.expression_1.filter((exp) => {
                 return exp.selected === true
             }),
@@ -331,7 +336,7 @@ export default class Form extends React.Component {
         console.log(short_intro.expression_1);
 
         // Check before retrieve
-        if (!hero || !characteristic || !description || !hobbies || !current_action || !disrupt_event || !disrupt_reaction || !disrupt_decision || !disrupt_then || !adventure_decision || !adventure_consequence || !response_event || !adventure_reaction || !adventure_then || !outcome_solution || !outcome_then || !conclusion_change || !conclusion_learn) {
+        if (!hero || !characteristic || !hobbies || !current_action || !disrupt_event || !disrupt_reaction || !disrupt_decision || !disrupt_then || !adventure_decision || !adventure_consequence || !response_event || !adventure_reaction || !adventure_then || !outcome_solution || !outcome_then || !conclusion_change || !conclusion_learn) {
             Alert.alert(
                 'Attention',
                 "Veuillez remplir tous les champs du formulaire avant d'imprimer l'histoire !",
@@ -343,31 +348,17 @@ export default class Form extends React.Component {
         } else {
 
             let text_elm = [
-                    intro_expression_1[0].label,
-                    hero,
-                    description,
-                    characteristic,
-                    intro_expression_2,
-                    hobbies, current_action,
-                    place,
-                    disrupt_expression_1[0].label,
-                    disrupt_event,
-                    disrupt_reaction,
-                    disrupt_decision,
-                    disrupt_then,
-                    adventure_expression_1[0].label,
-                    adventure_decision,
-                    adventure_consequence,
-                    imposed_event,
-                    response_event[0].label,
-                    adventure_reaction,
-                    adventure_then,
-                    outcome_expression_1[0].label,
-                    outcome_solution,
-                    outcome_then,
-                    conclusion_expression_1[0].label,
-                    conclusion_change,
-                    conclusion_learn
+                    intro_expression_1[0].label, hero, characteristic,
+                    intro_expression_2, hobbies,
+                    intro_expression_3, current_action, place,
+                    partner_who, partner_how,
+                    intro_where, intro_time,
+                    disrupt_expression_1[0].label, disrupt_event, disrupt_reaction, disrupt_decision, disrupt_then,
+                    adventure_expression_1[0].label, adventure_decision, adventure_consequence,
+                    imposed_event, response_event[0].label,
+                    adventure_reaction, adventure_then,
+                    outcome_expression_1[0].label, outcome_solution, outcome_then,
+                    conclusion_expression_1[0].label, conclusion_change, conclusion_learn
                 ],
                 title = '',
                 story = '';
@@ -391,7 +382,7 @@ export default class Form extends React.Component {
 
             // Create the text
             for (let i = 0, count = text_elm.length; i < count; i++) {
-                if (text_elm[i] === place || text_elm[i] === disrupt_then || text_elm[i] === adventure_then || text_elm[i] === outcome_then) {
+                if (text_elm[i] === partner_who || text_elm[i] === disrupt_then || text_elm[i] === adventure_then || text_elm[i] === outcome_then) {
                     story += text_elm[i] + '@'; // add @ previous custom words sentence
                 } else {
                     story += text_elm[i] + ' ';
@@ -427,12 +418,11 @@ export default class Form extends React.Component {
                 placeholder={placeholder}
                 value={state}/>;
 
-        if (state.length > 0) {
-            question = <TextInput style={[FormStyle.question]} editable={false} selectTextOnFocus={false} value={placeholder}/>;
-        }
+        // if (state.length > 0) { question = <TextInput style={[FormStyle.question]} editable={false} selectTextOnFocus={false} value={placeholder}/>; }
         return (
             <View>
-                {question}{input}
+                {/*{question}{input}*/}
+                {input}
             </View>
         )
     }
@@ -509,36 +499,55 @@ export default class Form extends React.Component {
 
     renderIntroduction() {
         let short_intro = data.introduction.short,
+            medium_intro = data.introduction.medium,
+            long_intro = data.introduction.long,
             state = this.state,
             medium_intro_render = null,
+            long_intro_render = null,
             opacity = null;
         if (this.state.current_navigation === 1) { opacity = 1; } else { opacity = .4; }
 
+        let introduction_exp = <View>
+            {this.renderRadioBtn(short_intro.expression_1)};
+        </View>;
+
         let short_intro_render =
             <View>
-                {this.renderRadioBtn(short_intro.expression_1)}
-                <FormInput inputOnChange={(text) => this.underlineInputOnChange("introduction_hero_who", text)}
-                    placeholder={short_intro.hero.who.placeholder} autoCapitalize={'none'}/>
-                <FormInput inputOnChange={(text) => this.underlineInputOnChange("introduction_hero_description", text)}
-                    placeholder={short_intro.hero.description.placeholder}/>
-                <FormInput inputOnChange={(text) => this.underlineInputOnChange("introduction_hero_characteristic", text)}
-                    placeholder={short_intro.hero.characteristic.placeholder}/>
-                <TextInput style={[FormStyle.formItem, FormStyle.placeItem]} editable={false} selectTextOnFocus={false} value={state.introduction_and}/>
-                {this.renderInput("introduction_hero_hobbies", short_intro.hero_detail.hobbies.placeholder, state.introduction_hero_hobbies, 'none')}
-                {this.renderInput("introduction_hero_current_action", short_intro.hero_detail.current_action.placeholder, state.introduction_hero_current_action)}
-                <TextInput style={[FormStyle.formItem, FormStyle.placeItem]} editable={false} selectTextOnFocus={false} value={state.introduction_place + '.'}/>
+                {/*<FormInput
+                    inputOnChange={(text) => this.underlineInputOnChange("introduction_hero_who", text)}
+                    placeholder={short_intro.hero.who.placeholder}
+                    // onParentFocusField={(text) => this.onFocusHelper(text)}
+                    // onBlurField={(e) => this.onBlurSearchSound(e)}
+                    autoCapitalize={'none'}/>*/}
+                {this.renderInput("introduction_hero_who", short_intro.hero.who, state.introduction_hero_who, 'none')}
+                {this.renderInput("introduction_hero_characteristic", short_intro.hero.characteristic, state.introduction_hero_characteristic)}
+                <TextInput
+                    style={[FormStyle.formItem, FormStyle.placeItem]} editable={false}
+                    selectTextOnFocus={false} value={state.introduction_hero_habit}/>
+                {this.renderInput("introduction_hero_hobbies", short_intro.hero.hobbies, state.introduction_hero_hobbies, 'none')}
+                <TextInput
+                    style={[FormStyle.formItem, FormStyle.placeItem]} editable={false}
+                    selectTextOnFocus={false} value={state.introduction_hero_now}/>
+                {this.renderInput("introduction_hero_current_action", short_intro.hero.current_action, state.introduction_hero_current_action, 'none')}
+                <TextInput
+                    style={[FormStyle.formItem, FormStyle.placeItem]} editable={false}
+                    selectTextOnFocus={false} value={state.introduction_place + '.'}/>
             </View>;
-        if (this.length === 1 || this.length === 2) {
-            //TODO replaced the right inputs
- /*           medium_intro_render =
-                <View>
 
-                    {this.renderInput("introduction_hero_who", short_intro.hero.who.placeholder, state.introduction_hero_who)}
-                    {this.renderInput("introduction_hero_characteristic", short_intro.hero.characteristic.placeholder, state.introduction_hero_characteristic)}
-                </View>*/
+        if (this.length === 1 || this.length === 2) {
+            medium_intro_render = <View>
+                {this.renderInput("introduction_partner_who", medium_intro.partner.who, state.introduction_partner_who)}
+                {this.renderInput("introduction_partner_how", medium_intro.partner.how, state.introduction_partner_how)}
+                </View>;
         }
         if (this.length === 2) {
-            // TODO
+            long_intro_render = <View>
+                {this.renderInput("introduction_description_where", long_intro.description.where, state.introduction_description_where)}
+                {this.renderInput("introduction_description_time", long_intro.description.time, state.introduction_description_time)}
+                </View>;
+            introduction_exp = <View>
+                {this.renderRadioBtn(long_intro.expression_1)};
+            </View>;
         }
 
         return (
@@ -549,8 +558,10 @@ export default class Form extends React.Component {
                     this.partEnd.introduction = height - scaleHeight(150); // padding bottom
                 })
             }}>
+                {introduction_exp}
                 {short_intro_render}
                 {medium_intro_render}
+                {long_intro_render}
             </View>
         );
     }

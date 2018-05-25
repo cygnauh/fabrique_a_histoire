@@ -125,13 +125,14 @@ export default StyleSheet.create({
 
     /** TEXT INPUT **/
     inputItem: {
-        backgroundColor: '#FFF',
         paddingTop: scaleHeight(8),
-        paddingBottom: scaleHeight(5),
-        paddingHorizontal: scaleHeight(10),
+        paddingBottom: scaleHeight(8),
+        paddingHorizontal: scaleHeight(5),
         fontSize: scaleDelta(12, .5),
         fontFamily: 'MaisonNeue-Medium',
         color: '#47404F',
+        borderBottomWidth: 2,
+        borderColor: '#c9c6c5',
     },
     placeItem: {
         fontSize: scaleDelta(16, .5),
@@ -141,11 +142,10 @@ export default StyleSheet.create({
     },
     onChange: {
         position: 'relative',
-        top: scaleHeight(-10),
-        backgroundColor: 'transparent',
-        paddingHorizontal: 0,
+        //top: scaleHeight(-10),
         fontFamily: 'MaisonNeue-Demi',
         lineHeight: scaleDelta(14, .5),
+        borderColor: '#e5e3e3',
     },
     question: {
         marginHorizontal: scaleWidth(5),
