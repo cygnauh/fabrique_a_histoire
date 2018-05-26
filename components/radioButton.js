@@ -10,7 +10,7 @@ export default class RadioButton extends React.Component {
     renderBtn() {
         let selected =
                 <View style={FormStyle.radioBtnContainer}>
-                    <Text style={[FormStyle.radioSelected, FormStyle.formItem, FormStyle.itemChange]}>{this.props.button.label}</Text>
+                    <Text style={[FormStyle.radioSelected, FormStyle.itemChange]}>{this.props.button.label}</Text>
                     <Image style={FormStyle.radioBtnChange} source={require('../assets/images/arrowChange.png')}/>
                 </View>,
             unselected =

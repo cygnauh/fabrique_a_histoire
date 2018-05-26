@@ -84,6 +84,7 @@ export default StyleSheet.create({
         alignItems: 'flex-end',
         flexWrap: 'wrap',
         marginVertical: scaleHeight(15),
+        marginHorizontal: scaleWidth(5),
     },
     radioSelected: {
         fontSize: scaleDelta(16, .5),
@@ -100,6 +101,7 @@ export default StyleSheet.create({
     radioUnselected: {
         paddingVertical: scaleWidth(2),
         paddingHorizontal: scaleHeight(10),
+        marginBottom: scaleHeight(10),
         fontSize: scaleDelta(11, .5),
         fontFamily: 'Editor-Bold',
         color: '#300365',
@@ -112,7 +114,7 @@ export default StyleSheet.create({
         width: scaleWidth(14), // 78
         height: scaleWidth(8), // 45
         position: 'relative',
-        left: scaleWidth(-28)
+        left: scaleWidth(-25)
     },
     itemChange: {
         paddingRight: scaleWidth(30)
@@ -134,23 +136,17 @@ export default StyleSheet.create({
         borderBottomWidth: 2,
         borderColor: '#c9c6c5',
     },
-    placeItem: {
+    textItem: {
         fontSize: scaleDelta(16, .5),
-        marginVertical: scaleHeight(15),
         fontFamily: 'Editor-Bold',
         color: '#300365',
     },
-    onChange: {
-        position: 'relative',
-        //top: scaleHeight(-10),
-        fontFamily: 'MaisonNeue-Demi',
-        lineHeight: scaleDelta(14, .5),
-        borderColor: '#e5e3e3',
+    startItem: {
+        marginTop: scaleHeight(20),
     },
-    question: {
-        marginHorizontal: scaleWidth(5),
-        fontSize: scaleDelta(10, .5),
-        color: '#A6A2A0',
+    endItem: {
+        marginTop: scaleHeight(10),
+        marginBottom: scaleHeight(20),
     },
 
     /** UNDERLINE INPUT **/
@@ -162,27 +158,31 @@ export default StyleSheet.create({
         marginBottom: scaleHeight(10),
     },
     textInput : {
+        paddingTop: scaleHeight(10),
         fontFamily: 'MaisonNeue-Demi',
         fontSize: scaleDelta(12, .5),
         lineHeight: scaleDelta(14, .5),
-        paddingTop: scaleHeight(10),
         color: '#47404F',
     },
 
 
     /** VOTE **/
     voteItem: {
-        fontFamily: 'MaisonNeue-Demi',
-        fontSize: scaleDelta(12, .5),
-        color: '#47404F',
+        alignSelf: 'flex-start',
         marginHorizontal: scaleWidth(5),
+        marginBottom: scaleHeight(15),
         paddingHorizontal: scaleWidth(10),
         paddingVertical: scaleHeight(10),
         borderRadius: 24,
         borderWidth: 2,
         borderColor: '#c9c6c5',
-        marginBottom: scaleHeight(15),
-        alignSelf: 'flex-start',
+        fontFamily: 'MaisonNeue-Demi',
+        fontSize: scaleDelta(12, .5),
+        color: '#47404F',
+    },
+    imposedEvent: {
+        marginTop: scaleHeight(20),
+        marginBottom: scaleHeight(10),
     },
     voteUnselected: {
         backgroundColor: 'transparent',

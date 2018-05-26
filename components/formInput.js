@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TextInput, Animated, Button} from 'react-native';
+import {View, TextInput, Animated} from 'react-native';
 import {scaleDelta} from "../utils/scale";
 import FormStyle from "../styles/formStyle";
 
@@ -30,10 +30,7 @@ export default class FormInput extends React.Component {
 
     onFocusField(e) {
         console.log("in child on focus");
-        // let text = e.nativeEvent.text;
-        // let canAnalyseTheString = (text ? "true" : "false");
         // this.props.onParentFocusField(text); // execute the function on parent side
-
         Animated.timing(this.animatedInputValue, {
             toValue: 100,
             duration: 200
@@ -43,7 +40,6 @@ export default class FormInput extends React.Component {
     onBlurField(e) {
         // console.log("in child on blur");
         // this.props.onBlurField(e);
-
         if (this.inputValue.length> 0) {
             return;
         }

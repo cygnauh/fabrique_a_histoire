@@ -11,39 +11,22 @@
         }
       ],
       "expression_2": [
-        {
-          "label" : "De temps en temps,",
-          "selected": "none"
-        }, {
-          "label" : "D'habitude,",
-          "selected": "none"
-        }, {
-          "label" : "Parfois,",
-          "selected": "none"
-        }
-      ],
-      "expression_3": [
-        {
-          "label" : "Cette fois-ci,",
-          "selected": "none"
-        }, {
-          "label" : "Ce jour là,",
-          "selected": "none"
-        }, {
-          "label" : "Pour une fois,",
-          "selected": "none"
-        }
+        "Mais cette fois-ci,",
+        "Mais ce jour là,",
+        "Mais pour une fois,"
       ],
       "hero": {
-        "who": "Qui est le héros de cette histoire ? Quel est son but dans la vie ?",
-        "characteristic": "Est-ce qu'il a quelque chose de spécial ?",
-        "hobbies": "Quelles sont ses activités préférées ?",
-        "current_action":"Qu'est-ce que le héros fait en ce moment ?"
+        "who": "Qui est le héros de cette histoire ? Quel est son objectif dans la vie ?",
+        "characteristic": "Est-ce qu'il a quelque chose de spécial ? Décrivez-le moi.",
+        "habit_before": "*Le personnage* Modifiez en écrivant le personnage inventé par les enfants.",
+        "habit": "avait pour habitude",
+        "habit_after": "de faire quelque chose. Quelles sont ses activités préférées ?",
+        "current_action":"Mais que fait le héros *nom du personnage* en ce moment ?"
       }
     },
     "medium": {
       "partner": {
-        "who": "Qui se trouve avec le héros ? ",
+        "who": "1 personnage accompagne le héros : qui ?",
         "how": "Comment se sont-ils rencontrés ?"
       }
     },
@@ -56,12 +39,12 @@
           "label": "Il y a bien longtemps,",
           "selected": "none"
         }, {
-          "label": "Jadis",
+          "label": "Jadis,",
           "selected": "none"
         }
       ],
       "description": {
-        "where": "À quoi ressemble l'endroit ou les personnages sont ?",
+        "where": "Décrivez-moi l'endroit où se trouvent les personnages ?",
         "time": "Quel temps fait-il ? Quel est le moment de la journée ?"
       }
     }
@@ -77,24 +60,23 @@
           "selected": "none"
         },
         {
-          "label": "Un jour,",
+          "label": "Brusquement,",
           "selected": "none"
         }
       ],
       "event": {
-        "description": {
-          "placeholder": "Il se passe quelque chose d'incroyable : que se passe-t-il ?"
-        },
-        "hero_reaction": {
-          "placeholder": "Comment est-ce que le ou les héros réagissent ?"
-        },
-        "hero_decision": {
-          "placeholder": "Que décide le ou les héros ?"
-        },
-        "then": {
-          "placeholder": "Que se passe-t-il ensuite ?"
-        }
+        "description": "Il se passe quelque chose de terrible : que se passe-t-il ?",
       }
+    },
+    "long": {
+      "message": [
+        "Un pigeon voyageur sortit de nulle part, tendit un message, avant de repartir :",
+        "Un ogre voyageur sortit de nulle part, tendit un message, avant de repartir :",
+        "Une flèche se planta à côté, avec un message accroché :",
+        "Une vieille enveloppe atteri à côté. Elle contenait un message :",
+        "Un parachute se posa à côté. Il contenait un message :"
+      ],
+      "content": "Une mission est confiée à nos héros *nom des personnages* : que dit ce message ?"
     }
   },
   "adventure": {
