@@ -83,33 +83,39 @@
     "short": {
       "expression_1": [
         {
-          "label": "Le lendemain,",
+          "label": "Après cet évènement,",
           "selected": "none"
         }, {
-          "label": "Quelques heures plus tard,",
+          "label": "Après cette aventure,",
           "selected": "none"
         }, {
           "label": "Peu de temps après,",
+          "selected": "none"
+        }
+      ],
+      "event": {
+        "hero_reaction": "Comment réagit le héros ?",
+        "then": "Que se passe-t-il ensuite ?"
+      }
+    },
+    "medium": {
+      "event": {
+        "partner_reaction": "Et comment est-ce que le compagnon réagit ?",
+        "consequence": "Qu'est-ce que ça provoque ?",
+        "action": "Que font les personnages ?"
+      },
+      "expression_1" : [
+        {
+          "label": "Ensuite,",
           "selected": "none"
         }, {
           "label": "Puis,",
           "selected": "none"
         }
-      ],
-      "event": {
-        "hero_decision": {
-          "placeholder": "Que décide le ou les héros ?"
-        },
-        "consequence": {
-          "placeholder": "Qu'est-ce que ça provoque ? (Comment est-ce que ça change la situation ?)"
-        },
-        "hero_reaction": {
-          "placeholder": "Comment est-ce que le ou les héros réagissent ?"
-        },
-        "then": {
-          "placeholder": "Que se passe-t-il par la suite ?"
-        }
-      }
+      ]
+    },
+    "long": {
+      "emotion": "Comment se sentent *les personnages* face à la situation ?"
     }
   },
   "outcome": {

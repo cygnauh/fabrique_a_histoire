@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, TextInput, Animated} from 'react-native';
-import {scaleDelta} from "../utils/scale";
-import FormStyle from "../styles/formStyle";
+import {scaleDelta} from "../../utils/scale";
+import FormStyle from "../../styles/formStyle";
 
 export default class FormInput extends React.Component {
 

@@ -182,7 +182,7 @@ export default StyleSheet.create({
     },
     imposedEvent: {
         marginTop: scaleHeight(20),
-        marginBottom: scaleHeight(10),
+        marginBottom: scaleHeight(15),
     },
     voteUnselected: {
         backgroundColor: 'transparent',

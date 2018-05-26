@@ -1,6 +1,6 @@
 import React from "react";
 import { Text } from "react-native";
-import FormStyle from "../styles/formStyle";
+import FormStyle from "../../styles/formStyle";
 
 export default class FormTextImposed extends React.Component {
     constructor(props) {

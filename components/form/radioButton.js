@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
-import FormStyle from '../styles/formStyle';
+import FormStyle from '../../styles/formStyle';
 
 export default class RadioButton extends React.Component {
     constructor(props) {
@@ -11,7 +11,7 @@ export default class RadioButton extends React.Component {
         let selected =
                 <View style={FormStyle.radioBtnContainer}>
                     <Text style={[FormStyle.radioSelected, FormStyle.itemChange]}>{this.props.button.label}</Text>
-                    <Image style={FormStyle.radioBtnChange} source={require('../assets/images/arrowChange.png')}/>
+                    <Image style={FormStyle.radioBtnChange} source={require('../../assets/images/arrowChange.png')}/>
                 </View>,
             unselected =
                 <View style={FormStyle.radioBtnContainer} >

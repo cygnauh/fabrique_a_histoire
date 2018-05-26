@@ -1,9 +1,9 @@
 import React from 'react';
 import {View, Text, TextInput, Animated, Keyboard, ScrollView, Alert, UIManager, findNodeHandle, TouchableOpacity, Image} from 'react-native';
 import Header from '../../components/header';
-import RadioButton from '../../components/radioButton';
+import RadioButton from '../../components/form/radioButton';
 import RectangleButton from '../../components/rectangleButton';
-import FormTextImposed from '../../components/formTextImposed';
+import FormTextImposed from '../../components/form/textImposed';
 import GlobalStyle from '../../styles/mainStyle';
 import FormStyle from "../../styles/formStyle";
 import Video from 'react-native-video';
@@ -17,6 +17,11 @@ const medium_intro = data.introduction.medium;
 const long_intro = data.introduction.long;
 const short_disrupt = data.disruption.short;
 const long_disrupt = data.disruption.long;
+const short_adventure = data.adventure.short;
+const medium_adventure = data.adventure.medium;
+const long_adventure = data.adventure.long;
+const short_outcome = data.outcome.short;
+const short_conclusion = data.conclusion.short;
 
 export default class Form extends React.Component {
 
@@ -28,27 +33,29 @@ export default class Form extends React.Component {
         this.place = this.props.navigation.state.params.place;
         this.story_sounds = [];
         this.state = {
-            intro_place: this.place.name.toLowerCase(), intro_hero_who: "", intro_hero_characteristic: "",
-            intro_hero_habit_before: "", intro_hero_habit: short_intro.hero.habit, intro_hero_habit_after: "",
+            part_title: "Introduction",
+            current_navigation: 1,
+
+            intro_hero_who: "", intro_hero_characteristic: "",
+            intro_hero_habit_before: "", intro_hero_habit: short_intro.hero.habit, intro_hero_habit_after: "", intro_place: this.place.name.toLowerCase(),
             intro_hero_now: short_intro.expression_2[getRandomInt(0, short_intro.expression_2.length - 1)], intro_hero_current_action: "",
             intro_partner_who: "", intro_partner_how: "", intro_description_where: "", intro_description_time: "",
 
             disrupt_description: "",
             disrupt_message: long_disrupt.message[getRandomInt(0, long_disrupt.message.length - 1)], disrupt_content: "",
 
-            adventure_event_decision: "",
-            adventure_event_consequence: "",
-            adventure_event_reaction: "",
-            adventure_event_then: "",
+            advent_hero_reaction: "", advent_partner_reaction: "",
+            adventure_event_id: getRandomInt(0, imposed_events.events.length - 1),
+            advent_then: "", advent_consequence: "", advent_emotion: "", advent_action: "",
+
             outcome_description_solution: "",
             outcome_description_then: "",
             conclusion_description_change: "",
             conclusion_description_learn: "",
-            part_title: "Introduction",
-            adventure_event_id: getRandomInt(0, imposed_events.meteorological.length - 1),
-            current_navigation: 1,
-            intro_exp_selected: false,
-            disrupt_exp_selected: false,
+
+            intro_exp_selected: false, disrupt_exp_selected: false,
+            adventure_exp_selected_1: false, adventure_exp_selected_2: false,
+            outcome_exp_selected: false, end_exp_selected: false,
         };
         this.partEnd = {
             introduction: '', disruption: '', adventure: '', outcome: '',
@@ -92,6 +99,12 @@ export default class Form extends React.Component {
                 case 'disrupt_btn':
                     this.state.disrupt_exp_selected = false;
                     break;
+                case 'adventure_btn_1':
+                    this.state.adventure_exp_selected_1 = false;
+                    break;
+                case 'adventure_btn_2':
+                    this.state.adventure_exp_selected_2 = false;
+                    break;
                 default:
                     break;
             }
@@ -105,6 +118,12 @@ export default class Form extends React.Component {
                 case 'disrupt_btn':
                     this.state.disrupt_exp_selected = true;
                     break;
+                case 'adventure_btn_1':
+                    this.state.adventure_exp_selected_1 = true;
+                    break;
+                case 'adventure_btn_2':
+                    this.state.adventure_exp_selected_2 = true;
+                    break;
                 default:
                     break;
             }
@@ -115,7 +134,7 @@ export default class Form extends React.Component {
         this.setState(() => ({[name]: value}));
     };
     eventOnVote(index) {
-        let events = imposed_events.meteorological,
+        let events = imposed_events.events,
             imposed_event = events[this.state.adventure_event_id],
             choices = imposed_event.choice;
         choices.map((item) => {
@@ -283,13 +302,10 @@ export default class Form extends React.Component {
     prepareStory() {
 
         // Retrieve text
-        let short_adventure = data.adventure.short,
-            short_outcome = data.outcome.short,
-            short_conclusion = data.conclusion.short,
-            state = this.state;
+        let state = this.state;
 
         let intro_exp_1 = short_intro.expression_1.filter((exp) => { return exp.selected === true }),
-            hero = addEndDot(state.intro_hero_who), characteristic = state.intro_hero_characteristic,
+            hero = addEndDot(state.intro_hero_who), characteristic = addEndDot(state.intro_hero_characteristic),
             habit_before = state.intro_hero_habit_before, intro_exp_2 = state.intro_hero_habit, habit_after = addEndDot(state.intro_hero_habit_after),
             intro_exp_3 = state.intro_hero_now, current_action = state.intro_hero_current_action,
             place = addEndDot(state.intro_place),
@@ -300,30 +316,24 @@ export default class Form extends React.Component {
             disrupt_description = addEndDot(state.disrupt_description),
             disrupt_message = state.disrupt_message, disrupt_content = addEndDot(state.disrupt_content),
 
-            adventure_expression_1 = short_adventure.expression_1.filter((exp) => { return exp.selected === true }),
-            adventure_decision = addEndDot(state.adventure_event_decision),
-            adventure_consequence = addEndDot(state.adventure_event_consequence),
-            imposed_event = imposed_events.meteorological[state.adventure_event_id].event,
-            response_event = imposed_events.meteorological[state.adventure_event_id].choice.filter((exp) => {
-                return exp.selected === true
-            }),
-            adventure_reaction = addEndDot(state.adventure_event_reaction),
-            adventure_then = addEndDot(state.adventure_event_then),
-            outcome_expression_1 = short_outcome.expression_1.filter((exp) => {
-                return exp.selected === true
-            }),
+            advent_hero_reaction = addEndDot(state.advent_hero_reaction), advent_partner_reaction = addEndDot(state.advent_partner_reaction),
+            advent_exp_1 = short_adventure.expression_1.filter((exp) => { return exp.selected === true }),
+            advent_then = addEndDot(state.advent_then), advent_consequence = addEndDot(state.advent_consequence),
+            imposed_event = imposed_events.events[state.adventure_event_id].event,
+            response_event = imposed_events.events[state.adventure_event_id].choice.filter((exp) => { return exp.selected === true }),
+            advent_emotion = addEndDot(state.advent_emotion),
+            advent_exp_2 = medium_adventure.expression_1.filter((exp) => { return exp.selected === true }),
+            advent_action = addEndDot(state.advent_action),
+
+            outcome_expression_1 = short_outcome.expression_1.filter((exp) => { return exp.selected === true }),
             outcome_solution = addEndDot(state.outcome_description_solution),
             outcome_then = addEndDot(state.outcome_description_then),
-            conclusion_expression_1 = short_conclusion.expression_1.filter((exp) => {
-                return exp.selected === true
-            }),
+            conclusion_expression_1 = short_conclusion.expression_1.filter((exp) => { return exp.selected === true }),
             conclusion_change = addEndDot(state.conclusion_description_change),
             conclusion_learn = addEndDot(state.conclusion_description_learn);
 
-        console.log(short_intro.expression_1);
-
         // Check before retrieve
-        if (!hero || !characteristic || !habit_before || !habit_after || !current_action || !disrupt_event || !adventure_decision || !adventure_consequence || !response_event || !adventure_reaction || !adventure_then || !outcome_solution || !outcome_then || !conclusion_change || !conclusion_learn) {
+        if (!hero || !characteristic || !habit_before || !habit_after || !current_action || !disrupt_description || !disrupt_message || !advent_hero_reaction || !advent_partner_reaction || !advent_then || !advent_consequence || !response_event || !advent_emotion || !advent_action || !outcome_solution || !outcome_then || !conclusion_change || !conclusion_learn) {
             Alert.alert(
                 'Attention',
                 "Veuillez remplir tous les champs du formulaire avant d'imprimer l'histoire !",
@@ -344,9 +354,11 @@ export default class Form extends React.Component {
                     disrupt_exp_1[0].label, disrupt_description,
                     disrupt_message, disrupt_content,
 
-                    adventure_expression_1[0].label, adventure_decision, adventure_consequence,
-                    imposed_event, response_event[0].label,
-                    adventure_reaction, adventure_then,
+                    advent_hero_reaction, advent_partner_reaction,
+                    advent_exp_1[0].label, advent_then, advent_consequence,
+                    imposed_event, response_event[0].label, advent_emotion,
+                    advent_exp_2[0].label, advent_action,
+
                     outcome_expression_1[0].label, outcome_solution, outcome_then,
                     conclusion_expression_1[0].label, conclusion_change, conclusion_learn
                 ],
@@ -408,30 +420,6 @@ export default class Form extends React.Component {
             />
         )
     }
-    renderImposedEvent(){
-        let events = imposed_events.meteorological,
-            imposed_event = events[this.state.adventure_event_id],
-            choices = [];
-        for (let key = 0, nbChoices = imposed_event.choice.length; key < nbChoices; key++) {
-            const voteItem =
-                <TouchableOpacity onPress={this.eventOnVote.bind(this, key, choices)}>
-                    {(imposed_event.choice[key].selected)
-                        ? <Text style={[FormStyle.voteItem, FormStyle.voteSelected]}>{imposed_event.choice[key].label}</Text>
-                        : <Text style={[FormStyle.voteItem, FormStyle.voteUnselected]}>{imposed_event.choice[key].label}</Text>
-                    }
-                </TouchableOpacity>;
-            choices.push(React.cloneElement(voteItem, { key })); // active slide
-        }
-        return(
-            <View>
-                <TextInput
-                    style={[FormStyle.formItem, FormStyle.textItem, FormStyle.imposedEvent]}
-                    multiline={true} editable={false} selectTextOnFocus={false}
-                    value={imposed_event.event}/>
-                {choices}
-            </View>
-        );
-    }
 
     renderTitlePart() {
         return (
@@ -481,6 +469,30 @@ export default class Form extends React.Component {
         )
     }
 
+    renderImposedEvent(){
+        let events = imposed_events.events,
+            imposed_event = events[this.state.adventure_event_id],
+            choices = [];
+        for (let key = 0, nbChoices = imposed_event.choice.length; key < nbChoices; key++) {
+            const voteItem =
+                <TouchableOpacity onPress={this.eventOnVote.bind(this, key, choices)}>
+                    {(imposed_event.choice[key].selected)
+                        ? <Text style={[FormStyle.voteItem, FormStyle.voteSelected]}>{imposed_event.choice[key].label}</Text>
+                        : <Text style={[FormStyle.voteItem, FormStyle.voteUnselected]}>{imposed_event.choice[key].label}</Text>
+                    }
+                </TouchableOpacity>;
+            choices.push(React.cloneElement(voteItem, { key })); // active slide
+        }
+        return(
+            <View>
+                <TextInput
+                    style={[FormStyle.formItem, FormStyle.textItem, FormStyle.imposedEvent]}
+                    multiline={true} editable={false} selectTextOnFocus={false}
+                    value={imposed_event.event}/>
+                {choices}
+            </View>
+        );
+    }
     renderIntroduction() {
         let state = this.state,
             medium_intro_render = null,
@@ -546,6 +558,7 @@ export default class Form extends React.Component {
     }
     renderDisruption() {
         let state = this.state,
+            long_disrupt_render: null,
             opacity: null,
             content_opacity: null,
             btn_selected = state.disrupt_exp_selected;
@@ -562,11 +575,13 @@ export default class Form extends React.Component {
                 {this.renderInput("disrupt_description", short_disrupt.event.description, state.disrupt_description, btn_selected, 'none')}
             </View>;
 
-        let long_disrupt_render =
-            <View>
-                <FormTextImposed value={state.disrupt_message} position={"start"}/>
-                {this.renderInput("disrupt_content", long_disrupt.content, state.disrupt_content, btn_selected)}
-            </View>;
+        if (this.length === 2) {
+            long_disrupt_render =
+                <View>
+                    <FormTextImposed value={state.disrupt_message} position={"start"}/>
+                    {this.renderInput("disrupt_content", long_disrupt.content, state.disrupt_content, btn_selected)}
+                </View>;
+        }
 
         return (
             <View style={[FormStyle.formContainer, {opacity: opacity}]} ref="Disrupt" onLayout={(e) => {
@@ -585,10 +600,51 @@ export default class Form extends React.Component {
         );
     }
     renderAdventure() {
-        let short_adventure = data.adventure.short,
-            state = this.state,
-            opacity: null;
+        let state = this.state,
+            medium_reaction: null,
+            medium_consequence: null,
+            long_emotion: null,
+            short_exp_2: null,
+            medium_action: null,
+            opacity: null,
+            content_opacity_1: null,
+            content_opacity_2: null,
+            btn_selected_1 = state.adventure_exp_selected_1,
+            btn_selected_2 = state.adventure_exp_selected_2;
         if (this.state.current_navigation === 3) { opacity = 1; } else { opacity = .4; }
+        if (btn_selected_1 === true) { content_opacity_1 = 1; } else { content_opacity_1 = .4; }
+        if (btn_selected_2 === true) { content_opacity_2 = 1; } else { content_opacity_2 = .4; }
+
+        let short_reaction =
+            <View>
+                {this.renderInput("advent_hero_reaction", short_adventure.event.hero_reaction, state.advent_hero_reaction, true)}
+            </View>;
+        let short_exp_1 = <View>{this.renderRadioBtn(short_adventure.expression_1, "adventure_btn_1")}</View>;
+        let short_then = <View>{this.renderInput("advent_then", short_adventure.event.then, state.advent_then, btn_selected_1, 'none')}</View>;
+
+        if (this.length === 1 || this.length === 2) {
+            medium_reaction =
+                <View>
+                    {this.renderInput("advent_partner_reaction", medium_adventure.event.partner_reaction, state.advent_partner_reaction, true)}
+                </View>;
+            medium_consequence =
+                <View>
+                    {this.renderInput("advent_consequence", medium_adventure.event.consequence, state.advent_consequence, btn_selected_1)}
+                </View>;
+            short_exp_2 = <View>{this.renderRadioBtn(medium_adventure.expression_1, "adventure_btn_2")}</View>;
+            medium_action =
+                <View>
+                    {this.renderInput("advent_action", medium_adventure.event.action, state.advent_action, btn_selected_2, 'none')}
+                </View>;
+        }
+
+        if (this.length === 2) {
+            long_emotion =
+                <View>
+                    {this.renderInput("advent_emotion", long_adventure.emotion, state.advent_emotion, btn_selected_1)}
+                </View>;
+        }
+
         return (
             <View style={[FormStyle.formContainer, {opacity: opacity}]} ref="Adventure" onLayout={(e) => {
                 let view = this.refs['Adventure'],
@@ -597,18 +653,24 @@ export default class Form extends React.Component {
                     this.partEnd.adventure = y + height - scaleHeight(150); // padding bottom
                 })
             }}>
-                {this.renderRadioBtn(short_adventure.expression_1)}
-                {this.renderInput("adventure_event_decision", short_adventure.event.hero_decision.placeholder, state.adventure_event_decision, 'none')}
-                {this.renderInput("adventure_event_consequence", short_adventure.event.consequence.placeholder, state.adventure_event_consequence)}
-                {this.renderImposedEvent()}
-                {this.renderInput("adventure_event_reaction", short_adventure.event.hero_reaction.placeholder, state.adventure_event_reaction)}
-                {this.renderInput("adventure_event_then", short_adventure.event.then.placeholder, state.adventure_event_then)}
+                {short_reaction}
+                {medium_reaction}
+                {short_exp_1}
+                <View style={{ opacity : content_opacity_1 }}>
+                    {short_then}
+                    {medium_consequence}
+                    {this.renderImposedEvent()}
+                    {long_emotion}
+                    {short_exp_2}
+                </View>
+                <View style={{ opacity : content_opacity_2 }}>
+                    {medium_action}
+                </View>
             </View>
         );
     }
     renderOutcome() {
-        let short_outcome = data.outcome.short,
-            state = this.state,
+        let state = this.state,
             opacity: null;
         if (this.state.current_navigation === 4) { opacity = 1; } else { opacity = .4; }
         return (
@@ -626,8 +688,7 @@ export default class Form extends React.Component {
         );
     }
     renderConclusion() {
-        let short_conclusion = data.conclusion.short,
-            state = this.state,
+        let state = this.state,
             opacity: null;
         if (this.state.current_navigation === 5) { opacity = 1; } else { opacity = .4; }
         return (
