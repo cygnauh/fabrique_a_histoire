@@ -21,7 +21,9 @@ const short_adventure = data.adventure.short;
 const medium_adventure = data.adventure.medium;
 const long_adventure = data.adventure.long;
 const short_outcome = data.outcome.short;
-const short_conclusion = data.conclusion.short;
+const medium_outcome = data.outcome.medium;
+const short_end = data.conclusion.short;
+const medium_end = data.conclusion.medium;
 
 export default class Form extends React.Component {
 
@@ -48,10 +50,8 @@ export default class Form extends React.Component {
             adventure_event_id: getRandomInt(0, imposed_events.events.length - 1),
             advent_then: "", advent_consequence: "", advent_emotion: "", advent_action: "",
 
-            outcome_description_solution: "",
-            outcome_description_then: "",
-            conclusion_description_change: "",
-            conclusion_description_learn: "",
+            outcome_hero_solution: "", outcome_partner_solution: "",
+            end_change: "", end_learn: "",
 
             intro_exp_selected: false, disrupt_exp_selected: false,
             adventure_exp_selected_1: false, adventure_exp_selected_2: false,
@@ -93,39 +93,25 @@ export default class Form extends React.Component {
             array[index].selected = "none";
 
             switch (name) {
-                case 'intro_btn':
-                    this.state.intro_exp_selected = false;
-                    break;
-                case 'disrupt_btn':
-                    this.state.disrupt_exp_selected = false;
-                    break;
-                case 'adventure_btn_1':
-                    this.state.adventure_exp_selected_1 = false;
-                    break;
-                case 'adventure_btn_2':
-                    this.state.adventure_exp_selected_2 = false;
-                    break;
-                default:
-                    break;
+                case 'intro_btn': this.state.intro_exp_selected = false; break;
+                case 'disrupt_btn': this.state.disrupt_exp_selected = false; break;
+                case 'adventure_btn_1': this.state.adventure_exp_selected_1 = false; break;
+                case 'adventure_btn_2': this.state.adventure_exp_selected_2 = false; break;
+                case 'outcome_btn': this.state.outcome_exp_selected = false; break;
+                case 'end_btn': this.state.end_exp_selected = false; break;
+                default: break;
             }
         } else {
             array.map((item) => { item.selected = false; });
             array[index].selected = true;
             switch (name) {
-                case 'intro_btn':
-                    this.state.intro_exp_selected = true;
-                    break;
-                case 'disrupt_btn':
-                    this.state.disrupt_exp_selected = true;
-                    break;
-                case 'adventure_btn_1':
-                    this.state.adventure_exp_selected_1 = true;
-                    break;
-                case 'adventure_btn_2':
-                    this.state.adventure_exp_selected_2 = true;
-                    break;
-                default:
-                    break;
+                case 'intro_btn': this.state.intro_exp_selected = true; break;
+                case 'disrupt_btn': this.state.disrupt_exp_selected = true; break;
+                case 'adventure_btn_1': this.state.adventure_exp_selected_1 = true; break;
+                case 'adventure_btn_2': this.state.adventure_exp_selected_2 = true; break;
+                case 'outcome_btn': this.state.outcome_exp_selected = true; break;
+                case 'end_btn': this.state.end_exp_selected = true; break;
+                default: break;
             }
         }
         this.setState({radioItems: array}); // update view
@@ -300,10 +286,8 @@ export default class Form extends React.Component {
     }
 
     prepareStory() {
-
         // Retrieve text
         let state = this.state;
-
         let intro_exp_1 = short_intro.expression_1.filter((exp) => { return exp.selected === true }),
             hero = addEndDot(state.intro_hero_who), characteristic = addEndDot(state.intro_hero_characteristic),
             habit_before = state.intro_hero_habit_before, intro_exp_2 = state.intro_hero_habit, habit_after = addEndDot(state.intro_hero_habit_after),
@@ -325,15 +309,14 @@ export default class Form extends React.Component {
             advent_exp_2 = medium_adventure.expression_1.filter((exp) => { return exp.selected === true }),
             advent_action = addEndDot(state.advent_action),
 
-            outcome_expression_1 = short_outcome.expression_1.filter((exp) => { return exp.selected === true }),
-            outcome_solution = addEndDot(state.outcome_description_solution),
-            outcome_then = addEndDot(state.outcome_description_then),
-            conclusion_expression_1 = short_conclusion.expression_1.filter((exp) => { return exp.selected === true }),
-            conclusion_change = addEndDot(state.conclusion_description_change),
-            conclusion_learn = addEndDot(state.conclusion_description_learn);
+            outcome_exp_1 = short_outcome.expression_1.filter((exp) => { return exp.selected === true }),
+            outcome_hero_solution = addEndDot(state.outcome_hero_solution), outcome_partner_solution = addEndDot(state.outcome_partner_solution),
+
+            end_exp_1 = short_end.expression_1.filter((exp) => { return exp.selected === true }),
+            end_change = addEndDot(state.end_change), end_learn = addEndDot(state.end_learn);
 
         // Check before retrieve
-        if (!hero || !characteristic || !habit_before || !habit_after || !current_action || !disrupt_description || !disrupt_message || !advent_hero_reaction || !advent_partner_reaction || !advent_then || !advent_consequence || !response_event || !advent_emotion || !advent_action || !outcome_solution || !outcome_then || !conclusion_change || !conclusion_learn) {
+        if (!hero || !characteristic || !habit_before || !habit_after || !current_action || !disrupt_description || !disrupt_message || !advent_hero_reaction || !advent_partner_reaction || !advent_then || !advent_consequence || !response_event || !advent_emotion || !advent_action || !outcome_hero_solution || !outcome_partner_solution || !end_change || !end_learn) {
             Alert.alert(
                 'Attention',
                 "Veuillez remplir tous les champs du formulaire avant d'imprimer l'histoire !",
@@ -359,8 +342,8 @@ export default class Form extends React.Component {
                     imposed_event, response_event[0].label, advent_emotion,
                     advent_exp_2[0].label, advent_action,
 
-                    outcome_expression_1[0].label, outcome_solution, outcome_then,
-                    conclusion_expression_1[0].label, conclusion_change, conclusion_learn
+                    outcome_exp_1[0].label, outcome_hero_solution, outcome_partner_solution,
+                    end_exp_1[0].label, end_change, end_learn
                 ],
                 title = '',
                 story = '';
@@ -671,8 +654,30 @@ export default class Form extends React.Component {
     }
     renderOutcome() {
         let state = this.state,
-            opacity: null;
+            medium_outcome_render: null,
+            opacity: null,
+            content_opacity: null,
+            btn_selected = state.outcome_exp_selected;
         if (this.state.current_navigation === 4) { opacity = 1; } else { opacity = .4; }
+        if (btn_selected === true) { content_opacity = 1; } else { content_opacity = .4; }
+
+        let outcome_exp =
+            <View>
+                {this.renderRadioBtn(short_outcome.expression_1, "outcome_btn")}
+            </View>;
+
+        let short_outcome_render =
+            <View>
+                {this.renderInput("outcome_hero_solution", short_outcome.hero_solution, state.outcome_hero_solution, btn_selected, 'none')}
+            </View>;
+
+        if (this.length === 1 || this.length === 2) {
+            medium_outcome_render =
+                <View>
+                    {this.renderInput("outcome_partner_solution", medium_outcome.partner_solution, state.outcome_partner_solution, btn_selected)}
+                </View>
+        }
+
         return (
             <View style={[FormStyle.formContainer, {opacity: opacity}]} ref="Outcome" onLayout={(e) => {
                 let view = this.refs['Outcome'],
@@ -681,21 +686,47 @@ export default class Form extends React.Component {
                     this.partEnd.outcome = y + height - scaleHeight(150); // padding bottom
                 })
             }}>
-                {this.renderRadioBtn(short_outcome.expression_1)}
-                {this.renderInput("outcome_description_solution", short_outcome.description.solution.placeholder, state.outcome_description_solution, 'none')}
-                {this.renderInput("outcome_description_then", short_outcome.description.then.placeholder, state.outcome_description_then)}
+                {outcome_exp}
+                <View style={{ opacity: content_opacity}}>
+                    {short_outcome_render}
+                    {medium_outcome_render}
+                </View>
             </View>
         );
     }
     renderConclusion() {
         let state = this.state,
-            opacity: null;
+            medium_end_render: null,
+            opacity: null,
+            content_opacity: null,
+            btn_selected = state.end_exp_selected;
         if (this.state.current_navigation === 5) { opacity = 1; } else { opacity = .4; }
+        if (btn_selected === true) { content_opacity = 1; } else { content_opacity = .4; }
+
+        let end_exp =
+            <View>
+                {this.renderRadioBtn(short_end.expression_1, "end_btn")}
+            </View>;
+
+        let short_end_render =
+            <View>
+                {this.renderInput("end_change", short_end.change, state.end_change, btn_selected, 'none')}
+            </View>;
+
+        if (this.length === 1 || this.length === 2) {
+            medium_end_render =
+                <View>
+                    {this.renderInput("end_learn", medium_end.learn, state.end_learn, btn_selected)}
+                </View>
+        }
+
         return (
             <Animated.View style={[FormStyle.formContainer, {paddingBottom: this.keyboardHeight, opacity: opacity}]}>
-                {this.renderRadioBtn(short_conclusion.expression_1)}
-                {this.renderInput("conclusion_description_change", short_conclusion.description.change.placeholder, state.conclusion_description_change, 'none')}
-                {this.renderInput("conclusion_description_learn", short_conclusion.description.learn.placeholder, state.conclusion_description_learn)}
+                {end_exp}
+                <View style={{ opacity: content_opacity}}>
+                    {short_end_render}
+                    {medium_end_render}
+                </View>
                 <View style={FormStyle.printBtnContainer}>
                     <RectangleButton
                         content={'Terminer'}

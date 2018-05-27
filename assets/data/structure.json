@@ -122,24 +122,20 @@
     "short": {
       "expression_1": [
         {
-          "label": "Ensuite,",
+          "label": "Heureusement,",
           "selected": "none"
         }, {
-          "label": "Peu après,",
+          "label": "Malheureusement,",
           "selected": "none"
         }, {
-          "label": "Un jour,",
+          "label": "Finalement,",
           "selected": "none"
         }
       ],
-      "description": {
-        "solution": {
-          "placeholder": "Comment est-ce que le ou les héros règlent-ils leurs problèmes ?"
-        },
-        "then": {
-          "placeholder": "Qu'est-ce qui arrive au(x) personnage(s) ?"
-        }
-      }
+      "hero_solution": "Comme *le héros* règle-t-il ce dernier problème ?"
+    },
+    "medium": {
+      "partner_solution": "Comment *le compagnon* aide-t-il *le héros* ?"
     }
   },
   "conclusion": {
@@ -156,14 +152,10 @@
           "selected": "none"
         }
       ],
-      "description": {
-        "change": {
-          "placeholder": "Qu\'est ce qui a changé pour le ou les personnages depuis le début de l'histoire ?"
-        },
-        "learn": {
-          "placeholder": "Qu\'est-ce que le ou les personnages ont appris de leurs aventures? "
-        }
-      }
+      "change": "Qu'est-ce qui a changé pour *le héros* depuis le début de l'histoire ? "
+    },
+    "medium": {
+      "learn": "Qu'est-ce que le héros a-t-il appris de ses aventures ?"
     }
   }
 }
