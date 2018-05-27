@@ -8,6 +8,9 @@
         }, {
           "label": "Il y a bien longtemps,",
           "selected": "none"
+        }, {
+          "label": "Il fut un temps,",
+          "selected": "none"
         }
       ],
       "expression_2": [
@@ -31,18 +34,6 @@
       }
     },
     "long": {
-      "expression_1": [
-        {
-          "label": "Il était une fois,",
-          "selected": "none"
-        }, {
-          "label": "Il y a bien longtemps,",
-          "selected": "none"
-        }, {
-          "label": "Jadis,",
-          "selected": "none"
-        }
-      ],
       "description": {
         "where": "Décrivez-moi l'endroit où se trouvent les personnages ?",
         "time": "Quel temps fait-il ? Quel est le moment de la journée ?"

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TextInput, Animated, Keyboard, ScrollView, Alert, UIManager, findNodeHandle, TouchableOpacity, Image} from 'react-native';
+import {View, Text, TextInput, Animated, Keyboard, ScrollView, Alert, UIManager, findNodeHandle, TouchableOpacity, Image, SectionList} from 'react-native';
 import Header from '../../components/header';
 import RadioButton from '../../components/form/radioButton';
 import RectangleButton from '../../components/rectangleButton';
@@ -36,6 +36,8 @@ export default class Form extends React.Component {
         this.story_sounds = [];
         this.state = {
             part_title: "Introduction",
+            direction: null,
+            previousOffset: 0,
             current_navigation: 1,
 
             intro_hero_who: "", intro_hero_characteristic: "",
@@ -57,9 +59,8 @@ export default class Form extends React.Component {
             adventure_exp_selected_1: false, adventure_exp_selected_2: false,
             outcome_exp_selected: false, end_exp_selected: false,
         };
-        this.partEnd = {
-            introduction: '', disruption: '', adventure: '', outcome: '',
-        };
+        this.partHeight = { introduction: '', disruption: '', adventure: '', outcome: '',};
+        this.partEnd = { introduction: '', disruption: '', adventure: '', outcome: '' };
         this.keyboardHeight = new Animated.Value(0);
         this.fadeIn = new Animated.Value(0);
 
@@ -516,10 +517,6 @@ export default class Form extends React.Component {
                     {this.renderInput("intro_description_where", long_intro.description.where, state.intro_description_where, btn_selected)}
                     {this.renderInput("intro_description_time", long_intro.description.time, state.intro_description_time, btn_selected)}
                 </View>;
-            intro_exp =
-                <View>
-                    {this.renderRadioBtn(long_intro.expression_1, "intro_btn")};
-                </View>;
         }
 
         return (
@@ -527,6 +524,7 @@ export default class Form extends React.Component {
                 let view = this.refs['Introduction'],
                     handle = findNodeHandle(view);
                 UIManager.measure(handle, (x, y, width, height, pageX, pageY) => {
+                    this.partHeight.introduction = height;
                     this.partEnd.introduction = height - scaleHeight(150); // padding bottom
                 })
             }}>
@@ -571,6 +569,7 @@ export default class Form extends React.Component {
                 let view = this.refs['Disrupt'],
                     handle = findNodeHandle(view);
                 UIManager.measure(handle, (x, y, width, height, pageX, pageY) => {
+                    this.partHeight.disruption = height;
                     this.partEnd.disruption = y + height - scaleHeight(150); // padding bottom
                 })
             }}>
@@ -721,7 +720,7 @@ export default class Form extends React.Component {
         }
 
         return (
-            <Animated.View style={[FormStyle.formContainer, {paddingBottom: this.keyboardHeight, opacity: opacity}]}>
+            <Animated.View style={[FormStyle.formContainer, {paddingBottom: this.keyboardHeight, opacity: opacity, marginBottom: scaleHeight(140)}]}>
                 {end_exp}
                 <View style={{ opacity: content_opacity}}>
                     {short_end_render}
@@ -737,10 +736,51 @@ export default class Form extends React.Component {
         );
     }
 
+    onScrollEndDrag = (e) => {
+        let currentOffset = e.nativeEvent.contentOffset.y;
+        console.log('on drag end : ' + currentOffset);
+
+        switch (this.state.current_navigation) {
+            case 1:
+                if (currentOffset >= this.partHeight.introduction / 2 && this.state.direction === "down") {
+                    this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true});
+                } else if (this.state.direction === "up") {
+                    this.refs.FormScrollView.scrollTo({x: 0, y: 0, animated: true});
+                }
+                break;
+            case 2:
+                if (currentOffset >= this.partEnd.introduction + this.partHeight.disruption / 2 && this.state.direction === "down") {
+                    this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true});
+                } else if (this.state.direction === "up") {
+                    this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true});
+                }
+                break;
+            case 3:
+                if (currentOffset >= this.partEnd.disruption + this.partHeight.adventure / 2 && this.state.direction === "down") {
+                    this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true});
+                } else if (this.state.direction === "up") {
+                    this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true});
+                }
+                break;
+            case 4:
+                if (currentOffset >= this.partEnd.adventure + this.partHeight.outcome / 2 && this.state.direction === "down") {
+                    this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.outcome + 1, animated: true});
+                } else if (this.state.direction === "up") {
+                    this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true});
+                }
+                break;
+            default:
+                break;
+        }
+
+    };
+
     onScroll = (e) => {
-        /*console.log(e.nativeEvent);*/
         let currentOffset = e.nativeEvent.contentOffset.y; // get the current y position on scroll
-        // TODO calculation according if keyboard is open and form height
+        this.state.direction = this.state.previousOffset - currentOffset > 0 ? 'up' : 'down';
+        this.state.previousOffset = currentOffset;
+
+        // Update title part and navigation
         if (currentOffset >= 0 && currentOffset < this.partEnd.introduction) {
             this.setState({part_title: "Introduction"}); // update view
             this.setState({current_navigation: 1});
@@ -821,10 +861,12 @@ export default class Form extends React.Component {
                 <Header onPress={() => this.props.navigation.goBack()}/>
                 {this.renderTitlePart()}
                 <ScrollView ref="FormScrollView"
+                    bounces={false} decelerationRate={'fast'}
+                    scrollEventThrottle = {0}
                     showsHorizontalScrollIndicator={false}
                     showsVerticalScrollIndicator={false}
-                    onScroll={this.onScroll}>
-                    <View>
+                    onScroll={this.onScroll} onScrollEndDrag={this.onScrollEndDrag}
+                >
                         { // background sound
                             this.place ? this.playASound(this.place.url, 0.5, "repeat", false) : null
                         }
@@ -839,7 +881,6 @@ export default class Form extends React.Component {
                         {this.renderAdventure()}
                         {this.renderOutcome()}
                         {this.renderConclusion()}
-                    </View>
                 </ScrollView>
                 {this.renderNavigationPart()}
                 {/*<Text>{'Length : ' + this.length}</Text>*/}
