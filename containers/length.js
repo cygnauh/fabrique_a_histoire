@@ -65,6 +65,7 @@ export default class Length extends React.Component{
                                     minimumTrackTintColor={'#4D4641'}
                                     maximumValue={2}
                                     value={this.state.value}
+                                    thumbImage={require('../assets/images/trackSlider.png')}
                                     onValueChange={(value) => this.onChange(value)}/>
                             {this.renderLength(this.state.value)}
                         </View>
