@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TextInput, Animated, Keyboard, ScrollView, Alert, UIManager, findNodeHandle, TouchableOpacity, Image, SectionList} from 'react-native';
+import {View, Text, TextInput, Animated, Keyboard, ScrollView, Alert, UIManager, findNodeHandle, TouchableOpacity, Image} from 'react-native';
 import Header from '../../components/header';
 import RadioButton from '../../components/form/radioButton';
 import RectangleButton from '../../components/rectangleButton';
@@ -8,6 +8,7 @@ import GlobalStyle from '../../styles/mainStyle';
 import FormStyle from "../../styles/formStyle";
 import Video from 'react-native-video';
 import { scaleDelta, scaleHeight } from "../../utils/scale";
+import { colors } from "../../styles/colors";
 import { getRandomInt, delEndDot, addEndDot, upperCaseFirst } from "../../utils/tools";
 
 const data = require('../../assets/data/structure.json');
@@ -41,7 +42,9 @@ export default class Form extends React.Component {
             current_navigation: 1,
 
             intro_hero_who: "", intro_hero_characteristic: "",
-            intro_hero_habit_before: "", intro_hero_habit: short_intro.hero.habit, intro_hero_habit_after: "", intro_place: this.place.name.toLowerCase(),
+            intro_hero_habit_before: "", intro_hero_habit: short_intro.hero.habit, intro_hero_habit_after: "",
+            intro_place: this.place.name.toLowerCase(),
+            //intro_place: "dans la jungle",
             intro_hero_now: short_intro.expression_2[getRandomInt(0, short_intro.expression_2.length - 1)], intro_hero_current_action: "",
             intro_partner_who: "", intro_partner_how: "", intro_description_where: "", intro_description_time: "",
 
@@ -58,6 +61,8 @@ export default class Form extends React.Component {
             intro_exp_selected: false, disrupt_exp_selected: false,
             adventure_exp_selected_1: false, adventure_exp_selected_2: false,
             outcome_exp_selected: false, end_exp_selected: false,
+
+            intro_completed: null, disrupt_completed: null, adventure_completed: null, outcome_completed: null, end_completed: null,
         };
         this.partHeight = { introduction: '', disruption: '', adventure: '', outcome: '',};
         this.partEnd = { introduction: '', disruption: '', adventure: '', outcome: '' };
@@ -392,16 +397,35 @@ export default class Form extends React.Component {
             </View>
         )
     }
-    renderInput(name, placeholder, state, btnSelected, autoCapitalize = 'sentences') {
+    renderInput(name, placeholder, state, btnSelected, completed, autoCapitalize = 'sentences') {
+        let error_img = null,
+            question = null,
+            borderColor = colors.pinkishGreyTwo;
+
+        if (completed === false) {
+            if (state === "") {
+                error_img = <Image style={FormStyle.errorImage} source={require('../../assets/images/warning.png')}/>;
+                question = <Text style={FormStyle.errorQuestion}>{placeholder}</Text>;
+                borderColor = colors.deepPink;
+            }
+            placeholder = "Attention: il faut remplir ce champ avant de passer à la suite";
+        }
+        let placeholderColor = (completed === false) ? colors.deepPink : colors.pinkishGreyTwo;
+
         return (
-            <TextInput
-                style={[FormStyle.inputItem, FormStyle.formItem]}
-                onChangeText={(text) => this.inputOnChange(name, text)}
-                onFocus={(e) => this.onFocusHelper(e)}
-                onBlur={(e) => this.onBlurSearchSound(e)}
-                autoCapitalize={autoCapitalize} multiline={true}
-                placeholder={placeholder} value={state} editable={btnSelected} selectTextOnFocus={btnSelected}
-            />
+            <View style={FormStyle.inputContainer}>
+                {question}
+                <TextInput
+                    style={[FormStyle.inputItem, FormStyle.formItem, {borderColor: borderColor}]}
+                    onChangeText={(text) => this.inputOnChange(name, text)}
+                    onFocus={(e) => this.onFocusHelper(e)}
+                    onBlur={(e) => this.onBlurSearchSound(e)}
+                    placeholderTextColor={placeholderColor}
+                    autoCapitalize={autoCapitalize} multiline={true}
+                    placeholder={placeholder} value={state} editable={btnSelected} selectTextOnFocus={btnSelected}
+                />
+                {error_img}
+            </View>
         )
     }
 
@@ -483,7 +507,8 @@ export default class Form extends React.Component {
             long_intro_render = null,
             opacity = null,
             content_opacity = null,
-            btn_selected = state.intro_exp_selected;
+            btn_selected = state.intro_exp_selected,
+            completed = state.intro_completed;
         if (this.state.current_navigation === 1) { opacity = 1; } else { opacity = .4; }
         if (btn_selected === true) { content_opacity = 1; } else { content_opacity = .4; }
 
@@ -494,28 +519,28 @@ export default class Form extends React.Component {
 
         let short_intro_render =
             <View>
-                {this.renderInput("intro_hero_who", short_intro.hero.who, state.intro_hero_who, btn_selected, 'none')}
-                {this.renderInput("intro_hero_characteristic", short_intro.hero.characteristic, state.intro_hero_characteristic, btn_selected)}
-                {this.renderInput("intro_hero_habit_before", short_intro.hero.habit_before, state.intro_hero_habit_before, btn_selected)}
+                {this.renderInput("intro_hero_who", short_intro.hero.who, state.intro_hero_who, btn_selected, completed, 'none')}
+                {this.renderInput("intro_hero_characteristic", short_intro.hero.characteristic, state.intro_hero_characteristic, btn_selected, completed)}
+                {this.renderInput("intro_hero_habit_before", short_intro.hero.habit_before, state.intro_hero_habit_before, btn_selected, completed)}
                 <FormTextImposed value={state.intro_hero_habit}/>
-                {this.renderInput("intro_hero_habit_after", short_intro.hero.habit_after, state.intro_hero_habit_after, btn_selected, 'none')}
+                {this.renderInput("intro_hero_habit_after", short_intro.hero.habit_after, state.intro_hero_habit_after, btn_selected, completed, 'none')}
                 <FormTextImposed value={state.intro_hero_now} position={"start"}/>
-                {this.renderInput("intro_hero_current_action", short_intro.hero.current_action, state.intro_hero_current_action, btn_selected, 'none')}
+                {this.renderInput("intro_hero_current_action", short_intro.hero.current_action, state.intro_hero_current_action, btn_selected, completed, 'none')}
                 <FormTextImposed value={state.intro_place + '.'} position={"end"}/>
             </View>;
 
         if (this.length === 1 || this.length === 2) {
             medium_intro_render =
                 <View>
-                    {this.renderInput("intro_partner_who", medium_intro.partner.who, state.intro_partner_who, btn_selected)}
-                    {this.renderInput("intro_partner_how", medium_intro.partner.how, state.intro_partner_how, btn_selected)}
+                    {this.renderInput("intro_partner_who", medium_intro.partner.who, state.intro_partner_who, btn_selected, completed)}
+                    {this.renderInput("intro_partner_how", medium_intro.partner.how, state.intro_partner_how, btn_selected, completed)}
                 </View>;
         }
         if (this.length === 2) {
             long_intro_render =
                 <View>
-                    {this.renderInput("intro_description_where", long_intro.description.where, state.intro_description_where, btn_selected)}
-                    {this.renderInput("intro_description_time", long_intro.description.time, state.intro_description_time, btn_selected)}
+                    {this.renderInput("intro_description_where", long_intro.description.where, state.intro_description_where, btn_selected, completed)}
+                    {this.renderInput("intro_description_time", long_intro.description.time, state.intro_description_time, btn_selected, completed)}
                 </View>;
         }
 
@@ -737,13 +762,41 @@ export default class Form extends React.Component {
     }
 
     onScrollEndDrag = (e) => {
-        let currentOffset = e.nativeEvent.contentOffset.y;
-        console.log('on drag end : ' + currentOffset);
-
+        let currentOffset = e.nativeEvent.contentOffset.y,
+            state = this.state;
         switch (this.state.current_navigation) {
             case 1:
                 if (currentOffset >= this.partHeight.introduction / 2 && this.state.direction === "down") {
-                    this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true});
+                    // TODO check all inputs
+                    // TODO push linking words in a global variable for prepare story
+
+                    let intro_exp_1 = short_intro.expression_1.filter((exp) => { return exp.selected === true }),
+                        hero = addEndDot(state.intro_hero_who), characteristic = addEndDot(state.intro_hero_characteristic),
+                        habit_before = state.intro_hero_habit_before,
+                        intro_exp_2 = state.intro_hero_habit, habit_after = addEndDot(state.intro_hero_habit_after),
+                        intro_exp_3 = state.intro_hero_now, current_action = state.intro_hero_current_action,
+                        place = addEndDot(state.intro_place),
+                        partner_who = addEndDot(state.intro_partner_who), partner_how = addEndDot(state.intro_partner_how),
+                        intro_where = addEndDot(state.intro_description_where), intro_time = addEndDot(state.intro_description_time);
+
+                    let short_check = !hero || !characteristic || !habit_before || !habit_after || !current_action,
+                        medium_check = short_check || !partner_who || !partner_how,
+                        long_check = medium_check || !intro_where || !intro_time;
+
+                    if (this.length === 0 || this.length === 1 || this.length === 2 && intro_exp_1.length !== 0) {
+                        let check_inputs = null;
+                        switch (this.length) {
+                            case 1: check_inputs = medium_check; break;
+                            case 2: check_inputs = long_check; break;
+                            default: check_inputs = short_check; break;
+                        }
+                        if (check_inputs) {
+                            this.state.intro_completed = false;
+                            this.refs.FormScrollView.scrollTo({x: 0, y: 0, animated: true}); // scroll to top
+                        } else {
+                            this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true}); // scroll to next part
+                        }
+                    }
                 } else if (this.state.direction === "up") {
                     this.refs.FormScrollView.scrollTo({x: 0, y: 0, animated: true});
                 }
@@ -781,6 +834,7 @@ export default class Form extends React.Component {
         this.state.previousOffset = currentOffset;
 
         // Update title part and navigation
+        // TODO improve scroll according the length
         if (currentOffset >= 0 && currentOffset < this.partEnd.introduction) {
             this.setState({part_title: "Introduction"}); // update view
             this.setState({current_navigation: 1});

@@ -170,7 +170,7 @@ export default class OnBoardingSlide extends React.Component {
         return(
             <View>
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('Length')}>
-                    <Text style={OnBoardingStyle.skipBtn}>{'Passer'.toUpperCase()}</Text>
+                    <Text style={OnBoardingStyle.skipBtn}>{'Passer'}</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -182,9 +182,9 @@ export default class OnBoardingSlide extends React.Component {
             <View style={[OnBoardingStyle.fullScreen, OnBoardingStyle.container]}>
                 <Image style={GlobalStyle.backgroundImage} source={require('../assets/images/background.png')} />
                 {this.renderHeader()}
+                {this.renderSkip()}
                 {this.renderScrollView(children)} /*Render screens */
                 {this.renderPagination()} /*Render pagination */
-                {this.renderSkip()}
             </View>
         );
     }

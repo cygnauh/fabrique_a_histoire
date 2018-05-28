@@ -1,6 +1,7 @@
 import React from 'react';
 import {Dimensions, StyleSheet} from 'react-native';
 import { scaleWidth, scaleHeight, scaleDelta } from '../utils/scale';
+import {colors} from "./colors";
 
 const { width, height } = Dimensions.get('window');
 
@@ -20,7 +21,15 @@ export default StyleSheet.create({
         paddingHorizontal: scaleWidth(20),
         width: width,
         flexDirection: 'row',
-        justifyContent: 'flex-start'
+        justifyContent: 'space-between',
+    },
+    backText: {
+        position: 'relative',
+        top: -scaleHeight(12),
+        left: scaleWidth(15),
+        fontFamily: 'MaisonNeue-Bold',
+        color: colors.greyishBrown,
+        fontSize: scaleDelta(12, .5),
     },
     iconBack: {
         height: scaleWidth(10),
@@ -40,7 +49,7 @@ export default StyleSheet.create({
         fontSize: scaleDelta(24, .5),
         marginBottom: scaleWidth(30),
         fontFamily: 'Editor-Bold',
-        color: '#300365',
+        color: colors.indigo,
         textAlign: 'center',
     },
     text: {
@@ -64,7 +73,7 @@ export default StyleSheet.create({
         width: scaleWidth(90),
         backgroundColor: 'white',
         borderWidth: 2,
-        borderColor: '#4F4640',
+        borderColor: colors.greyishBrown,
         paddingLeft: scaleWidth(15),
         paddingRight: scaleWidth(10),
         marginHorizontal: scaleWidth(5),
@@ -93,17 +102,19 @@ export default StyleSheet.create({
 
     /**  SKIP **/
     skipBtn: {
-        textAlign: 'center',
-        marginBottom: scaleHeight(0),
+        position: 'absolute',
+        top: -scaleHeight(100),
+        right: 0,
+        marginRight: scaleWidth(20),
         fontFamily: 'MaisonNeue-Bold',
-        color: '#47404F',
+        color: colors.greyishBrown,
         fontSize: scaleDelta(12, .5),
     },
 
     /** PAGINATION **/
     paginationContainer: {
         position: 'absolute',
-        bottom: scaleWidth(60), // 40 after delete skip btn
+        bottom: scaleWidth(30), // 40 after delete skip btn
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'flex-end',
@@ -112,12 +123,12 @@ export default StyleSheet.create({
         paddingHorizontal: scaleWidth(8),
         fontSize: scaleDelta(12, .5),
         fontFamily: 'Editor-Medium',
-        color: '#47404F50',
+        color: colors.pinkishGreyTwo,
     },
     currentPagination: {
         fontSize: scaleDelta(22, .5),
         position: 'relative',
         top: scaleWidth(4),
-        color: '#300365',
+        color: colors.indigo,
     }
 });

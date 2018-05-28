@@ -1,6 +1,7 @@
 import React from 'react';
 import { Dimensions, StyleSheet } from 'react-native';
 import { scaleWidth, scaleHeight, scaleDelta } from '../utils/scale';
+import {colors} from "./colors";
 const { width, height } = Dimensions.get('window');
 const resizeMode = 'repeat';
 
@@ -41,7 +42,7 @@ export default StyleSheet.create({
     /** HOME **/
     titleHeader: {
       flexDirection: 'column',
-      alignItems: 'center'
+      alignItems: 'flex-start'
     },
     titleContainer: {
         marginBottom: scaleHeight(25),
@@ -49,15 +50,15 @@ export default StyleSheet.create({
     title: {
         fontSize: scaleDelta(24, 1),
         fontFamily: 'Editor-Bold',
-        color: '#47404F',
+        color: colors.indigo,
     },
     subtitle: {
         fontSize: scaleDelta(18, .5),
         fontFamily: 'Editor-Bold',
-        color: '#47404F',
+        color: colors.indigo,
     },
     line: {
-        borderBottomColor: '#4F4640',
+        borderBottomColor: colors.pinkishGreyTwo,
         borderBottomWidth: 2,
         width: width - scaleWidth(80),
     },
@@ -65,7 +66,7 @@ export default StyleSheet.create({
         fontSize: scaleDelta(12, .5),
         lineHeight: scaleDelta(20, .5),
         fontFamily: 'MaisonNeue-Medium',
-        color: '#47404F',
+        color: colors.greyishBrown,
         textAlign: 'center',
     },
     homeText: {
@@ -75,12 +76,12 @@ export default StyleSheet.create({
     homeBtn: {
         fontSize: scaleDelta(12, .5),
         fontFamily: 'MaisonNeue-Medium',
-        color: '#47404F',
+        color: colors.greyishBrown,
         paddingTop: scaleHeight(8),
         paddingBottom: scaleHeight(6),
         paddingHorizontal: scaleWidth(15),
         borderWidth: 2,
-        borderColor: '#4F4640',
+        borderColor: colors.greyishBrown,
     },
 
     /** SUB PAGE **/
@@ -89,7 +90,7 @@ export default StyleSheet.create({
         marginBottom: scaleHeight(25),
         textAlign: 'center',
         fontFamily: 'Editor-Bold',
-        color: '#47404F',
+        color: colors.indigo,
     },
 
     /** LENGTH **/
@@ -111,27 +112,27 @@ export default StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
-
-    /** PLACE **/
-    placePhrase: {
-        color: "#FFFFFF",
-        fontSize: scaleDelta(18, .5),
-    },
-    placeTitle: {
-        color: "#FFFFFF",
-        fontFamily: 'Editor-Medium',
-        fontSize: scaleDelta(32, .5),
-    },
     lengthItem: {
         fontSize: scaleDelta(12, .5),
         fontFamily: 'Editor-Medium',
-        color: '#47404F50',
+        color: colors.pinkishGreyTwo,
     },
     currentLength: {
         fontSize: scaleDelta(18, .5),
         position: 'relative',
         top: scaleWidth(-2),
-        color: '#47404F',
+        color: colors.greyishBrown,
+    },
+
+    /** PLACE **/
+    placePhrase: {
+        color: colors.white,
+        fontSize: scaleDelta(18, .5),
+    },
+    placeTitle: {
+        color: colors.white,
+        fontFamily: 'Editor-Medium',
+        fontSize: scaleDelta(32, .5),
     },
 
     /** RE-READING **/
@@ -158,7 +159,7 @@ export default StyleSheet.create({
     },
     nbCopies: {
         fontSize: scaleDelta(28, .5),
-        color: '#47404F',
+        color: colors.greyishBrown,
         fontFamily: 'Editor-Bold',
         paddingHorizontal: scaleWidth(20),
     },
@@ -175,7 +176,7 @@ export default StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 2,
-        borderColor: '#C6C4C3',
+        borderColor: colors.pinkishGreyTwo,
         borderRadius: scaleWidth(20),
     }
 });

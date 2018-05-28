@@ -1,6 +1,7 @@
 import React from 'react';
-import {StyleSheet, Dimensions} from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { scaleWidth, scaleHeight, scaleDelta } from '../utils/scale';
+import { colors } from "./colors";
 
 const { width, height } = Dimensions.get('window');
 
@@ -45,7 +46,7 @@ export default StyleSheet.create({
         position: 'relative',
         left: scaleWidth(-30),
         top: scaleHeight(150),
-        color: '#c9c6c5',
+        color: colors.pinkishGreyTwo,
     },
     partNavigationItemContainer: {
         position: 'relative',
@@ -57,12 +58,12 @@ export default StyleSheet.create({
         textAlign: 'center',
         fontSize: scaleDelta(12, .5),
         fontFamily: 'Editor-Medium',
-        color: '#47404F50',
+        color: colors.pinkishGreyTwo,
         paddingVertical: scaleHeight(5),
     },
     partNavigationCurrentItem: {
         fontSize: scaleDelta(22, .5),
-        color: '#300365',
+        color: colors.indigo,
     },
     iconNav: {
         width: scaleWidth(20),
@@ -91,9 +92,9 @@ export default StyleSheet.create({
         position: 'relative',
         top: scaleHeight(0),
         fontFamily: 'Editor-Bold',
-        color: '#300365',
+        color: colors.indigo,
         borderWidth: 2,
-        borderColor:'#c0b5cd',
+        borderColor: colors.heather,
         paddingHorizontal: scaleWidth(10),
         paddingVertical: scaleWidth(4),
         borderRadius: scaleWidth(12),
@@ -104,7 +105,7 @@ export default StyleSheet.create({
         marginBottom: scaleHeight(10),
         fontSize: scaleDelta(11, .5),
         fontFamily: 'Editor-Bold',
-        color: '#300365',
+        color: colors.indigo,
     },
     radioBtnContainer: {
         flexDirection: 'row',
@@ -120,26 +121,29 @@ export default StyleSheet.create({
         paddingRight: scaleWidth(30)
     },
     radioBtnLine: {
-        backgroundColor: '#c0b5cd',
+        backgroundColor: colors.heather,
         height: scaleHeight(20),
         width: 2
     },
 
     /** TEXT INPUT **/
+    inputContainer: {
+        position: 'relative',
+    },
     inputItem: {
         paddingTop: scaleHeight(8),
         paddingBottom: scaleHeight(8),
-        paddingHorizontal: scaleHeight(5),
+        paddingHorizontal: scaleWidth(5),
         fontSize: scaleDelta(12, .5),
         fontFamily: 'MaisonNeue-Medium',
-        color: '#47404F',
+        color: colors.greyishBrown,
         borderBottomWidth: 2,
-        borderColor: '#c9c6c5',
+        borderColor: colors.pinkishGreyTwo,
     },
     textItem: {
         fontSize: scaleDelta(16, .5),
         fontFamily: 'Editor-Bold',
-        color: '#300365',
+        color: colors.indigo,
     },
     startItem: {
         marginTop: scaleHeight(20),
@@ -148,23 +152,18 @@ export default StyleSheet.create({
         marginTop: scaleHeight(10),
         marginBottom: scaleHeight(20),
     },
-
-    /** UNDERLINE INPUT **/
-    underlineInputItem: {
-        borderBottomWidth: 2,
-        width: width - scaleWidth(80),
-        paddingBottom: scaleHeight(5),
-        paddingLeft: scaleWidth(5),
-        marginBottom: scaleHeight(10),
+    /** MANEGE ERROR **/
+    errorQuestion: {
+        paddingHorizontal: scaleWidth(5),
+        color: colors.warmGreyTwo,
+        position: 'relative',
+        top: scaleHeight(5),
     },
-    textInput : {
-        paddingTop: scaleHeight(10),
-        fontFamily: 'MaisonNeue-Demi',
-        fontSize: scaleDelta(12, .5),
-        lineHeight: scaleDelta(14, .5),
-        color: '#47404F',
+    errorImage: {
+        position: 'absolute',
+        right: scaleWidth(10),
+        bottom: scaleHeight(16),
     },
-
 
     /** VOTE **/
     voteItem: {
@@ -175,10 +174,10 @@ export default StyleSheet.create({
         paddingVertical: scaleHeight(10),
         borderRadius: 24,
         borderWidth: 2,
-        borderColor: '#c9c6c5',
+        borderColor: colors.pinkishGreyTwo,
         fontFamily: 'MaisonNeue-Demi',
         fontSize: scaleDelta(12, .5),
-        color: '#47404F',
+        color: colors.greyishBrown,
     },
     imposedEvent: {
         marginTop: scaleHeight(20),
@@ -188,8 +187,8 @@ export default StyleSheet.create({
         backgroundColor: 'transparent',
     },
     voteSelected: {
-        backgroundColor: '#c9c6c5',
-        overflow:"hidden",
+        backgroundColor: colors.pinkishGreyTwo,
+        overflow: "hidden",
     },
 
     /** PRINT **/
