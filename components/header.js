@@ -8,6 +8,7 @@ export default class Header extends React.Component{
         super(props);
         this.state = {
             isAbout: false,
+            isHome: false,
             isBack: true,
         };
         this.leftElm = this.props.leftElm;
@@ -28,6 +29,11 @@ export default class Header extends React.Component{
                 this.state.isBack = false;
                 alignElm = 'flex-end';
                 break;
+            case 'home':
+                this.state.isBack = false;
+                this.state.isHome = true;
+                alignElm = 'space-between';
+                break;
             default:
                 this.state.isBack = true;
                 alignElm = 'space-between';
@@ -39,6 +45,13 @@ export default class Header extends React.Component{
                 <TouchableOpacity onPress={ this.props.onPress }>
                     <Image style={OnBoardingStyle.iconBack} source={require('../assets/images/iconBack.png')}/>
                     <Text style={OnBoardingStyle.backText}>{'Retour'}</Text>
+                </TouchableOpacity>
+        }
+        if (this.state.isHome === true) {
+            back =
+                <TouchableOpacity onPress={ this.props.goHome }>
+                    <Image style={OnBoardingStyle.iconHome} source={require('../assets/images/colorfulLogo.png')}/>
+                    <Text style={[OnBoardingStyle.backText, OnBoardingStyle.homeText]}>{'Accueil'}</Text>
                 </TouchableOpacity>
         }
         if (this.state.isAbout === true) {

@@ -9,7 +9,7 @@ import FormStyle from "../../styles/formStyle";
 import Video from 'react-native-video';
 import { scaleDelta, scaleHeight } from "../../utils/scale";
 import { colors } from "../../styles/colors";
-import { getRandomInt, delEndDot, addEndDot, upperCaseFirst } from "../../utils/tools";
+import { getRandomInt, delEndDot, addEndDot, upperCaseFirst, gatherText, generateTitle } from "../../utils/tools";
 
 const data = require('../../assets/data/structure.json');
 const imposed_events = require('../../assets/data/imposed_events');
@@ -42,9 +42,7 @@ export default class Form extends React.Component {
             current_navigation: 1,
 
             intro_hero_who: "", intro_hero_characteristic: "",
-            intro_hero_habit_before: "", intro_hero_habit: short_intro.hero.habit, intro_hero_habit_after: "",
-            intro_place: this.place.name.toLowerCase(),
-            //intro_place: "dans la jungle",
+            intro_hero_habit_before: "", intro_hero_habit: short_intro.hero.habit, intro_hero_habit_after: "", intro_place: this.place.name.toLowerCase(),
             intro_hero_now: short_intro.expression_2[getRandomInt(0, short_intro.expression_2.length - 1)], intro_hero_current_action: "",
             intro_partner_who: "", intro_partner_how: "", intro_description_where: "", intro_description_time: "",
 
@@ -57,6 +55,7 @@ export default class Form extends React.Component {
 
             outcome_hero_solution: "", outcome_partner_solution: "",
             end_change: "", end_learn: "",
+            complete_story: {},
 
             intro_exp_selected: false, disrupt_exp_selected: false,
             adventure_exp_selected_1: false, adventure_exp_selected_2: false,
@@ -294,28 +293,7 @@ export default class Form extends React.Component {
     prepareStory() {
         // Retrieve text
         let state = this.state;
-        let intro_exp_1 = short_intro.expression_1.filter((exp) => { return exp.selected === true }),
-            hero = addEndDot(state.intro_hero_who), characteristic = addEndDot(state.intro_hero_characteristic),
-            habit_before = state.intro_hero_habit_before, intro_exp_2 = state.intro_hero_habit, habit_after = addEndDot(state.intro_hero_habit_after),
-            intro_exp_3 = state.intro_hero_now, current_action = state.intro_hero_current_action,
-            place = addEndDot(state.intro_place),
-            partner_who = addEndDot(state.intro_partner_who), partner_how = addEndDot(state.intro_partner_how),
-            intro_where = addEndDot(state.intro_description_where), intro_time = addEndDot(state.intro_description_time),
-
-            disrupt_exp_1 = short_disrupt.expression_1.filter((exp) => { return exp.selected === true }),
-            disrupt_description = addEndDot(state.disrupt_description),
-            disrupt_message = state.disrupt_message, disrupt_content = addEndDot(state.disrupt_content),
-
-            advent_hero_reaction = addEndDot(state.advent_hero_reaction), advent_partner_reaction = addEndDot(state.advent_partner_reaction),
-            advent_exp_1 = short_adventure.expression_1.filter((exp) => { return exp.selected === true }),
-            advent_then = addEndDot(state.advent_then), advent_consequence = addEndDot(state.advent_consequence),
-            imposed_event = imposed_events.events[state.adventure_event_id].event,
-            response_event = imposed_events.events[state.adventure_event_id].choice.filter((exp) => { return exp.selected === true }),
-            advent_emotion = addEndDot(state.advent_emotion),
-            advent_exp_2 = medium_adventure.expression_1.filter((exp) => { return exp.selected === true }),
-            advent_action = addEndDot(state.advent_action),
-
-            outcome_exp_1 = short_outcome.expression_1.filter((exp) => { return exp.selected === true }),
+        let outcome_exp_1 = short_outcome.expression_1.filter((exp) => { return exp.selected === true }),
             outcome_hero_solution = addEndDot(state.outcome_hero_solution), outcome_partner_solution = addEndDot(state.outcome_partner_solution),
 
             end_exp_1 = short_end.expression_1.filter((exp) => { return exp.selected === true }),
@@ -334,15 +312,6 @@ export default class Form extends React.Component {
         } else {
 
             let text_elm = [
-                    intro_exp_1[0].label, hero, characteristic,
-                    habit_before, intro_exp_2, habit_after,
-                    intro_exp_3, current_action, place,
-                    partner_who, partner_how,
-                    intro_where, intro_time,
-
-                    disrupt_exp_1[0].label, disrupt_description,
-                    disrupt_message, disrupt_content,
-
                     advent_hero_reaction, advent_partner_reaction,
                     advent_exp_1[0].label, advent_then, advent_consequence,
                     imposed_event, response_event[0].label, advent_emotion,
@@ -353,23 +322,6 @@ export default class Form extends React.Component {
                 ],
                 title = '',
                 story = '';
-
-            // Create the title
-            if (hero.indexOf("’") > - 1) {
-                let hero_parts = hero.split("d’"),
-                    hero_title = "";
-
-                for (let i = 1, count = hero_parts.length; i < count; i++) {
-                    if (i === hero_parts.length - 1) { // last part
-                        hero_title += delEndDot(hero_parts[i]); // subtract "."
-                    } else {
-                        hero_title +=  hero_parts[i];
-                    }
-                }
-                title = upperCaseFirst(hero_title + ' ' + delEndDot(place));
-            } else {
-                title = upperCaseFirst(delEndDot(hero) + ' ' + delEndDot(place)); // hasn't apostrophe
-            }
 
             // Create the text
             for (let i = 0, count = text_elm.length; i < count; i++) {
@@ -567,7 +519,8 @@ export default class Form extends React.Component {
             long_disrupt_render: null,
             opacity: null,
             content_opacity: null,
-            btn_selected = state.disrupt_exp_selected;
+            btn_selected = state.disrupt_exp_selected,
+            completed = state.disrupt_completed;
         if (this.state.current_navigation === 2) { opacity = 1; } else { opacity = .4; }
         if (btn_selected === true) { content_opacity = 1; } else { content_opacity = .4; }
 
@@ -578,14 +531,14 @@ export default class Form extends React.Component {
 
         let short_disrupt_render =
             <View>
-                {this.renderInput("disrupt_description", short_disrupt.event.description, state.disrupt_description, btn_selected, 'none')}
+                {this.renderInput("disrupt_description", short_disrupt.event.description, state.disrupt_description, btn_selected, completed, 'none')}
             </View>;
 
         if (this.length === 2) {
             long_disrupt_render =
                 <View>
                     <FormTextImposed value={state.disrupt_message} position={"start"}/>
-                    {this.renderInput("disrupt_content", long_disrupt.content, state.disrupt_content, btn_selected)}
+                    {this.renderInput("disrupt_content", long_disrupt.content, state.disrupt_content, btn_selected, completed)}
                 </View>;
         }
 
@@ -795,23 +748,65 @@ export default class Form extends React.Component {
                             this.refs.FormScrollView.scrollTo({x: 0, y: 0, animated: true}); // scroll to top
                         } else {
                             this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true}); // scroll to next part
+                            let sentences = [
+                                intro_exp_1[0].label, hero, characteristic,
+                                habit_before, intro_exp_2, habit_after, intro_exp_3, current_action, place,
+                                partner_who, partner_how, intro_where, intro_time];
+                            this.state.complete_story.title = generateTitle(hero, place);
+                            this.state.complete_story.introduction = gatherText(sentences);
                         }
-                    } else {
+                    } else { // scroll to next part if no linking words choose
                         this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true});
                     }
                 } else if (this.state.direction === "up") {
-                    this.refs.FormScrollView.scrollTo({x: 0, y: 0, animated: true});
+                    this.refs.FormScrollView.scrollTo({x: 0, y: 0, animated: true}); // scroll to top
                 }
                 break;
             case 2:
                 if (currentOffset >= this.partEnd.introduction + this.partHeight.disruption / 2 && this.state.direction === "down") {
-                    this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true});
+
+                    let disrupt_exp_1 = short_disrupt.expression_1.filter((exp) => { return exp.selected === true }),
+                        disrupt_description = addEndDot(state.disrupt_description),
+                        disrupt_message = state.disrupt_message, disrupt_content = addEndDot(state.disrupt_content);
+                    if (this.length === 0 || this.length === 1) { disrupt_message = "";}
+                    let short_check = !disrupt_exp_1 || !disrupt_description,
+                        long_check = short_check || !disrupt_content;
+
+                    if ((this.length === 0 || this.length === 1 || this.length === 2) && disrupt_exp_1.length !== 0) {
+                        let check_inputs = null;
+                        switch (this.length) {
+                            case 1: check_inputs = short_check; break;
+                            case 2: check_inputs = long_check; break;
+                            default: check_inputs = short_check; break;
+                        }
+                        if (check_inputs) {
+                            this.state.disrupt_completed = false;
+                            this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true});
+                        } else {
+                            this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true});
+                            let sentences = [ disrupt_exp_1[0].label, disrupt_description, disrupt_message, disrupt_content];
+                            this.state.complete_story.disrupt = gatherText(sentences);
+                        }
+                    } else {
+                        this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true});
+                    }
                 } else if (this.state.direction === "up") {
                     this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true});
                 }
                 break;
             case 3:
                 if (currentOffset >= this.partEnd.disruption + this.partHeight.adventure / 2 && this.state.direction === "down") {
+                    let advent_hero_reaction = addEndDot(state.advent_hero_reaction), advent_partner_reaction = addEndDot(state.advent_partner_reaction),
+                        advent_exp_1 = short_adventure.expression_1.filter((exp) => { return exp.selected === true }),
+                        advent_then = addEndDot(state.advent_then), advent_consequence = addEndDot(state.advent_consequence),
+                        imposed_event = imposed_events.events[state.adventure_event_id].event,
+                        response_event = imposed_events.events[state.adventure_event_id].choice.filter((exp) => { return exp.selected === true }),
+                        advent_emotion = addEndDot(state.advent_emotion),
+                        advent_exp_2 = medium_adventure.expression_1.filter((exp) => { return exp.selected === true }),
+                        advent_action = addEndDot(state.advent_action);
+
+                    // TODO: fix scroll before continue
+
                     this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true});
                 } else if (this.state.direction === "up") {
                     this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true});
@@ -915,8 +910,8 @@ export default class Form extends React.Component {
             <View style={[GlobalStyle.view, GlobalStyle.headerView, FormStyle.formView]}>
                 <Image style={GlobalStyle.backgroundImage} source={require('../../assets/images/background.png')} />
                 <Header
-                    leftElm="about"
-                    onPress={() => this.props.navigation.goBack()}
+                    leftElm="about" rightElm="home"
+                    goHome={() => this.props.navigation.navigate('Home')}
                     goAbout={() => this.props.navigation.navigate('About')}/>
                 {this.renderTitlePart()}
                 <ScrollView ref="FormScrollView"

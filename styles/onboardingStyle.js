@@ -21,6 +21,7 @@ export default StyleSheet.create({
         paddingHorizontal: scaleWidth(20),
         width: width,
         flexDirection: 'row',
+        height:scaleHeight(20),
     },
     backText: {
         position: 'relative',
@@ -30,9 +31,17 @@ export default StyleSheet.create({
         color: colors.greyishBrown,
         fontSize: scaleDelta(12, .5),
     },
+    homeText: {
+        top: -scaleHeight(20),
+        left: scaleWidth(25),
+    },
     iconBack: {
         height: scaleWidth(10),
         width: scaleWidth(10),
+    },
+    iconHome: {
+        height: scaleWidth(20),
+        width: scaleWidth(20),
     },
     iconAbout: {
         height: scaleWidth(12),
@@ -106,7 +115,7 @@ export default StyleSheet.create({
     /**  SKIP **/
     skipBtn: {
         position: 'absolute',
-        top: -scaleHeight(100),
+        top: -scaleHeight(92),
         right: 0,
         marginRight: scaleWidth(20),
         fontFamily: 'MaisonNeue-Bold',
