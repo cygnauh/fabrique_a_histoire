@@ -21,7 +21,6 @@ export default StyleSheet.create({
         paddingHorizontal: scaleWidth(20),
         width: width,
         flexDirection: 'row',
-        justifyContent: 'space-between',
     },
     backText: {
         position: 'relative',
@@ -34,6 +33,10 @@ export default StyleSheet.create({
     iconBack: {
         height: scaleWidth(10),
         width: scaleWidth(10),
+    },
+    iconAbout: {
+        height: scaleWidth(12),
+        width: scaleWidth(12),
     },
 
     /** INDICATIONS **/

@@ -768,7 +768,7 @@ export default class Form extends React.Component {
             case 1:
                 if (currentOffset >= this.partHeight.introduction / 2 && this.state.direction === "down") {
                     // TODO check all inputs
-                    // TODO push linking words in a global variable for prepare story
+                    // TODO push linking words in a global variable for prepare story : array of objects per part
 
                     let intro_exp_1 = short_intro.expression_1.filter((exp) => { return exp.selected === true }),
                         hero = addEndDot(state.intro_hero_who), characteristic = addEndDot(state.intro_hero_characteristic),
@@ -783,7 +783,7 @@ export default class Form extends React.Component {
                         medium_check = short_check || !partner_who || !partner_how,
                         long_check = medium_check || !intro_where || !intro_time;
 
-                    if (this.length === 0 || this.length === 1 || this.length === 2 && intro_exp_1.length !== 0) {
+                    if ((this.length === 0 || this.length === 1 || this.length === 2) && intro_exp_1.length !== 0) {
                         let check_inputs = null;
                         switch (this.length) {
                             case 1: check_inputs = medium_check; break;
@@ -796,6 +796,8 @@ export default class Form extends React.Component {
                         } else {
                             this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true}); // scroll to next part
                         }
+                    } else {
+                        this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true});
                     }
                 } else if (this.state.direction === "up") {
                     this.refs.FormScrollView.scrollTo({x: 0, y: 0, animated: true});
@@ -912,7 +914,10 @@ export default class Form extends React.Component {
         return (
             <View style={[GlobalStyle.view, GlobalStyle.headerView, FormStyle.formView]}>
                 <Image style={GlobalStyle.backgroundImage} source={require('../../assets/images/background.png')} />
-                <Header onPress={() => this.props.navigation.goBack()}/>
+                <Header
+                    leftElm="about"
+                    onPress={() => this.props.navigation.goBack()}
+                    goAbout={() => this.props.navigation.navigate('About')}/>
                 {this.renderTitlePart()}
                 <ScrollView ref="FormScrollView"
                     bounces={false} decelerationRate={'fast'}

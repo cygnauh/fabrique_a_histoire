@@ -7,6 +7,7 @@ import Length from './containers/length';
 import Place from './containers/place';
 import Form from './containers/form/form';
 import Correction from './containers/reReading';
+import About from './containers/about';
 
 const StackNavigation = StackNavigator(
     {
@@ -16,6 +17,7 @@ const StackNavigation = StackNavigator(
         Place: { screen: Place },
         Form: { screen: Form },
         Correction: { screen: Correction },
+        About: { screen: About},
     },
     {
         initialRouteName: 'Home',

@@ -55,7 +55,10 @@ export default class Length extends React.Component{
         return(
             <View style={[GlobalStyle.view, GlobalStyle.headerView]}>
                 <Image style={GlobalStyle.backgroundImage} source={require('../assets/images/background.png')} />
-                <Header onPress={() => this.props.navigation.goBack()}/>
+                <Header
+                    leftElm="about"
+                    onPress={() => this.props.navigation.goBack()}
+                    goAbout={() => this.props.navigation.navigate('About')}/>
                 <View>
                     <Text style={GlobalStyle.titleContent}>Longueur du récit</Text>
                     <View style={GlobalStyle.lengthSliderContainer}>

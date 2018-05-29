@@ -178,5 +178,22 @@ export default StyleSheet.create({
         borderWidth: 2,
         borderColor: colors.pinkishGreyTwo,
         borderRadius: scaleWidth(20),
+    },
+
+    /** ABOUT **/
+    aboutPageContainer: {
+        backgroundColor: '#F1F1F1',
+        paddingVertical: scaleHeight(40),
+    },
+    aboutContainer: {
+        paddingHorizontal: scaleWidth(40),
+    },
+    titleAbout: {
+        marginTop: scaleHeight(10),
+        marginBottom: scaleHeight(20),
+    },
+    aboutText: {
+        textAlign: 'left',
+        marginBottom: scaleHeight(10)
     }
 });
