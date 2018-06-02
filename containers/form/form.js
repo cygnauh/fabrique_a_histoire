@@ -40,15 +40,33 @@ export default class Form extends React.Component {
             direction: null,
             previousOffset: 0,
             current_navigation: 1,
-
+            intro_exp_1: [
+                { label: short_intro.expression_1[0], selected: "none" },
+                { label: short_intro.expression_1[1], selected: "none" },
+                { label: short_intro.expression_1[2], selected: "none" }
+            ],
             intro_hero_who: "", intro_hero_characteristic: "",
             intro_hero_habit_before: "", intro_hero_habit: short_intro.hero.habit, intro_hero_habit_after: "", intro_place: this.place.name.toLowerCase(),
             intro_hero_now: short_intro.expression_2[getRandomInt(0, short_intro.expression_2.length - 1)], intro_hero_current_action: "",
             intro_partner_who: "", intro_partner_how: "", intro_description_where: "", intro_description_time: "",
 
+            disrupt_exp_1: [
+                { label: short_disrupt.expression_1[0], selected: "none" },
+                { label: short_disrupt.expression_1[1], selected: "none" },
+                { label: short_disrupt.expression_1[2], selected: "none" },
+            ],
             disrupt_description: "",
             disrupt_message: long_disrupt.message[getRandomInt(0, long_disrupt.message.length - 1)], disrupt_content: "",
 
+            advent_exp_1 : [
+                { label: short_adventure.expression_1[0], selected: "none" },
+                { label: short_adventure.expression_1[1], selected: "none" },
+                { label: short_adventure.expression_1[2], selected: "none" },
+            ],
+            advent_exp_2 : [
+                { label: medium_adventure.expression_1[0], selected: "none" },
+                { label: medium_adventure.expression_1[1], selected: "none" }
+            ],
             advent_hero_reaction: "", advent_partner_reaction: "",
             adventure_event_id: getRandomInt(0, imposed_events.events.length - 1),
             advent_then: "", advent_consequence: "", advent_emotion: "", advent_action: "",
@@ -453,6 +471,7 @@ export default class Form extends React.Component {
             </View>
         );
     }
+
     renderIntroduction() {
         let state = this.state,
             medium_intro_render = null,
@@ -466,7 +485,7 @@ export default class Form extends React.Component {
 
         let intro_exp =
             <View>
-                {this.renderRadioBtn(short_intro.expression_1, "intro_btn")};
+                {this.renderRadioBtn(this.state.intro_exp_1, "intro_btn")};
             </View>;
 
         let short_intro_render =
@@ -526,7 +545,7 @@ export default class Form extends React.Component {
 
         let disrupt_exp =
             <View>
-                {this.renderRadioBtn(short_disrupt.expression_1, "disrupt_btn")}
+                {this.renderRadioBtn(this.state.disrupt_exp_1, "disrupt_btn")}
             </View>;
 
         let short_disrupt_render =
@@ -723,7 +742,7 @@ export default class Form extends React.Component {
                     // TODO check all inputs
                     // TODO push linking words in a global variable for prepare story : array of objects per part
 
-                    let intro_exp_1 = short_intro.expression_1.filter((exp) => { return exp.selected === true }),
+                    let intro_exp_1 = this.state.intro_exp_1.filter((exp) => { return exp.selected === true }),
                         hero = addEndDot(state.intro_hero_who), characteristic = addEndDot(state.intro_hero_characteristic),
                         habit_before = state.intro_hero_habit_before,
                         intro_exp_2 = state.intro_hero_habit, habit_after = addEndDot(state.intro_hero_habit_after),
@@ -765,7 +784,7 @@ export default class Form extends React.Component {
             case 2:
                 if (currentOffset >= this.partEnd.introduction + this.partHeight.disruption / 2 && this.state.direction === "down") {
 
-                    let disrupt_exp_1 = short_disrupt.expression_1.filter((exp) => { return exp.selected === true }),
+                    let disrupt_exp_1 = this.state.disrupt_exp_1.filter((exp) => { return exp.selected === true }),
                         disrupt_description = addEndDot(state.disrupt_description),
                         disrupt_message = state.disrupt_message, disrupt_content = addEndDot(state.disrupt_content);
                     if (this.length === 0 || this.length === 1) { disrupt_message = "";}

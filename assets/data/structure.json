@@ -2,16 +2,9 @@
   "introduction": {
     "short": {
       "expression_1": [
-        {
-          "label": "Il était une fois,",
-          "selected": "none"
-        }, {
-          "label": "Il y a bien longtemps,",
-          "selected": "none"
-        }, {
-          "label": "Il fut un temps,",
-          "selected": "none"
-        }
+        "Il était une fois,",
+        "Il y a bien longtemps,",
+        "Il fut un temps,"
       ],
       "expression_2": [
         "Mais cette fois-ci,",
@@ -43,17 +36,9 @@
   "disruption": {
     "short": {
       "expression_1": [
-        {
-          "label": "Soudain,",
-          "selected": "none"
-        }, {
-          "label": "Tout à coup,",
-          "selected": "none"
-        },
-        {
-          "label": "Brusquement,",
-          "selected": "none"
-        }
+        "Soudain,",
+        "Tout à coup,",
+        "Brusquement,"
       ],
       "event": {
         "description": "Il se passe quelque chose de terrible : que se passe-t-il ?",
@@ -73,16 +58,9 @@
   "adventure": {
     "short": {
       "expression_1": [
-        {
-          "label": "Après cet évènement,",
-          "selected": "none"
-        }, {
-          "label": "Après cette aventure,",
-          "selected": "none"
-        }, {
-          "label": "Peu de temps après,",
-          "selected": "none"
-        }
+        "Après cet évènement,",
+        "Après cette aventure,",
+        "Peu de temps après,"
       ],
       "event": {
         "hero_reaction": "Comment réagit le héros ?",
@@ -96,13 +74,8 @@
         "action": "Que font les personnages ?"
       },
       "expression_1" : [
-        {
-          "label": "Ensuite,",
-          "selected": "none"
-        }, {
-          "label": "Puis,",
-          "selected": "none"
-        }
+        "Ensuite,",
+        "Puis,"
       ]
     },
     "long": {
