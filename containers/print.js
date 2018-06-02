@@ -92,7 +92,8 @@ export default class Print extends React.Component {
                         body: JSON.stringify({
                             'storyId': this.story_id,
                             'soundId': this.props.sounds[i].sound.id,
-                            'addAtTime': this.props.sounds[i].time
+                            'addAtTime': this.props.sounds[i].time,
+                            'repeatAt': this.props.sounds[i].repeat
                         })
                     }).then(function (response) {
                         console.log(response)

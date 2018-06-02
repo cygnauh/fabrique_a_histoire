@@ -53,15 +53,25 @@ export default class Form extends React.Component {
         };
         this.keyboardHeight = new Animated.Value(0);
 
+        // this.baseSound_load = false
+
         this.onLoad = this.onLoad.bind(this);
         this.onProgress = this.onProgress.bind(this);
         this.onBuffer = this.onBuffer.bind(this);
+        this.onEnd = this.onEnd.bind(this);
 
+        this.baseSoundRepeat = 0
         this.loadSoundsFromAPI()
     }
 
 
     onLoad(data) {
+
+        if(!this.baseSound_load){
+            this.baseSound_load = true
+            this.startOriginCounter()
+            console.log("turn to true")
+        }
         console.log('On load fired!');
         this.setState({duration: data.duration});
     }
@@ -74,11 +84,32 @@ export default class Form extends React.Component {
         this.setState({isBuffering});
     }
 
+    onEnd(data) {
+        console.log("this is the end")
+        //reset from the beggining of the sound
+        this.baseSoundRepeat ++
+        this.now = new Date().getTime()
+    }
+
+
     getCurrentTimePercentage() {
         if (this.state.currentTime > 0) {
             return parseFloat(this.state.currentTime) / parseFloat(this.state.duration);
         } else {
             return 0;
+        }
+    }
+
+    getCurrentTimeFromNow() {
+
+        this.time = new Date().getTime() - this.now
+        return this.time
+    }
+
+    startOriginCounter(){
+        if(this.baseSound_load){
+            console.log("isLoad")
+            this.now = new Date().getTime()
         }
     }
 
@@ -145,7 +176,6 @@ export default class Form extends React.Component {
                     var _i = i
                     setTimeout(() => {
 
-
                         //check if the sound is already there
                         var found = this.story_sounds.some( (el)  =>{
                             return el.sound === this.state.sounds[_i];
@@ -156,13 +186,8 @@ export default class Form extends React.Component {
 
                             //stock the sound id
                             var name = this.state.sounds[_i]
-
-                            var story_sound = {sound: this.state.sounds[_i], time: this.getCurrentTimePercentage()}
-                            console.log(story_sound)
+                            var story_sound = {sound: this.state.sounds[_i], time: this.getCurrentTimeFromNow(), repeat : this.baseSoundRepeat}
                             this.story_sounds.push(story_sound)
-                            console.log("this.story_sounds")
-                            console.log(this.story_sounds)
-
                         }
 
                     }, 4000)
@@ -170,7 +195,6 @@ export default class Form extends React.Component {
             }
         }
     }
-
 
     setCanPlayValidationSound = () => {
 
@@ -188,6 +212,28 @@ export default class Form extends React.Component {
             console.log("B")
         }
     }
+
+    playBaseSound(url, volume, repeat) {
+        if (repeat === "repeat") {
+            this.repeat = true
+        } else {
+            this.repeat = false
+        }
+
+        return (
+            <Video
+                source={{uri: url}}
+                volume={volume}
+                onLoad={this.onLoad}
+                onBuffer={this.onBuffer}
+                onProgress={this.onProgress}
+                onEnd={this.onEnd}
+                repeat={this.repeat}
+            />
+        )
+
+    }
+
 
     playASound(url, volume, repeat, isValidation) {
 
@@ -225,7 +271,6 @@ export default class Form extends React.Component {
         }
     }
 
-
     loadSoundsFromAPI() {
         return fetch('https://testappfabulab.herokuapp.com/sounds')
             .then((response) => response.json())
@@ -241,6 +286,8 @@ export default class Form extends React.Component {
                 console.error(error);
             });
     }
+
+
 
 
 
@@ -712,7 +759,7 @@ export default class Form extends React.Component {
                     <View>
 
                         {// background sound
-                            this.place ? this.playASound(this.place.url, 0.5, "repeat", false) : null
+                            this.place ? this.playBaseSound(this.place.url, 0.5, "repeat") : null
                         }
 
                         {//added sound
