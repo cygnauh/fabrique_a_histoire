@@ -2,49 +2,34 @@
   "events": [
     {
       "event": "C'est alors que des météorites tombèrent du ciel.",
-      "choice": [{
-        "label": "Elle créèrent d'énormes cratères en s'écrasant sur le sol !",
-        "selected": false
-      }, {
-        "label": "Elles roulèrent et enflammèrent tout ce qui se trouvait aux alentours.",
-        "selected": false
-      }]
+      "choice": [
+        "Elle créèrent d'énormes cratères en s'écrasant sur le sol !",
+        "Elles roulèrent et enflammèrent tout ce qui se trouvait aux alentours."
+      ]
     }, {
       "event": "C'est alors qu'une tornade effroyable éclata.",
-      "choice": [{
-        "label": "Le vent était si fort qu'il emportait tout sur son passage.",
-        "selected": false
-      }, {
-        "label": "Par chance, elle ne dura pas très longtemps.",
-        "selected": false
-      }]
+      "choice": [
+        "Le vent était si fort qu'il emportait tout sur son passage.",
+        "Par chance, elle ne dura pas très longtemps."
+      ]
     }, {
       "event": "C'est alors qu'une guerrière apparut",
-      "choice": [{
-        "label": "et proposa d'accompagner les personnages dans leur aventure.",
-        "selected": false
-      }, {
-        "label": "et lança un défi : réussir à la battre à l'épée.",
-        "selected": false
-      }]
+      "choice": [
+        "et proposa d'accompagner les personnages dans leur aventure.",
+        "et lança un défi : réussir à la battre à l'épée."
+      ]
     }, {
       "event": "C'est alors qu'un sorcier surgit de nulle part,",
-      "choice": [{
-        "label": "tendit une cuillère avant de diparaitre à nouveau.",
-        "selected": false
-      }, {
-        "label": "il jeta un sort et éclata de rire.",
-        "selected": false
-      }]
+      "choice": [
+        "tendit une cuillère avant de diparaitre à nouveau.",
+        "il jeta un sort et éclata de rire."
+      ]
     }, {
       "event": "C'est alors qu'une plante se mit à pousser tellement haut qu'on en voyait plus la fin !",
-      "choice": [{
-        "label": "Le tronc était assez large pour grimper dessus.",
-        "selected": false
-      }, {
-        "label": "La plante gênait le passage.",
-        "selected": false
-      }]
+      "choice": [
+        "Le tronc était assez large pour grimper dessus.",
+        "La plante gênait le passage."
+      ]
     }
   ]
 }

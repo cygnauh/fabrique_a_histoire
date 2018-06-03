@@ -48,8 +48,7 @@ export default class Print extends React.Component {
             return error;
         });
 
-        // TODO Save the story in the database
-
+        // Save the story in the database
         let api_url = "https://testappfabulab.herokuapp.com/createStory";
         let api_url_storysounds = "https://testappfabulab.herokuapp.com/createstorysound";
 

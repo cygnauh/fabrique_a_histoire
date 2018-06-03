@@ -35,6 +35,7 @@ export default class Form extends React.Component {
         this.validationSound = "https://christinehuang.fr/BDDI2018/sounds/VALIDATION/validation.mp3";
         this.place = this.props.navigation.state.params.place;
         this.story_sounds = [];
+        this.adventure_event_id = getRandomInt(0, imposed_events.events.length - 1),
         this.state = {
             part_title: "Introduction",
             direction: null,
@@ -62,7 +63,10 @@ export default class Form extends React.Component {
                 { label: short_adventure.expression_1[1], selected: "none" },
                 { label: short_adventure.expression_1[2], selected: "none" },
             ], advent_then: "", advent_consequence: "",
-            adventure_event_id: getRandomInt(0, imposed_events.events.length - 1),
+            adventure_imposed_event: [
+                { label: imposed_events.events[this.adventure_event_id].choice[0], selected: false },
+                { label: imposed_events.events[this.adventure_event_id].choice[1], selected: false },
+            ],
             advent_exp_2 : [
                 { label: medium_adventure.expression_1[0], selected: "none" },
                 { label: medium_adventure.expression_1[1], selected: "none" }
@@ -92,6 +96,7 @@ export default class Form extends React.Component {
             outcome_completed: null, end_completed: null,
             outcome_margin_bottom: scaleHeight(140)
         };
+
         this.partHeight = { introduction: '', disruption: '', adventure: '', outcome: '',};
         this.partEnd = { introduction: '', disruption: '', adventure: '', outcome: '' };
         this.keyboardHeight = new Animated.Value(0);
@@ -162,9 +167,7 @@ export default class Form extends React.Component {
         this.setState(() => ({[name]: value}));
     };
     eventOnVote(index) {
-        let events = imposed_events.events,
-            imposed_event = events[this.state.adventure_event_id],
-            choices = imposed_event.choice;
+        let choices = this.state.adventure_imposed_event;
         choices.map((item) => {
             item.selected = false;
         });
@@ -330,7 +333,6 @@ export default class Form extends React.Component {
     prepareStory() {
         // Retrieve text
         let state = this.state;
-
         // check the last part
         let end_exp_1 = state.end_exp_1.filter((exp) => { return exp.selected === true }),
             end_change = addEndDot(state.end_change), end_learn = addEndDot(state.end_learn);
@@ -465,24 +467,23 @@ export default class Form extends React.Component {
 
     renderImposedEvent(){
         let events = imposed_events.events,
-            imposed_event = events[this.state.adventure_event_id],
+            imposed_event = events[this.adventure_event_id],
             choices = [];
-        for (let key = 0, nbChoices = imposed_event.choice.length; key < nbChoices; key++) {
+        for (let key = 0, nbChoices = this.state.adventure_imposed_event.length; key < nbChoices; key++) {
             const voteItem =
                 <TouchableOpacity onPress={this.eventOnVote.bind(this, key, choices)}>
-                    {(imposed_event.choice[key].selected)
-                        ? <Text style={[FormStyle.voteItem, FormStyle.voteSelected]}>{imposed_event.choice[key].label}</Text>
-                        : <Text style={[FormStyle.voteItem, FormStyle.voteUnselected]}>{imposed_event.choice[key].label}</Text>
+                    {(this.state.adventure_imposed_event[key].selected)
+                        ? <Text style={[FormStyle.voteItem, FormStyle.voteSelected]}>
+                            {this.state.adventure_imposed_event[key].label}</Text>
+                        : <Text style={[FormStyle.voteItem, FormStyle.voteUnselected]}>
+                            Choix {key + 1} : {this.state.adventure_imposed_event[key].label}</Text>
                     }
                 </TouchableOpacity>;
             choices.push(React.cloneElement(voteItem, { key })); // active slide
         }
         return(
             <View>
-                <TextInput
-                    style={[FormStyle.formItem, FormStyle.textItem, FormStyle.imposedEvent]}
-                    multiline={true} editable={false} selectTextOnFocus={false}
-                    value={imposed_event.event}/>
+                <FormTextImposed value={imposed_event.event} position={"imposed_event"}/>
                 {choices}
             </View>
         );
@@ -853,8 +854,8 @@ export default class Form extends React.Component {
                     let advent_hero_reaction = addEndDot(state.advent_hero_reaction), advent_partner_reaction = addEndDot(state.advent_partner_reaction),
                         advent_exp_1 = state.advent_exp_1.filter((exp) => { return exp.selected === true }),
                         advent_then = addEndDot(state.advent_then), advent_consequence = addEndDot(state.advent_consequence),
-                        imposed_event = imposed_events.events[state.adventure_event_id].event,
-                        response_event = imposed_events.events[state.adventure_event_id].choice.filter((exp) => { return exp.selected === true }),
+                        imposed_event = imposed_events.events[this.adventure_event_id].event,
+                        response_event = state.adventure_imposed_event.filter((exp) => { return exp.selected === true }),
                         advent_emotion = addEndDot(state.advent_emotion),
                         advent_exp_2 = state.advent_exp_2.filter((exp) => { return exp.selected === true }),
                         advent_action = addEndDot(state.advent_action);
@@ -868,8 +869,8 @@ export default class Form extends React.Component {
                             if (this.length === 0) {
                                 if (!advent_hero_reaction) {
                                     state.adventure_completed_1 = false;
-                                    this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true});
                                 }
+                                this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true}); // scroll if empty
                             } else if (this.length === 1 || this.length === 2) {
                                 if (!advent_hero_reaction || !advent_partner_reaction) {
                                     state.adventure_completed_1 = false;

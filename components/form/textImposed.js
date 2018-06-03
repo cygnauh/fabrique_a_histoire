@@ -16,6 +16,9 @@ export default class FormTextImposed extends React.Component {
             case 'end':
                 position = FormStyle.endItem;
                 break;
+            case 'imposed_event':
+                position = FormStyle.imposedEvent;
+                break;
             default:
                 break;
         }
