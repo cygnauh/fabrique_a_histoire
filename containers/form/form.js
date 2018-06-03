@@ -186,7 +186,7 @@ export default class Form extends React.Component {
 
                             //stock the sound id
                             var name = this.state.sounds[_i]
-                            var story_sound = {sound: this.state.sounds[_i], time: this.getCurrentTimeFromNow(), repeat : this.baseSoundRepeat}
+                            var story_sound = {sound: this.state.sounds[_i], time: this.getCurrentTimeFromNow()}
                             this.story_sounds.push(story_sound)
                         }
 
