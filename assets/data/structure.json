@@ -85,16 +85,9 @@
   "outcome": {
     "short": {
       "expression_1": [
-        {
-          "label": "Heureusement,",
-          "selected": "none"
-        }, {
-          "label": "Malheureusement,",
-          "selected": "none"
-        }, {
-          "label": "Finalement,",
-          "selected": "none"
-        }
+        "Heureusement,",
+        "Malheureusement,",
+         "Finalement,"
       ],
       "hero_solution": "Comme *le héros* règle-t-il ce dernier problème ?"
     },
@@ -105,16 +98,9 @@
   "conclusion": {
     "short": {
       "expression_1": [
-        {
-          "label": "Et c'est ainsi",
-          "selected": "none"
-        }, {
-          "label": "Depuis ce jour,",
-          "selected": "none"
-        }, {
-          "label": "Désormais,",
-          "selected": "none"
-        }
+        "Et c'est ainsi",
+        "Depuis ce jour,",
+        "Désormais,"
       ],
       "change": "Qu'est-ce qui a changé pour *le héros* depuis le début de l'histoire ? "
     },

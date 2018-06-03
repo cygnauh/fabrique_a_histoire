@@ -68,7 +68,18 @@ export default class Form extends React.Component {
                 { label: medium_adventure.expression_1[1], selected: "none" }
             ], advent_emotion: "", advent_action: "",
 
+            outcome_exp_1: [
+                { label: short_outcome.expression_1[0], selected: "none" },
+                { label: short_outcome.expression_1[1], selected: "none" },
+                { label: short_outcome.expression_1[2], selected: "none" }
+            ],
             outcome_hero_solution: "", outcome_partner_solution: "",
+
+            end_exp_1: [
+                { label: short_end.expression_1[0], selected: "none" },
+                { label: short_end.expression_1[1], selected: "none" },
+                { label: short_end.expression_1[2], selected: "none" }
+            ],
             end_change: "", end_learn: "",
             complete_story: {},
 
@@ -84,7 +95,7 @@ export default class Form extends React.Component {
         this.partHeight = { introduction: '', disruption: '', adventure: '', outcome: '',};
         this.partEnd = { introduction: '', disruption: '', adventure: '', outcome: '' };
         this.keyboardHeight = new Animated.Value(0);
-        this.fadeIn = new Animated.Value(0);
+        // this.fadeIn = new Animated.Value(0);
 
         this.onLoad = this.onLoad.bind(this);
         this.onProgress = this.onProgress.bind(this);
@@ -114,7 +125,6 @@ export default class Form extends React.Component {
         if (array[index].selected === true && array[index].selected !== "none") {
             array.map((item) => { item.selected = "none"; });
             array[index].selected = "none";
-
             switch (name) {
                 case 'intro_btn': this.state.intro_exp_selected = false; break;
                 case 'disrupt_btn': this.state.disrupt_exp_selected = false; break;
@@ -311,10 +321,7 @@ export default class Form extends React.Component {
     prepareStory() {
         // Retrieve text
         let state = this.state;
-        let outcome_exp_1 = short_outcome.expression_1.filter((exp) => { return exp.selected === true }),
-            outcome_hero_solution = addEndDot(state.outcome_hero_solution), outcome_partner_solution = addEndDot(state.outcome_partner_solution),
-
-            end_exp_1 = short_end.expression_1.filter((exp) => { return exp.selected === true }),
+        let end_exp_1 = short_end.expression_1.filter((exp) => { return exp.selected === true }),
             end_change = addEndDot(state.end_change), end_learn = addEndDot(state.end_learn);
 
         // Check before retrieve
@@ -330,8 +337,6 @@ export default class Form extends React.Component {
         } else {
 
             let text_elm = [
-                    advent_hero_reaction, advent_partner_reaction,
-                    advent_exp_1[0].label, advent_then, advent_consequence,
                     imposed_event, response_event[0].label, advent_emotion,
                     advent_exp_2[0].label, advent_action,
 
@@ -480,12 +485,12 @@ export default class Form extends React.Component {
             content_opacity = null,
             btn_selected = state.intro_exp_selected,
             completed = state.intro_completed;
-        if (this.state.current_navigation === 1) { opacity = 1; } else { opacity = .4; }
+        if (state.current_navigation === 1) { opacity = 1; } else { opacity = .4; }
         if (btn_selected === true) { content_opacity = 1; } else { content_opacity = .4; }
 
         let intro_exp =
             <View>
-                {this.renderRadioBtn(this.state.intro_exp_1, "intro_btn")};
+                {this.renderRadioBtn(state.intro_exp_1, "intro_btn")};
             </View>;
 
         let short_intro_render =
@@ -540,12 +545,12 @@ export default class Form extends React.Component {
             content_opacity: null,
             btn_selected = state.disrupt_exp_selected,
             completed = state.disrupt_completed;
-        if (this.state.current_navigation === 2) { opacity = 1; } else { opacity = .4; }
+        if (state.current_navigation === 2) { opacity = 1; } else { opacity = .4; }
         if (btn_selected === true) { content_opacity = 1; } else { content_opacity = .4; }
 
         let disrupt_exp =
             <View>
-                {this.renderRadioBtn(this.state.disrupt_exp_1, "disrupt_btn")}
+                {this.renderRadioBtn(state.disrupt_exp_1, "disrupt_btn")}
             </View>;
 
         let short_disrupt_render =
@@ -593,7 +598,7 @@ export default class Form extends React.Component {
             completed_1 = state.adventure_completed_1,
             completed_2 = state.adventure_completed_2,
             completed_3 = state.adventure_completed_3;
-        if (this.state.current_navigation === 3) { opacity = 1; } else { opacity = .4; }
+        if (state.current_navigation === 3) { opacity = 1; } else { opacity = .4; }
         if (btn_selected_1 === true) { content_opacity_1 = 1; } else { content_opacity_1 = .4; }
         if (btn_selected_2 === true) { content_opacity_2 = 1; } else { content_opacity_2 = .4; }
 
@@ -601,7 +606,7 @@ export default class Form extends React.Component {
             <View>
                 {this.renderInput("advent_hero_reaction", short_adventure.event.hero_reaction, state.advent_hero_reaction, true, completed_1)}
             </View>;
-        let short_exp_1 = <View>{this.renderRadioBtn(this.state.advent_exp_1, "adventure_btn_1")}</View>;
+        let short_exp_1 = <View>{this.renderRadioBtn(state.advent_exp_1, "adventure_btn_1")}</View>;
         let short_then = <View>{this.renderInput("advent_then", short_adventure.event.then, state.advent_then, btn_selected_1, completed_2, 'none')}</View>;
 
         if (this.length === 1 || this.length === 2) {
@@ -613,7 +618,7 @@ export default class Form extends React.Component {
                 <View>
                     {this.renderInput("advent_consequence", medium_adventure.event.consequence, state.advent_consequence, btn_selected_1, completed_2)}
                 </View>;
-            short_exp_2 = <View>{this.renderRadioBtn(this.state.advent_exp_2, "adventure_btn_2")}</View>;
+            short_exp_2 = <View>{this.renderRadioBtn(state.advent_exp_2, "adventure_btn_2")}</View>;
             medium_action =
                 <View>
                     {this.renderInput("advent_action", medium_adventure.event.action, state.advent_action, btn_selected_2, completed_3, 'none')}
@@ -657,24 +662,25 @@ export default class Form extends React.Component {
             medium_outcome_render: null,
             opacity: null,
             content_opacity: null,
-            btn_selected = state.outcome_exp_selected;
-        if (this.state.current_navigation === 4) { opacity = 1; } else { opacity = .4; }
+            btn_selected = state.outcome_exp_selected,
+            completed = state.outcome_completed;
+        if (state.current_navigation === 4) { opacity = 1; } else { opacity = .4; }
         if (btn_selected === true) { content_opacity = 1; } else { content_opacity = .4; }
 
         let outcome_exp =
             <View>
-                {this.renderRadioBtn(short_outcome.expression_1, "outcome_btn")}
+                {this.renderRadioBtn(state.outcome_exp_1, "outcome_btn")}
             </View>;
 
         let short_outcome_render =
             <View>
-                {this.renderInput("outcome_hero_solution", short_outcome.hero_solution, state.outcome_hero_solution, btn_selected, 'none')}
+                {this.renderInput("outcome_hero_solution", short_outcome.hero_solution, state.outcome_hero_solution, btn_selected, completed, 'none')}
             </View>;
 
         if (this.length === 1 || this.length === 2) {
             medium_outcome_render =
                 <View>
-                    {this.renderInput("outcome_partner_solution", medium_outcome.partner_solution, state.outcome_partner_solution, btn_selected)}
+                    {this.renderInput("outcome_partner_solution", medium_outcome.partner_solution, state.outcome_partner_solution, btn_selected, completed)}
                 </View>
         }
 
@@ -703,12 +709,12 @@ export default class Form extends React.Component {
             opacity: null,
             content_opacity: null,
             btn_selected = state.end_exp_selected;
-        if (this.state.current_navigation === 5) { opacity = 1; } else { opacity = .4; }
+        if (state.current_navigation === 5) { opacity = 1; } else { opacity = .4; }
         if (btn_selected === true) { content_opacity = 1; } else { content_opacity = .4; }
 
         let end_exp =
             <View>
-                {this.renderRadioBtn(short_end.expression_1, "end_btn")}
+                {this.renderRadioBtn(state.end_exp_1, "end_btn")}
             </View>;
 
         let short_end_render =
@@ -774,6 +780,7 @@ export default class Form extends React.Component {
                             this.state.intro_completed = false;
                             this.refs.FormScrollView.scrollTo({x: 0, y: 0, animated: true}); // scroll to top
                         } else {
+                            // scroll and save
                             this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true}); // scroll to next part
                             let sentences = [
                                 intro_exp_1[0].label, hero, characteristic,
@@ -782,7 +789,7 @@ export default class Form extends React.Component {
                             this.state.complete_story.title = generateTitle(hero, place);
                             this.state.complete_story.introduction = gatherText(sentences);
                         }
-                    } else { // scroll to next part if no linking words choose
+                    } else { // scroll to see the next part if no linking word choose
                         this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true});
                     }
                 } else if (this.state.direction === "up") {
@@ -811,6 +818,7 @@ export default class Form extends React.Component {
                             this.state.disrupt_completed = false;
                             this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true});
                         } else {
+                            // scroll and save
                             this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true});
                             let sentences = [ disrupt_exp_1[0].label, disrupt_description, disrupt_message, disrupt_content];
                             this.state.complete_story.disrupt = gatherText(sentences);
@@ -832,7 +840,7 @@ export default class Form extends React.Component {
                         advent_emotion = addEndDot(state.advent_emotion),
                         advent_exp_2 = this.state.advent_exp_2.filter((exp) => { return exp.selected === true }),
                         advent_action = addEndDot(state.advent_action);
-                    if (this.length === 0) {this.state.outcome_margin_bottom = scaleHeight(350);}
+                    this.state.outcome_margin_bottom = scaleHeight(350);
 
                     // Allow scroll if the story isn't written yet
                     if (this.state.intro_completed === null && this.state.disrupt_completed === null) {
@@ -881,7 +889,7 @@ export default class Form extends React.Component {
                                             this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + scaleHeight(280), animated: true});
                                         } else {
                                             this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true});
-                                            // SAVE THE STORY
+                                            // TODO : SAVE THE STORY
                                         }
                                     } else {
                                         this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + scaleHeight(280), animated: true});
@@ -896,11 +904,38 @@ export default class Form extends React.Component {
                 break;
             case 4:
                 if (currentOffset >= this.partEnd.adventure + this.partHeight.outcome / 2 && this.state.direction === "down") {
-                    this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.outcome + 1, animated: true});
+
+                    let outcome_exp_1 = this.state.outcome_exp_1.filter((exp) => { return exp.selected === true }),
+                        outcome_hero_solution = addEndDot(state.outcome_hero_solution),
+                        outcome_partner_solution = addEndDot(state.outcome_partner_solution);
+
+                    let short_check = !outcome_exp_1 || !outcome_hero_solution,
+                        medium_check = short_check || !outcome_partner_solution;
+
+                    if (outcome_exp_1.length !== 0) {
+                        let check_inputs = null;
+                        switch (this.length) {
+                            case 1: check_inputs = medium_check; break;
+                            case 2: check_inputs = medium_check; break;
+                            default: check_inputs = short_check; break;
+                        }
+                        if (check_inputs) {
+                            this.state.outcome_completed = false;
+                            this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true}); // scroll to top
+                        } else { // scroll and save
+                            this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.outcome + 1, animated: true}); // scroll to next part
+                            let sentences = [outcome_exp_1[0].label, outcome_hero_solution, outcome_partner_solution];
+                            this.state.complete_story.outcome = gatherText(sentences);
+                        }
+                    } else { // scroll to see the next part if no linking word choose
+                        this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.outcome + 1, animated: true});
+                    }
                 } else if (this.state.direction === "up") {
                     this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true});
                 }
                 break;
+            case 5:
+                // If check of show print btn
             default:
                 break;
         }
@@ -913,7 +948,6 @@ export default class Form extends React.Component {
         this.state.previousOffset = currentOffset;
 
         // Update title part and navigation
-        // TODO improve scroll according the length
         if (currentOffset >= 0 && currentOffset < this.partEnd.introduction) {
             this.setState({part_title: "Introduction"}); // update view
             this.setState({current_navigation: 1});
@@ -946,9 +980,11 @@ export default class Form extends React.Component {
                 break;
             case 4:
                 this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true});
+                this.state.outcome_margin_bottom = scaleHeight(350);
                 break;
             case 5:
                 this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.outcome + 1, animated: true});
+                this.state.outcome_margin_bottom = scaleHeight(350);
                 break;
             default:
                 this.refs.FormScrollView.scrollTo({x: 0, y: 0, animated: true});
