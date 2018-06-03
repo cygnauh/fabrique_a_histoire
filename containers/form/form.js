@@ -44,8 +44,7 @@ export default class Form extends React.Component {
                 { label: short_intro.expression_1[0], selected: "none" },
                 { label: short_intro.expression_1[1], selected: "none" },
                 { label: short_intro.expression_1[2], selected: "none" }
-            ],
-            intro_hero_who: "", intro_hero_characteristic: "",
+            ], intro_hero_who: "", intro_hero_characteristic: "",
             intro_hero_habit_before: "", intro_hero_habit: short_intro.hero.habit, intro_hero_habit_after: "", intro_place: this.place.name.toLowerCase(),
             intro_hero_now: short_intro.expression_2[getRandomInt(0, short_intro.expression_2.length - 1)], intro_hero_current_action: "",
             intro_partner_who: "", intro_partner_how: "", intro_description_where: "", intro_description_time: "",
@@ -54,22 +53,20 @@ export default class Form extends React.Component {
                 { label: short_disrupt.expression_1[0], selected: "none" },
                 { label: short_disrupt.expression_1[1], selected: "none" },
                 { label: short_disrupt.expression_1[2], selected: "none" },
-            ],
-            disrupt_description: "",
+            ], disrupt_description: "",
             disrupt_message: long_disrupt.message[getRandomInt(0, long_disrupt.message.length - 1)], disrupt_content: "",
 
+            advent_hero_reaction: "", advent_partner_reaction: "",
             advent_exp_1 : [
                 { label: short_adventure.expression_1[0], selected: "none" },
                 { label: short_adventure.expression_1[1], selected: "none" },
                 { label: short_adventure.expression_1[2], selected: "none" },
-            ],
+            ], advent_then: "", advent_consequence: "",
+            adventure_event_id: getRandomInt(0, imposed_events.events.length - 1),
             advent_exp_2 : [
                 { label: medium_adventure.expression_1[0], selected: "none" },
                 { label: medium_adventure.expression_1[1], selected: "none" }
-            ],
-            advent_hero_reaction: "", advent_partner_reaction: "",
-            adventure_event_id: getRandomInt(0, imposed_events.events.length - 1),
-            advent_then: "", advent_consequence: "", advent_emotion: "", advent_action: "",
+            ], advent_emotion: "", advent_action: "",
 
             outcome_hero_solution: "", outcome_partner_solution: "",
             end_change: "", end_learn: "",
@@ -79,7 +76,10 @@ export default class Form extends React.Component {
             adventure_exp_selected_1: false, adventure_exp_selected_2: false,
             outcome_exp_selected: false, end_exp_selected: false,
 
-            intro_completed: null, disrupt_completed: null, adventure_completed: null, outcome_completed: null, end_completed: null,
+            intro_completed: null, disrupt_completed: null,
+            adventure_completed_1: null, adventure_completed_2: null, adventure_completed_3: null,
+            outcome_completed: null, end_completed: null,
+            outcome_margin_bottom: scaleHeight(140)
         };
         this.partHeight = { introduction: '', disruption: '', adventure: '', outcome: '',};
         this.partEnd = { introduction: '', disruption: '', adventure: '', outcome: '' };
@@ -521,7 +521,7 @@ export default class Form extends React.Component {
                     handle = findNodeHandle(view);
                 UIManager.measure(handle, (x, y, width, height, pageX, pageY) => {
                     this.partHeight.introduction = height;
-                    this.partEnd.introduction = height - scaleHeight(150); // padding bottom
+                    this.partEnd.introduction = height; // padding bottom
                 })
             }}>
                 {intro_exp}
@@ -567,7 +567,7 @@ export default class Form extends React.Component {
                     handle = findNodeHandle(view);
                 UIManager.measure(handle, (x, y, width, height, pageX, pageY) => {
                     this.partHeight.disruption = height;
-                    this.partEnd.disruption = y + height - scaleHeight(150); // padding bottom
+                    this.partEnd.disruption = y + height; // padding bottom
                 })
             }}>
                 {disrupt_exp}
@@ -589,38 +589,41 @@ export default class Form extends React.Component {
             content_opacity_1: null,
             content_opacity_2: null,
             btn_selected_1 = state.adventure_exp_selected_1,
-            btn_selected_2 = state.adventure_exp_selected_2;
+            btn_selected_2 = state.adventure_exp_selected_2,
+            completed_1 = state.adventure_completed_1,
+            completed_2 = state.adventure_completed_2,
+            completed_3 = state.adventure_completed_3;
         if (this.state.current_navigation === 3) { opacity = 1; } else { opacity = .4; }
         if (btn_selected_1 === true) { content_opacity_1 = 1; } else { content_opacity_1 = .4; }
         if (btn_selected_2 === true) { content_opacity_2 = 1; } else { content_opacity_2 = .4; }
 
         let short_reaction =
             <View>
-                {this.renderInput("advent_hero_reaction", short_adventure.event.hero_reaction, state.advent_hero_reaction, true)}
+                {this.renderInput("advent_hero_reaction", short_adventure.event.hero_reaction, state.advent_hero_reaction, true, completed_1)}
             </View>;
-        let short_exp_1 = <View>{this.renderRadioBtn(short_adventure.expression_1, "adventure_btn_1")}</View>;
-        let short_then = <View>{this.renderInput("advent_then", short_adventure.event.then, state.advent_then, btn_selected_1, 'none')}</View>;
+        let short_exp_1 = <View>{this.renderRadioBtn(this.state.advent_exp_1, "adventure_btn_1")}</View>;
+        let short_then = <View>{this.renderInput("advent_then", short_adventure.event.then, state.advent_then, btn_selected_1, completed_2, 'none')}</View>;
 
         if (this.length === 1 || this.length === 2) {
             medium_reaction =
                 <View>
-                    {this.renderInput("advent_partner_reaction", medium_adventure.event.partner_reaction, state.advent_partner_reaction, true)}
+                    {this.renderInput("advent_partner_reaction", medium_adventure.event.partner_reaction, state.advent_partner_reaction, true, completed_1)}
                 </View>;
             medium_consequence =
                 <View>
-                    {this.renderInput("advent_consequence", medium_adventure.event.consequence, state.advent_consequence, btn_selected_1)}
+                    {this.renderInput("advent_consequence", medium_adventure.event.consequence, state.advent_consequence, btn_selected_1, completed_2)}
                 </View>;
-            short_exp_2 = <View>{this.renderRadioBtn(medium_adventure.expression_1, "adventure_btn_2")}</View>;
+            short_exp_2 = <View>{this.renderRadioBtn(this.state.advent_exp_2, "adventure_btn_2")}</View>;
             medium_action =
                 <View>
-                    {this.renderInput("advent_action", medium_adventure.event.action, state.advent_action, btn_selected_2, 'none')}
+                    {this.renderInput("advent_action", medium_adventure.event.action, state.advent_action, btn_selected_2, completed_3, 'none')}
                 </View>;
         }
 
         if (this.length === 2) {
             long_emotion =
                 <View>
-                    {this.renderInput("advent_emotion", long_adventure.emotion, state.advent_emotion, btn_selected_1)}
+                    {this.renderInput("advent_emotion", long_adventure.emotion, state.advent_emotion, btn_selected_1, completed_2)}
                 </View>;
         }
 
@@ -629,7 +632,8 @@ export default class Form extends React.Component {
                 let view = this.refs['Adventure'],
                     handle = findNodeHandle(view);
                 UIManager.measure(handle, (x, y, width, height, pageX, pageY) => {
-                    this.partEnd.adventure = y + height - scaleHeight(150); // padding bottom
+                    this.partHeight.adventure = height;
+                    this.partEnd.adventure = y + height; // padding bottom
                 })
             }}>
                 {short_reaction}
@@ -675,11 +679,14 @@ export default class Form extends React.Component {
         }
 
         return (
-            <View style={[FormStyle.formContainer, {opacity: opacity}]} ref="Outcome" onLayout={(e) => {
+            <View
+                style={[FormStyle.formContainer, {opacity: opacity}]}
+                ref="Outcome" onLayout={(e) => {
                 let view = this.refs['Outcome'],
                     handle = findNodeHandle(view);
                 UIManager.measure(handle, (x, y, width, height, pageX, pageY) => {
-                    this.partEnd.outcome = y + height - scaleHeight(150); // padding bottom
+                    this.partHeight.outcome = height;
+                    this.partEnd.outcome = y + height; // padding bottom
                 })
             }}>
                 {outcome_exp}
@@ -717,18 +724,19 @@ export default class Form extends React.Component {
         }
 
         return (
-            <Animated.View style={[FormStyle.formContainer, {paddingBottom: this.keyboardHeight, opacity: opacity, marginBottom: scaleHeight(140)}]}>
+            <Animated.View
+                style={[FormStyle.formContainer, {paddingBottom: this.keyboardHeight, opacity: opacity, marginBottom: this.state.outcome_margin_bottom}]}>
                 {end_exp}
                 <View style={{ opacity: content_opacity}}>
                     {short_end_render}
                     {medium_end_render}
                 </View>
-                <View style={FormStyle.printBtnContainer}>
+{/*                <View style={FormStyle.printBtnContainer}>
                     <RectangleButton
                         content={'Terminer'}
                         src={require('../../assets/images/validate.png')}
                         onPress={this.prepareStory.bind(this)}/>
-                </View>
+                </View>*/}
             </Animated.View>
         );
     }
@@ -755,7 +763,7 @@ export default class Form extends React.Component {
                         medium_check = short_check || !partner_who || !partner_how,
                         long_check = medium_check || !intro_where || !intro_time;
 
-                    if ((this.length === 0 || this.length === 1 || this.length === 2) && intro_exp_1.length !== 0) {
+                    if (intro_exp_1.length !== 0) {
                         let check_inputs = null;
                         switch (this.length) {
                             case 1: check_inputs = medium_check; break;
@@ -788,10 +796,11 @@ export default class Form extends React.Component {
                         disrupt_description = addEndDot(state.disrupt_description),
                         disrupt_message = state.disrupt_message, disrupt_content = addEndDot(state.disrupt_content);
                     if (this.length === 0 || this.length === 1) { disrupt_message = "";}
+
                     let short_check = !disrupt_exp_1 || !disrupt_description,
                         long_check = short_check || !disrupt_content;
 
-                    if ((this.length === 0 || this.length === 1 || this.length === 2) && disrupt_exp_1.length !== 0) {
+                    if (disrupt_exp_1.length !== 0) {
                         let check_inputs = null;
                         switch (this.length) {
                             case 1: check_inputs = short_check; break;
@@ -816,17 +825,71 @@ export default class Form extends React.Component {
             case 3:
                 if (currentOffset >= this.partEnd.disruption + this.partHeight.adventure / 2 && this.state.direction === "down") {
                     let advent_hero_reaction = addEndDot(state.advent_hero_reaction), advent_partner_reaction = addEndDot(state.advent_partner_reaction),
-                        advent_exp_1 = short_adventure.expression_1.filter((exp) => { return exp.selected === true }),
+                        advent_exp_1 = this.state.advent_exp_1.filter((exp) => { return exp.selected === true }),
                         advent_then = addEndDot(state.advent_then), advent_consequence = addEndDot(state.advent_consequence),
                         imposed_event = imposed_events.events[state.adventure_event_id].event,
                         response_event = imposed_events.events[state.adventure_event_id].choice.filter((exp) => { return exp.selected === true }),
                         advent_emotion = addEndDot(state.advent_emotion),
-                        advent_exp_2 = medium_adventure.expression_1.filter((exp) => { return exp.selected === true }),
+                        advent_exp_2 = this.state.advent_exp_2.filter((exp) => { return exp.selected === true }),
                         advent_action = addEndDot(state.advent_action);
+                    if (this.length === 0) {this.state.outcome_margin_bottom = scaleHeight(350);}
 
-                    // TODO: fix scroll before continue
+                    // Allow scroll if the story isn't written yet
+                    if (this.state.intro_completed === null && this.state.disrupt_completed === null) {
+                        this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true});
+                    } else { // Start to check inputs
+                        if (advent_exp_1.length === 0) {
+                            if (this.length === 0) {
+                                if (!advent_hero_reaction) {
+                                    this.state.adventure_completed_1 = false;
+                                    this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true});
+                                }
+                            } else if (this.length === 1 || this.length === 2) {
+                                if (!advent_hero_reaction || !advent_partner_reaction) {
+                                    this.state.adventure_completed_1 = false;
+                                    this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true});
+                                } else {
+                                    this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + scaleHeight(120), animated: true});
+                                }
+                            }
 
-                    this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true});
+                        } else { // Check the first linking word
+                            let check_inputs = null;
+                            let short_check = !advent_then || !imposed_event || !response_event.length > 0,
+                                medium_check = short_check || !advent_partner_reaction || !advent_consequence || !advent_exp_2,
+                                long_check = medium_check || !advent_emotion;
+                            switch (this.length) {
+                                case 1: check_inputs = medium_check; break;
+                                case 2: check_inputs = long_check; break;
+                                default: check_inputs = short_check; break;
+                            }
+                            if (check_inputs) { // something empty
+                                this.state.adventure_completed_2 = false;
+                                if (this.length === 0) {
+                                    this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true}); // short version
+                                } else { // length === 1 || length === 2 : scroll to first linking word
+                                    this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + scaleHeight(120), animated: true});
+                                }
+                            } else {
+                                if (this.length === 0) {
+                                    this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true});
+                                } else { // length === 1 || length === 2 : check the second linking word
+                                    if (advent_exp_2.length !== 0) {
+                                        let check_input = !advent_action;
+                                        if (check_input) {
+                                            this.state.adventure_completed_3 = false;
+                                            this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + scaleHeight(280), animated: true});
+                                        } else {
+                                            this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true});
+                                            // SAVE THE STORY
+                                        }
+                                    } else {
+                                        this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + scaleHeight(280), animated: true});
+                                    }
+                                }
+                            }
+                        }
+                    }
                 } else if (this.state.direction === "up") {
                     this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true});
                 }
@@ -873,6 +936,7 @@ export default class Form extends React.Component {
         }
     };
     scrollTo = (index) => {
+        console.log(this.refs.FormScrollView);
         switch (index) {
             case 2:
                 this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true});

@@ -14,8 +14,8 @@ export default StyleSheet.create({
     },
     formContainer: {
         //width: width - scaleWidth(80),
-        paddingTop: scaleHeight(20),
-        paddingBottom: scaleHeight(50),
+        paddingTop: scaleHeight(30),
+        paddingBottom: scaleHeight(60),
         paddingHorizontal: scaleWidth(40),
     },
     formItem:{
@@ -194,6 +194,6 @@ export default StyleSheet.create({
     /** PRINT **/
     printBtnContainer: {
         paddingVertical: scaleHeight(30),
-        marginBottom: scaleHeight(20),
+        marginBottom: scaleHeight(100),
     }
 });
