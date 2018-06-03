@@ -50,8 +50,8 @@ export default class Print extends React.Component {
 
         // TODO Save the story in the database
 
-        var api_url = "https://testappfabulab.herokuapp.com/createStory"
-        var api_url_storysounds = "https://testappfabulab.herokuapp.com/createstorysound"
+        let api_url = "https://testappfabulab.herokuapp.com/createStory";
+        let api_url_storysounds = "https://testappfabulab.herokuapp.com/createstorysound";
 
         fetch(api_url, {
             method: "POST",

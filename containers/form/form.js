@@ -123,32 +123,36 @@ export default class Form extends React.Component {
 
     radioBtnOnChange(index, array, name, isLast = false) {
         let state = this.state;
-        if (state.intro_completed === true && state.disrupt_completed === true && state.adventure_completed === true && state.outcome_completed === true && isLast === true) {
-            this.state.showPrintBtn = true;
+        if (state.intro_completed === true &&
+            state.disrupt_completed === true &&
+            state.adventure_completed === true &&
+            state.outcome_completed === true &&
+            isLast === true) {
+            state.showPrintBtn = true;
         }
 
         if (array[index].selected === true && array[index].selected !== "none") {
             array.map((item) => { item.selected = "none"; });
             array[index].selected = "none";
             switch (name) {
-                case 'intro_btn': this.state.intro_exp_selected = false; break;
-                case 'disrupt_btn': this.state.disrupt_exp_selected = false; break;
-                case 'adventure_btn_1': this.state.adventure_exp_selected_1 = false; break;
-                case 'adventure_btn_2': this.state.adventure_exp_selected_2 = false; break;
-                case 'outcome_btn': this.state.outcome_exp_selected = false; break;
-                case 'end_btn': this.state.end_exp_selected = false; break;
+                case 'intro_btn': state.intro_exp_selected = false; break;
+                case 'disrupt_btn': state.disrupt_exp_selected = false; break;
+                case 'adventure_btn_1': state.adventure_exp_selected_1 = false; break;
+                case 'adventure_btn_2': state.adventure_exp_selected_2 = false; break;
+                case 'outcome_btn': state.outcome_exp_selected = false; break;
+                case 'end_btn': state.end_exp_selected = false; break;
                 default: break;
             }
         } else {
             array.map((item) => { item.selected = false; });
             array[index].selected = true;
             switch (name) {
-                case 'intro_btn': this.state.intro_exp_selected = true; break;
-                case 'disrupt_btn': this.state.disrupt_exp_selected = true; break;
-                case 'adventure_btn_1': this.state.adventure_exp_selected_1 = true; break;
-                case 'adventure_btn_2': this.state.adventure_exp_selected_2 = true; break;
-                case 'outcome_btn': this.state.outcome_exp_selected = true; break;
-                case 'end_btn': this.state.end_exp_selected = true; break;
+                case 'intro_btn': state.intro_exp_selected = true; break;
+                case 'disrupt_btn': state.disrupt_exp_selected = true; break;
+                case 'adventure_btn_1': state.adventure_exp_selected_1 = true; break;
+                case 'adventure_btn_2': state.adventure_exp_selected_2 = true; break;
+                case 'outcome_btn': state.outcome_exp_selected = true; break;
+                case 'end_btn': state.end_exp_selected = true; break;
                 default: break;
             }
         }
@@ -347,36 +351,23 @@ export default class Form extends React.Component {
             } else { // scroll and save
                 let sentences = [end_exp_1[0].label, end_change, end_learn];
                 state.complete_story.end = gatherText(sentences);
-                // TODO RETRIEVE AND SEND ALL THE STORY TO THE NEXT PART
+
+                let story = "",
+                    title = state.complete_story.title;
+                for (let key in state.complete_story) {
+                    if (key !== 'title' && state.complete_story.hasOwnProperty(key)) {
+                        if (key === Object.keys(state.complete_story)[Object.keys(state.complete_story).length - 1]) {
+                            story += state.complete_story[key];
+                        } else {
+                            story += state.complete_story[key] + "@";
+                        }
+                    }
+                }
+                // console.log(story);
+                // console.log(this.story_sounds);
+                this.props.navigation.navigate('Correction', {story: story, title: title, sounds:this.story_sounds});
             }
         }
-
-        // Check before retrieve
-/*        if (!hero || !characteristic || !habit_before || !habit_after || !current_action || !disrupt_description || !disrupt_message || !advent_hero_reaction || !advent_partner_reaction || !advent_then || !advent_consequence || !response_event || !advent_emotion || !advent_action || !outcome_hero_solution || !outcome_partner_solution || !end_change || !end_learn) {
-            Alert.alert(
-                'Attention',
-                "Veuillez remplir tous les champs du formulaire avant d'imprimer l'histoire !",
-                [
-                    {text: 'OK', onPress: () => console.log('OK Pressed')},
-                ],
-                {cancelable: false}
-            )
-        } else {
-
-            let title = '', story = '';
-
-            // Create the text
-            for (let i = 0, count = text_elm.length; i < count; i++) {
-                if (text_elm[i] === partner_who || text_elm[i] === disrupt_then || text_elm[i] === adventure_then || text_elm[i] === outcome_then) {
-                    story += text_elm[i] + '@'; // add @ previous custom words sentence
-                } else {
-                    story += text_elm[i] + ' ';
-                }
-            }
-            //console.log(this.story_sounds);
-            this.props.navigation.navigate('Correction', {story: story, title: title, sounds:this.story_sounds});
-        }*/
-
     }
 
     renderRadioBtn(labels, name, isLast) {
@@ -751,7 +742,7 @@ export default class Form extends React.Component {
                 </View>
         }
 
-        if (this.state.showPrintBtn === true) {
+        if (state.showPrintBtn === true) {
             print_btn_render =
                 <View style={FormStyle.printBtnContainer}>
                     <RectangleButton
@@ -763,7 +754,7 @@ export default class Form extends React.Component {
 
         return (
             <Animated.View
-                style={[FormStyle.formContainer, {paddingBottom: this.keyboardHeight, opacity: opacity, marginBottom: this.state.outcome_margin_bottom}]}>
+                style={[FormStyle.formContainer, {paddingBottom: this.keyboardHeight, opacity: opacity, marginBottom: state.outcome_margin_bottom}]}>
                 {end_exp}
                 <View style={{ opacity: content_opacity}}>
                     {short_end_render}
@@ -777,11 +768,11 @@ export default class Form extends React.Component {
     onScrollEndDrag = (e) => {
         let currentOffset = e.nativeEvent.contentOffset.y,
             state = this.state;
-        switch (this.state.current_navigation) {
+        switch (state.current_navigation) {
             case 1:
-                if (currentOffset >= this.partHeight.introduction / 2 && this.state.direction === "down") {
+                if (currentOffset >= this.partHeight.introduction / 2 && state.direction === "down") {
 
-                    let intro_exp_1 = this.state.intro_exp_1.filter((exp) => { return exp.selected === true }),
+                    let intro_exp_1 = state.intro_exp_1.filter((exp) => { return exp.selected === true }),
                         hero = addEndDot(state.intro_hero_who), characteristic = addEndDot(state.intro_hero_characteristic),
                         habit_before = state.intro_hero_habit_before,
                         intro_exp_2 = state.intro_hero_habit, habit_after = addEndDot(state.intro_hero_habit_after),
@@ -802,30 +793,30 @@ export default class Form extends React.Component {
                             default: check_inputs = short_check; break;
                         }
                         if (check_inputs) {
-                            this.state.intro_completed = false;
+                            state.intro_completed = false;
                             this.refs.FormScrollView.scrollTo({x: 0, y: 0, animated: true}); // scroll to top
                         } else {
                             // scroll and save
-                            this.state.intro_completed = true;
+                            state.intro_completed = true;
                             this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true}); // scroll to next part
                             let sentences = [
                                 intro_exp_1[0].label, hero, characteristic,
                                 habit_before, intro_exp_2, habit_after, intro_exp_3, current_action, place,
                                 partner_who, partner_how, intro_where, intro_time];
-                            this.state.complete_story.title = generateTitle(hero, place);
-                            this.state.complete_story.introduction = gatherText(sentences);
+                            state.complete_story.title = generateTitle(hero, place);
+                            state.complete_story.introduction = gatherText(sentences);
                         }
                     } else { // scroll to see the next part if no linking word choose
                         this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true});
                     }
-                } else if (this.state.direction === "up") {
+                } else if (state.direction === "up") {
                     this.refs.FormScrollView.scrollTo({x: 0, y: 0, animated: true}); // scroll to top
                 }
                 break;
             case 2:
-                if (currentOffset >= this.partEnd.introduction + this.partHeight.disruption / 2 && this.state.direction === "down") {
+                if (currentOffset >= this.partEnd.introduction + this.partHeight.disruption / 2 && state.direction === "down") {
 
-                    let disrupt_exp_1 = this.state.disrupt_exp_1.filter((exp) => { return exp.selected === true }),
+                    let disrupt_exp_1 = state.disrupt_exp_1.filter((exp) => { return exp.selected === true }),
                         disrupt_description = addEndDot(state.disrupt_description),
                         disrupt_message = state.disrupt_message, disrupt_content = addEndDot(state.disrupt_content);
                     if (this.length === 0 || this.length === 1) { disrupt_message = "";}
@@ -841,19 +832,19 @@ export default class Form extends React.Component {
                             default: check_inputs = short_check; break;
                         }
                         if (check_inputs) {
-                            this.state.disrupt_completed = false;
+                            state.disrupt_completed = false;
                             this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true});
                         } else {
                             // scroll and save
-                            this.state.disrupt_completed = true;
+                            state.disrupt_completed = true;
                             this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true});
                             let sentences = [ disrupt_exp_1[0].label, disrupt_description, disrupt_message, disrupt_content];
-                            this.state.complete_story.disrupt = gatherText(sentences);
+                            state.complete_story.disrupt = gatherText(sentences);
                         }
                     } else {
                         this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true});
                     }
-                } else if (this.state.direction === "up") {
+                } else if (state.direction === "up") {
                     this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true});
                 }
                 break;
@@ -940,9 +931,9 @@ export default class Form extends React.Component {
                 }
                 break;
             case 4:
-                if (currentOffset >= this.partEnd.adventure + this.partHeight.outcome / 2 && this.state.direction === "down") {
+                if (currentOffset >= this.partEnd.adventure + this.partHeight.outcome / 2 && state.direction === "down") {
 
-                    let outcome_exp_1 = this.state.outcome_exp_1.filter((exp) => { return exp.selected === true }),
+                    let outcome_exp_1 = state.outcome_exp_1.filter((exp) => { return exp.selected === true }),
                         outcome_hero_solution = addEndDot(state.outcome_hero_solution),
                         outcome_partner_solution = addEndDot(state.outcome_partner_solution);
 
@@ -957,18 +948,18 @@ export default class Form extends React.Component {
                             default: check_inputs = short_check; break;
                         }
                         if (check_inputs) {
-                            this.state.outcome_completed = false;
+                            state.outcome_completed = false;
                             this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true}); // scroll to top
                         } else { // scroll and save
-                            this.state.outcome_completed = true;
+                            state.outcome_completed = true;
                             this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.outcome + 1, animated: true}); // scroll to next part
                             let sentences = [outcome_exp_1[0].label, outcome_hero_solution, outcome_partner_solution];
-                            this.state.complete_story.outcome = gatherText(sentences);
+                            state.complete_story.outcome = gatherText(sentences);
                         }
                     } else { // scroll to see the next part if no linking word choose
                         this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.outcome + 1, animated: true});
                     }
-                } else if (this.state.direction === "up") {
+                } else if (state.direction === "up") {
                     this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true});
                 }
                 break;
