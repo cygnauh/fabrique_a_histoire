@@ -30,7 +30,7 @@ export default class Print extends React.Component {
         let home_url = 'http://192.168.0.37:8080/',
             christine_url = 'http://192.168.43.70:8080/';
 
-        fetch(christine_url, {
+        fetch(home_url, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -43,16 +43,14 @@ export default class Print extends React.Component {
             })
         }).then(function (response) {
             console.log(response);
-            this.setState({updateBtnVisible: false,});
             return response;
         }).catch(function (error) {
             return error;
         });
 
-        // TODO Save the story in the database
-
-        var api_url = "https://testappfabulab.herokuapp.com/createStory"
-        var api_url_storysounds = "https://testappfabulab.herokuapp.com/createstorysound"
+        // Save the story in the database
+        let api_url = "https://testappfabulab.herokuapp.com/createStory";
+        let api_url_storysounds = "https://testappfabulab.herokuapp.com/createstorysound";
 
         fetch(api_url, {
             method: "POST",
@@ -70,14 +68,14 @@ export default class Print extends React.Component {
             return response.json();
         }).then((responseJson) => {
 
-            this.story_id = responseJson[0].insertId
+            this.story_id = responseJson[0].insertId;
 
-            console.log(this.props.sounds)
+            console.log(this.props.sounds);
 
             // ---------------------------------------------------- send the story sounds
 
             if (this.story_id) {
-                for (var i = 0; i < this.props.sounds.length; i++) {
+                for (let i = 0; i < this.props.sounds.length; i++) {
 
                     fetch(api_url_storysounds, {
                         method: "POST",
@@ -91,8 +89,8 @@ export default class Print extends React.Component {
                             'addAtTime': this.props.sounds[i].time
                         })
                     }).then(function (response) {
-                        console.log(response)
-                        console.log("good")
+                        console.log(response);
+                        console.log("good");
                         return response;
                     }).catch(function (error) {
                         return error;
@@ -106,6 +104,7 @@ export default class Print extends React.Component {
 
 
         /** Hide modal **/
+        this.setState({updateBtnVisible: false,});
         this.setModalVisible(!this.state.modalVisible);
     }
 

@@ -2,157 +2,110 @@
   "introduction": {
     "short": {
       "expression_1": [
-        {
-          "label": "Il était une fois,",
-          "selected": true
-        }, {
-          "label": "Il y a bien longtemps,",
-          "selected": false
-        }, {
-          "label": "C'est l'histoire",
-          "selected": false
-        }
+        "Il était une fois,",
+        "Il y a bien longtemps,",
+        "Il fut un temps,"
+      ],
+      "expression_2": [
+        "Mais cette fois-ci,",
+        "Mais ce jour là,",
+        "Mais pour une fois,"
       ],
       "hero": {
-        "who": {
-          "placeholder": "Qui va vivre des aventures dans notre histoire ?"
-        },
-        "characteristic": {
-          "placeholder": "Quelles sont les particularités du ou des personnages ?"
-        },
-        "description": {
-          "placeholder": "Décrivez moi le ou les personnages."
-        }
-      },
-      "expression_2": [
-        {
-          "label" : "qui",
-          "selected": true
-        }, {
-          "label" : "et",
-          "selected": false
-        }
-      ],
-      "hero_detail": {
-        "hobbies": {
-          "placeholder": "Quelles sont les activités préférées du ou des personnages ?"
-        },
-        "current_action": {
-          "placeholder": "Qu'est-ce que le ou les personnages font en ce moment ?"
-        }
+        "who": "Qui est le héros de cette histoire ? Quel est son objectif dans la vie ?",
+        "characteristic": "Est-ce qu'il a quelque chose de spécial ? Décrivez-le moi.",
+        "habit_before": "*Le personnage* Modifiez en écrivant le personnage inventé par les enfants.",
+        "habit": "avait pour habitude",
+        "habit_after": "de faire quelque chose. Quelles sont ses activités préférées ?",
+        "current_action":"Mais que fait le héros *nom du personnage* en ce moment ?"
+      }
+    },
+    "medium": {
+      "partner": {
+        "who": "1 personnage accompagne le héros : qui ?",
+        "how": "Comment se sont-ils rencontrés ?"
+      }
+    },
+    "long": {
+      "description": {
+        "where": "Décrivez-moi l'endroit où se trouvent les personnages ?",
+        "time": "Quel temps fait-il ? Quel est le moment de la journée ?"
       }
     }
   },
   "disruption": {
     "short": {
       "expression_1": [
-        {
-          "label": "Soudain,",
-          "selected": true
-        }, {
-          "label": "Tout à coup,",
-          "selected": false
-        },
-        {
-          "label": "Un jour,",
-          "selected": false
-        }
+        "Soudain,",
+        "Tout à coup,",
+        "Brusquement,"
       ],
       "event": {
-        "description": {
-          "placeholder": "Il se passe quelque chose d'incroyable : que se passe-t-il ?"
-        },
-        "hero_reaction": {
-          "placeholder": "Comment est-ce que le ou les héros réagissent ?"
-        },
-        "hero_decision": {
-          "placeholder": "Que décide le ou les héros ?"
-        },
-        "then": {
-          "placeholder": "Que se passe-t-il ensuite ?"
-        }
+        "description": "Il se passe quelque chose de terrible : que se passe-t-il ?",
       }
+    },
+    "long": {
+      "message": [
+        "Un pigeon voyageur sortit de nulle part, tendit un message, avant de repartir :",
+        "Un ogre voyageur sortit de nulle part, tendit un message, avant de repartir :",
+        "Une flèche se planta à côté, avec un message accroché :",
+        "Une vieille enveloppe atteri à côté. Elle contenait un message :",
+        "Un parachute se posa à côté. Il contenait un message :"
+      ],
+      "content": "Une mission est confiée à nos héros *nom des personnages* : que dit ce message ?"
     }
   },
   "adventure": {
     "short": {
       "expression_1": [
-        {
-          "label": "Le lendemain,",
-          "selected": true
-        }, {
-          "label": "Quelques heures plus tard,",
-          "selected": false
-        }, {
-          "label": "Peu de temps après,",
-          "selected": false
-        }, {
-          "label": "Puis,",
-          "selected": false
-        }
+        "Après cet évènement,",
+        "Après cette aventure,",
+        "Peu de temps après,"
       ],
       "event": {
-        "hero_decision": {
-          "placeholder": "Que décide le ou les héros ?"
-        },
-        "consequence": {
-          "placeholder": "Qu'est-ce que ça provoque ? (Comment est-ce que ça change la situation ?)"
-        },
-        "hero_reaction": {
-          "placeholder": "Comment est-ce que le ou les héros réagissent ?"
-        },
-        "then": {
-          "placeholder": "Que se passe-t-il par la suite ?"
-        }
+        "hero_reaction": "Comment réagit le héros ?",
+        "then": "Que se passe-t-il ensuite ?"
       }
+    },
+    "medium": {
+      "event": {
+        "partner_reaction": "Et comment est-ce que le compagnon réagit ?",
+        "consequence": "Qu'est-ce que ça provoque ?",
+        "action": "Que font les personnages ?"
+      },
+      "expression_1" : [
+        "Ensuite,",
+        "Puis,"
+      ]
+    },
+    "long": {
+      "emotion": "Comment se sentent *les personnages* face à la situation ?"
     }
   },
   "outcome": {
     "short": {
       "expression_1": [
-        {
-          "label": "Ensuite,",
-          "selected": true
-        }, {
-          "label": "Peu après,",
-          "selected": false
-        }, {
-          "label": "Un jour,",
-          "selected": false
-        }
+        "Heureusement,",
+        "Malheureusement,",
+         "Finalement,"
       ],
-      "description": {
-        "solution": {
-          "placeholder": "Comment est-ce que le ou les héros règlent-ils leurs problèmes ?"
-        },
-        "then": {
-          "placeholder": "Qu'est-ce qui arrive au(x) personnage(s) ?"
-        }
-      }
+      "hero_solution": "Comme *le héros* règle-t-il ce dernier problème ?"
+    },
+    "medium": {
+      "partner_solution": "Comment *le compagnon* aide-t-il *le héros* ?"
     }
   },
   "conclusion": {
     "short": {
       "expression_1": [
-        {
-          "label": "Et c'est ainsi",
-          "selected": true
-        }, {
-          "label": "Depuis ce jour,",
-          "selected": false
-        }, {
-          "label": "Désormais,",
-          "selected": false
-        }
+        "Et c'est ainsi",
+        "Depuis ce jour,",
+        "Désormais,"
       ],
-      "description": {
-        "change": {
-          "placeholder": "Qu\'est ce qui a changé pour le ou les personnages depuis le début de l'histoire ?"
-        },
-        "learn": {
-          "placeholder": "Qu\'est-ce que le ou les personnages ont appris de leurs aventures? "
-        }
-      }
+      "change": "Qu'est-ce qui a changé pour *le héros* depuis le début de l'histoire ? "
+    },
+    "medium": {
+      "learn": "Qu'est-ce que le héros a-t-il appris de ses aventures ?"
     }
   }
 }

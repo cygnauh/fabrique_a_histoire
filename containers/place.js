@@ -131,7 +131,10 @@ export default class Place extends React.Component{
         if(this.state.isLoading){
             return(
                 <View style={[GlobalStyle.view, GlobalStyle.headerView]}>
-                    <Header onPress={() => this.props.navigation.goBack()}/>
+                    <Header
+                        rightElm="none"
+                        onPress={() => this.props.navigation.goBack()}
+                    />
                     <View style={{flex: 1,  justifyContent: 'center'}}>
                         <ActivityIndicator/>
                     </View>

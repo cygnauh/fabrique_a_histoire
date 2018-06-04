@@ -1,6 +1,9 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { scaleWidth, scaleHeight, scaleDelta } from '../utils/scale';
+import { colors } from "./colors";
+
+const { width, height } = Dimensions.get('window');
 
 export default StyleSheet.create({
 
@@ -11,8 +14,8 @@ export default StyleSheet.create({
     },
     formContainer: {
         //width: width - scaleWidth(80),
-        paddingTop: scaleHeight(20),
-        paddingBottom: scaleHeight(50),
+        paddingTop: scaleHeight(30),
+        paddingBottom: scaleHeight(60),
         paddingHorizontal: scaleWidth(40),
     },
     formItem:{
@@ -43,7 +46,7 @@ export default StyleSheet.create({
         position: 'relative',
         left: scaleWidth(-30),
         top: scaleHeight(150),
-        color: '#c9c6c5',
+        color: colors.pinkishGreyTwo,
     },
     partNavigationItemContainer: {
         position: 'relative',
@@ -55,12 +58,12 @@ export default StyleSheet.create({
         textAlign: 'center',
         fontSize: scaleDelta(12, .5),
         fontFamily: 'Editor-Medium',
-        color: '#47404F50',
+        color: colors.pinkishGreyTwo,
         paddingVertical: scaleHeight(5),
     },
     partNavigationCurrentItem: {
         fontSize: scaleDelta(22, .5),
-        color: '#47404F',
+        color: colors.indigo,
     },
     iconNav: {
         width: scaleWidth(20),
@@ -82,78 +85,122 @@ export default StyleSheet.create({
         alignItems: 'flex-end',
         flexWrap: 'wrap',
         marginVertical: scaleHeight(15),
+        marginHorizontal: scaleWidth(5),
     },
     radioSelected: {
         fontSize: scaleDelta(16, .5),
         position: 'relative',
         top: scaleHeight(0),
         fontFamily: 'Editor-Bold',
-        color: '#47404F',
+        color: colors.indigo,
+        borderWidth: 2,
+        borderColor: colors.heather,
+        paddingHorizontal: scaleWidth(10),
+        paddingVertical: scaleWidth(4),
+        borderRadius: scaleWidth(12),
     },
     radioUnselected: {
-        backgroundColor: '#DBDAD9',
         paddingVertical: scaleWidth(2),
         paddingHorizontal: scaleHeight(10),
+        marginBottom: scaleHeight(10),
         fontSize: scaleDelta(11, .5),
         fontFamily: 'Editor-Bold',
-        color: '#47404F',
+        color: colors.indigo,
+    },
+    radioBtnContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    radioBtnChange: {
+        width: scaleWidth(14), // 78
+        height: scaleWidth(8), // 45
+        position: 'relative',
+        left: scaleWidth(-25)
+    },
+    itemChange: {
+        paddingRight: scaleWidth(30)
+    },
+    radioBtnLine: {
+        backgroundColor: colors.heather,
+        height: scaleHeight(20),
+        width: 2
     },
 
     /** TEXT INPUT **/
+    inputContainer: {
+        position: 'relative',
+    },
     inputItem: {
-        backgroundColor: '#FFF',
         paddingTop: scaleHeight(8),
-        paddingBottom: scaleHeight(5),
-        paddingHorizontal: scaleHeight(10),
+        paddingBottom: scaleHeight(8),
+        paddingHorizontal: scaleWidth(5),
         fontSize: scaleDelta(12, .5),
         fontFamily: 'MaisonNeue-Medium',
-        color: '#47404F',
+        color: colors.greyishBrown,
+        borderBottomWidth: 2,
+        borderColor: colors.pinkishGreyTwo,
     },
-    placeItem: {
+    textItem: {
         fontSize: scaleDelta(16, .5),
-        marginVertical: scaleHeight(15),
         fontFamily: 'Editor-Bold',
-        color: '#47404F',
+        color: colors.indigo,
     },
-    onChange: {
+    startItem: {
+        marginTop: scaleHeight(20),
+    },
+    endItem: {
+        marginTop: scaleHeight(10),
+        marginBottom: scaleHeight(20),
+    },
+    /** MANEGE ERROR **/
+    errorQuestion: {
+        paddingHorizontal: scaleWidth(5),
+        color: colors.warmGreyTwo,
         position: 'relative',
-        top: scaleHeight(-10),
-        backgroundColor: 'transparent',
-        paddingHorizontal: 0,
-        fontFamily: 'MaisonNeue-Demi',
-        lineHeight: scaleDelta(14, .5),
+        top: scaleHeight(5),
     },
-    question: {
-        marginHorizontal: scaleWidth(5),
-        fontSize: scaleDelta(10, .5),
-        color: '#A6A2A0',
+    errorImage: {
+        position: 'absolute',
+        right: scaleWidth(10),
+        bottom: scaleHeight(16),
     },
 
     /** VOTE **/
     voteItem: {
-        fontFamily: 'MaisonNeue-Demi',
-        fontSize: scaleDelta(12, .5),
-        color: '#47404F',
+        alignSelf: 'flex-start',
         marginHorizontal: scaleWidth(5),
+        marginBottom: scaleHeight(15),
         paddingHorizontal: scaleWidth(10),
         paddingVertical: scaleHeight(10),
-        borderRadius: 24,
+        borderRadius: 28,
         borderWidth: 2,
-        borderColor: '#c9c6c5',
+        borderColor: colors.pinkishGreyTwo,
+        fontFamily: 'MaisonNeue-Demi',
+        fontSize: scaleDelta(12, .5),
+        color: colors.greyishBrown,
+    },
+    imposedEvent: {
+        marginTop: scaleHeight(20),
         marginBottom: scaleHeight(15),
-        alignSelf: 'flex-start',
     },
     voteUnselected: {
         backgroundColor: 'transparent',
     },
     voteSelected: {
-        backgroundColor: '#c9c6c5',
-        overflow:"hidden",
+        marginTop: scaleHeight(0),
+        marginBottom: scaleHeight(10),
+        borderColor: 'transparent',
+        paddingHorizontal: scaleWidth(0),
+        paddingVertical: scaleHeight(0),
+        fontSize: scaleDelta(16, .5),
+        fontFamily: 'Editor-Bold',
+        color: colors.indigo,
+        overflow: "hidden",
     },
 
     /** PRINT **/
     printBtnContainer: {
         paddingVertical: scaleHeight(30),
-        marginBottom: scaleHeight(20),
+        marginBottom: scaleHeight(100),
     }
 });
