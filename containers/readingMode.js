@@ -156,14 +156,28 @@ export default class readingMode extends React.Component {
 
             //get a timer, set to true canPlay when timer up, set this.state.sound_url
 
-            for(var j = 1 ; j < this.state.sounds_added.length; j++){
-                for( var i = 0; i<this.state.sounds_added_url.length; i++){
-                    if(this.state.sounds_added_url[i].id === this.state.sounds_added[j].sound_id){
-                        var differenceTime = this.state.sounds_added[j].time - this.state.sounds_added[j-1].time
-                        console.log(differenceTime)
-                        this.setTimerToPlaySound(differenceTime, this.state.sounds_added_url[j].url)
+
+
+            for(var j = 0 ; j < this.state.sounds_added.length; j++){
+
+                if(j !== 0){
+                    for( var i = 0; i<this.state.sounds_added_url.length; i++){
+                        if(this.state.sounds_added_url[i].id === this.state.sounds_added[j].sound_id){
+                            var differenceTime = (this.state.sounds_added[j].time - this.state.sounds_added[j-1].time)/2
+                            console.log(differenceTime)
+                            this.setTimerToPlaySound(differenceTime, this.state.sounds_added_url[j].url)
+                        }
+                    }
+                }else{
+                    for( var i = 0; i<this.state.sounds_added_url.length; i++){
+                        if(this.state.sounds_added_url[i].id === this.state.sounds_added[j].sound_id){
+                            var differenceTime = this.state.sounds_added[j].time
+                            console.log(differenceTime)
+                            this.setTimerToPlaySound(differenceTime, this.state.sounds_added_url[j].url)
+                        }
                     }
                 }
+
             }
         }
     }
