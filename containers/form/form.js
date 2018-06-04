@@ -998,7 +998,6 @@ export default class Form extends React.Component {
         }
     };
     scrollTo = (index) => {
-        console.log(this.refs.FormScrollView);
         switch (index) {
             case 2:
                 this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true});
@@ -1008,11 +1007,9 @@ export default class Form extends React.Component {
                 break;
             case 4:
                 this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true});
-                this.state.outcome_margin_bottom = scaleHeight(350);
                 break;
             case 5:
                 this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.outcome + 1, animated: true});
-                this.state.outcome_margin_bottom = scaleHeight(350);
                 break;
             default:
                 this.refs.FormScrollView.scrollTo({x: 0, y: 0, animated: true});
