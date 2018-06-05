@@ -2,8 +2,18 @@ import React from 'react';
 import {Image, View, Text, TouchableOpacity, StatusBar, TextInput} from 'react-native';
 import Header from '../components/header';
 import GlobalStyle from '../styles/mainStyle.js';
+import FormStyle from "../styles/formStyle";
 
 export default class Home extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoading: false,
+        }
+        this.contentText = "Entrer votre code"
+    }
+
 
     componentDidMount() {
         StatusBar.setHidden(true);
@@ -97,25 +107,33 @@ export default class Home extends React.Component {
                 </Text>
 
                 <View>
+                    {this.state.story_not_found ? (
+                        <Text style={{color: "#D66853"}}> Nous n'avons pas trouvé d'histoire avec ce code.</Text>
+                    ) : null}
+                    {this.state.story_id_incorrect ? (
+                        <Text style={{color: "#D66853"}}> Il faut entrer seulement des chiffres. </Text>
+                    ) : null}
+                    { this.state.input ? <Text style={FormStyle.errorQuestion}>{this.contentText}</Text> :null}
+
                     <TextInput
-                        placeholder={"Entrer votre code"}
+                        placeholder={this.contentText}
                         onChangeText={(text) => this.setState({input: text})}
-                        style={{padding: 20, fontSize: 30}}
+                        style={[{padding: 20, fontSize: 30, borderBottom:3},FormStyle.inputItem]}
+                        multiline={true}
                     />
 
-                    <TouchableOpacity onPress={() => {
-                        this.checkingMode(this.state.input)
-                    }}>
-                        <Text style={GlobalStyle.homeBtn}>{'Relire mon histoire'}</Text>
-                    </TouchableOpacity>
                 </View>
+                <TouchableOpacity onPress={() => {
+                    this.checkingMode(this.state.input)
+                }}>
 
-                {/*<TouchableOpacity onPress={() => { this.props.navigation.navigate('Onboarding')} }>*/}
-                {/*<Text style={GlobalStyle.homeBtn}>{'Commencer'.toUpperCase()}</Text>*/}
-                {/*</TouchableOpacity>*/}
-                {/*<TouchableOpacity onPress={() => { this.props.navigation.navigate('readingMode')} }>*/}
-                {/*<Text style={GlobalStyle.homeBtn}>{'Lecture'.toUpperCase()}</Text>*/}
-                {/*</TouchableOpacity>*/}
+                {this.state.input && this.state.input.length>3 ?
+
+                        <Text style={GlobalStyle.homeBtn}>{'Valider'}</Text>
+
+                    :null}
+                </TouchableOpacity>
+
             </View>
         );
     }
