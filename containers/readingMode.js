@@ -22,15 +22,9 @@ export default class readingMode extends React.Component {
 
         if (!this.baseSound_load) {
             this.baseSound_load = true
-            // this.startOriginCounter()
-            console.log("turn to true")
         }
-        console.log('On load fired!');
+        // console.log('On load fired!');
         this.setState({duration: data.duration});
-
-        if (this.state.duration) {
-            console.log(this.state.duration)
-        }
     }
 
     onProgress(data) {
@@ -41,11 +35,12 @@ export default class readingMode extends React.Component {
         this.setState({isBuffering});
     }
 
-    onEnd(data) {
-        console.log("this is the end")
-        this.setState({
-            canPlay: false,
-        });
+    onEnd() {
+
+            this.setState({
+                canPlay: false
+            });
+
     }
 
     getSounds(id) {
@@ -63,7 +58,6 @@ export default class readingMode extends React.Component {
                     isLoading: false,
                     story_id_incorrect: true
                 });
-                console.log("not number")
             } else {
                 var request = 'https://testappfabulab.herokuapp.com/storysoundsforreading?story=' + num
 
@@ -79,8 +73,6 @@ export default class readingMode extends React.Component {
                         } else {
                             response.json()
                                 .then((responseJson) => {
-                                    console.log(responseJson)
-
                                     if (responseJson && responseJson.length === 4) {
                                         this.setState({
                                             base_sound: responseJson[3].base_sound[0],
@@ -93,8 +85,7 @@ export default class readingMode extends React.Component {
                                     }
 
                                     if (this.state.sounds_added) {
-                                        this.handleAddedSound()
-                                        console.log("hello it's added ")
+                                        this.handleAddedSound(this.state.sounds_added_url)
                                     }
 
                                     this.setState({
@@ -149,158 +140,134 @@ export default class readingMode extends React.Component {
         return comparison;
     }
 
-    handleAddedSound() {
-        if (this.state.sounds_added && this.state.sounds_added_url) {
+    handleAddedSound(url) {
+
+
+        if (this.state.sounds_added && url) {
 
             this.state.sounds_added.sort(this.sortBy)
 
-            //get a timer, set to true canPlay when timer up, set this.state.sound_url
+            for (var j = 1; j < this.state.sounds_added.length; j++) {
+                for (var i = 0; i < url.length; i++) {
 
-
-
-            for(var j = 0 ; j < this.state.sounds_added.length; j++){
-
-                if(j !== 0){
-                    for( var i = 0; i<this.state.sounds_added_url.length; i++){
-                        if(this.state.sounds_added_url[i].id === this.state.sounds_added[j].sound_id){
-                            var differenceTime = (this.state.sounds_added[j].time - this.state.sounds_added[j-1].time)/2
-                            console.log(differenceTime)
-                            this.setTimerToPlaySound(differenceTime, this.state.sounds_added_url[j].url)
-                        }
+                    if (url[i].id === this.state.sounds_added[j].sound_id) {
+                        this.state.sounds_added[j].url = url[i].url
                     }
-                }else{
-                    for( var i = 0; i<this.state.sounds_added_url.length; i++){
-                        if(this.state.sounds_added_url[i].id === this.state.sounds_added[j].sound_id){
-                            var differenceTime = this.state.sounds_added[j].time
-                            console.log(differenceTime)
-                            this.setTimerToPlaySound(differenceTime, this.state.sounds_added_url[j].url)
-                        }
+
+                    if (url[i].id === this.state.sounds_added[0].sound_id) {
+                        this.state.sounds_added[0].url = url[i].url
                     }
                 }
+            }
 
+            for (var k = 0; k < this.state.sounds_added.length; k++) {
+                this.setTimerToPlaySound(this.state.sounds_added[k].time / 2, this.state.sounds_added[k].url)
             }
         }
     }
 
     setTimerToPlaySound(delay, url) {
-        setTimeout(()=>{
 
+        setTimeout(() => {
+            console.log("URL", url)
             this.setState({
-                canPlay : true,
-                sound_url:url
+                canPlay: true,
+                sound_url: url
+
             })
         }, delay)
-
     }
 
-
-    playASound(url, delay) {
-
-        if (delay !== 0) {
-            this.delay = delay
-        }
+    playASound(url) {
 
         this.repeat = false
-
-        // setTimeout(()=>{
-        //     console.log("V")
         return (
             <Video
                 source={{uri: url}}
-                volume={0.5}
+                volume={1}
                 onLoad={this.onLoad}
                 onBuffer={this.onBuffer}
                 onProgress={this.onProgress}
-
-                //reset canPlay
-                onEnd={() => {this.onEnd}}
+                onEnd={this.onEnd} //reset canPlay
                 repeat={this.repeat}
-                    // wait={this.delay}
-                    />
-                    )
-                    // }, 2000)
-                }
+            />
+        )
+    }
 
 
-                setBackgroundColor() {
+    setBackgroundColor() {
         if (this.state.base_sound) {
-        return this.state.base_sound.color
-    } else {
-        return 'transparent'
+            return this.state.base_sound.color
+        } else {
+            return 'transparent'
+        }
     }
-
-    }
-
 
 
     render() {
 
-        {
-            // var buttonsListArr = this.initialArr.map(buttonInfo => (
-            //     <Button key={buttonInfo.id}>{buttonInfo.text}</Button>
-            // ))
-        }
-
         if (this.state.isLoading) {
-        return (
-        <View style={[GlobalStyle.view, GlobalStyle.headerView]}>
-        <Header onPress={() => this.props.navigation.goBack()}/>
-        <View style={{flex: 1, justifyContent: 'center'}}>
-        <ActivityIndicator/>
-        </View>
-        </View>
-        )
-    }
+            return (
+                <View style={[GlobalStyle.view, GlobalStyle.headerView]}>
+                    <Header onPress={() => this.props.navigation.goBack()}/>
+                    <View style={{flex: 1, justifyContent: 'center'}}>
+                        <ActivityIndicator/>
+                    </View>
+                </View>
+            )
+        }
 
         return (
 
-        <View style={[GlobalStyle.view, GlobalStyle.headerView, {backgroundColor: this.setBackgroundColor()}]}>
+            <View style={[GlobalStyle.view, GlobalStyle.headerView, {backgroundColor: this.setBackgroundColor()}]}>
 
-        <Header onPress={() => this.props.navigation.goBack()}/>
-        <View style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center'
-        }}>
+                <Header onPress={() => this.props.navigation.goBack()}/>
+                <View style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}>
 
-        {this.state.story_not_found ? (
-            <View> <Text style={{color: "#D66853"}}> Nous n'avons pas trouvé d'histoire avec ce code.</Text>
-            </View>) : null}
-        {this.state.story_id_incorrect ? (
-            <View> <Text style={{color: "#D66853"}}> Il faut entrer seulement des chiffres. </Text>
-            </View>) : null}
+                    {this.state.story_not_found ? (
+                        <View> <Text style={{color: "#D66853"}}> Nous n'avons pas trouvé d'histoire avec ce code.</Text>
+                        </View>) : null}
+                    {this.state.story_id_incorrect ? (
+                        <View> <Text style={{color: "#D66853"}}> Il faut entrer seulement des chiffres. </Text>
+                        </View>) : null}
 
-        {this.apiRequestForStorySounds()}
+                    {this.apiRequestForStorySounds()}
 
-        {this.state.base_sound ? (<View>
+                    {this.state.base_sound ? (<View>
 
-            <View style={GlobalStyle.placeContainer}>
+                        <View style={GlobalStyle.placeContainer}>
 
-                {this.state.story_title ?
-                    <Text style={GlobalStyle.placeTitle}>{this.state.story_title}</Text> : null}
+                            {this.state.story_title ?
+                                <Text style={GlobalStyle.placeTitle}>{this.state.story_title}</Text> : null}
 
+                        </View>
+                    </View>) : null
+                    }
+
+                    {// background sound
+                        this.state.base_sound ? (
+                            <Video
+                                source={{uri: this.state.base_sound.url}}
+                                volume={0.2}
+                                onLoad={this.onLoad}
+                                onBuffer={this.onBuffer}
+                                onProgress={this.onProgress}
+                                // onEnd={}//reset canPlay
+                                repeat={this.repeat}
+                            />
+                        ) : null
+                    }
+
+                    { // detected sound
+                        (this.state.canPlay && this.state.sound_url) ? this.playASound(this.state.sound_url) : null
+                    }
+
+                </View>
             </View>
-        </View>) : null
-        }
-
-
-        {/*{this.state.sounds_added.map((prop, key) => {*/}
-            {/*return (*/}
-                {/*<Button style={{borderColor: prop[0]}} key={key}>{prop[1]}</Button>*/}
-            {/*);*/}
-        {/*})}*/}
-
-        {// background sound
-            this.state.base_sound ? this.playASound(this.state.base_sound.url, 0) : null
-        }
-
-        { // detected sound
-            (this.state.canPlay && this.state.sound_url) ? this.playASound(this.state.sound_url, 6000) : null
-        }
-
-        </View>
-        </View>
         )
     }
-    }
-
+}
