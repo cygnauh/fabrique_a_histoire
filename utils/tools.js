@@ -33,4 +33,19 @@ const addNil = (digit) => {
     return (digit < 10) ? ("0" + digit) : digit;
 };
 
-export { getRandomInt, delEndDot, addEndDot, upperCaseFirst, addNil }
+const gatherText = (sentences) => {
+    let text = "";
+    for (let i = 0, count = sentences.length; i < count; i++) {
+        if (sentences[i] !== "") {
+            text += sentences[i] + ' ';
+        }
+        // text += sentences[i] + '@'; // add @ previous custom words sentence
+    }
+    return text;
+};
+
+const generateTitle = (hero, place) => {
+    return upperCaseFirst(delEndDot(hero) + ' ' + delEndDot(place)); // hasn't apostrophe
+};
+
+export { getRandomInt, delEndDot, addEndDot, upperCaseFirst, addNil, gatherText, generateTitle }

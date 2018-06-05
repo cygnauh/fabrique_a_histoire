@@ -3,7 +3,6 @@ import { View, Text, Slider, Image } from 'react-native';
 import Header from '../components/header';
 import RectangleButton from '../components/rectangleButton';
 import GlobalStyle from '../styles/mainStyle';
-import OnBoardingStyle from "../styles/onboardingStyle";
 
 export default class Length extends React.Component{
     constructor(props) {
@@ -56,15 +55,25 @@ export default class Length extends React.Component{
         return(
             <View style={[GlobalStyle.view, GlobalStyle.headerView]}>
                 <Image style={GlobalStyle.backgroundImage} source={require('../assets/images/background.png')} />
-                <Header onPress={() => this.props.navigation.goBack()}/>
+                <Header
+                    leftElm="about"
+                    onPress={() => this.props.navigation.goBack()}
+                    goAbout={() => this.props.navigation.navigate('About')}/>
                 <View>
                     <Text style={GlobalStyle.titleContent}>Longueur du récit</Text>
-                    <Slider style={GlobalStyle.lengthSlider} step={1}
-                            minimumTrackTintColor={'#4D4641'}
-                            maximumValue={2}
-                            value={this.state.value}
-                            onValueChange={(value) => this.onChange(value)}/>
-                    {this.renderLength(this.state.value)}
+                    <View style={GlobalStyle.lengthSliderContainer}>
+                        <Text style={GlobalStyle.manageLength}>-</Text>
+                        <View>
+                            <Slider style={GlobalStyle.lengthSlider} step={1}
+                                    minimumTrackTintColor={'#4D4641'}
+                                    maximumValue={2}
+                                    value={this.state.value}
+                                    thumbImage={require('../assets/images/trackSlider.png')}
+                                    onValueChange={(value) => this.onChange(value)}/>
+                            {this.renderLength(this.state.value)}
+                        </View>
+                        <Text style={GlobalStyle.manageLength}>+</Text>
+                    </View>
                 </View>
                 <RectangleButton content={'Continuer'} src={require('../assets/images/validate.png')} onPress={
                     () => this.props.navigation.navigate('Place', {length: this.state.value} )}/>
