@@ -49,6 +49,8 @@ export default class Print extends React.Component {
         let api_url = "https://testappfabulab.herokuapp.com/createStory";
         let api_url_storysounds = "https://testappfabulab.herokuapp.com/createstorysound";
 
+        console.log(this.props.place)
+
         fetch(api_url, {
             method: "POST",
             headers: {
@@ -57,7 +59,9 @@ export default class Print extends React.Component {
             },
             body: JSON.stringify({
                 "title": this.props.title,
-                "content": this.props.story
+                "content": this.props.story,
+                "base_sound":this.props.place.id,
+                "light":this.props.place.color
             })
         }).then(function (response) {
             console.log(response);
@@ -66,12 +70,13 @@ export default class Print extends React.Component {
 
             this.story_id = responseJson[0].insertId;
 
-            console.log(this.props.sounds);
-
             // ---------------------------------------------------- send the story sounds
 
             if (this.story_id) {
+
                 for (let i = 0; i < this.props.sounds.length; i++) {
+
+                    console.log(this.story_id, this.props.sounds[i].sound.id, this.props.sounds[i].time)
 
                     fetch(api_url_storysounds, {
                         method: "POST",

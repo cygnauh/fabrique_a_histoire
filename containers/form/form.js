@@ -99,14 +99,21 @@ export default class Form extends React.Component {
         this.keyboardHeight = new Animated.Value(0);
         // this.fadeIn = new Animated.Value(0);
 
+        // this.baseSound_load = false
+
         this.onLoad = this.onLoad.bind(this);
         this.onProgress = this.onProgress.bind(this);
         this.onBuffer = this.onBuffer.bind(this);
+        this.loadSoundsFromAPI()
         this.loadSoundsFromAPI();
     }
 
     onLoad(data) {
-        console.log('On load fired!');
+
+        if(!this.baseSound_load){
+            this.baseSound_load = true;
+            this.startOriginCounter();
+        }
         this.setState({duration: data.duration});
     }
     onProgress(data) {
@@ -115,12 +122,17 @@ export default class Form extends React.Component {
     onBuffer({isBuffering}: { isBuffering: boolean }) {
         this.setState({isBuffering});
     }
-    getCurrentTimePercentage() {
-        if (this.state.currentTime > 0) {
-            return parseFloat(this.state.currentTime) / parseFloat(this.state.duration);
-        } else {
-            return 0;
-        }
+
+
+    getCurrentTimeFromNow() {
+        this.time = new Date().getTime() - this.now;
+        return this.time;
+    }
+
+    startOriginCounter(){
+        if(this.baseSound_load){
+            this.now = new Date().getTime();
+        } 
     }
 
     radioBtnOnChange(index, array, name, isLast = false) {
@@ -212,12 +224,10 @@ export default class Form extends React.Component {
         }
     }
     onBlurSearchSound(e) {
-        //console.log(this.getCurrentTimePercentage());
         let theString = e.nativeEvent.text;
         if (this.canAnalyseTheString === true && theString !== "") {
-            //console.log("this.canAnalyseTheString", this.canAnalyseTheString);
             let res = theString.split(" ");
-            for (let i = 0; i < res.length; i++) {
+            for (var i = 0; i < res.length; i++) {
                 this.searchSound(res[i])
             }
             this.setCanPlayValidationSound()
@@ -237,7 +247,6 @@ export default class Form extends React.Component {
                     let _i = i;
                     setTimeout(() => {
 
-
                         //check if the sound is already there
                         let found = this.story_sounds.some( (el)  =>{
                             return el.sound === this.state.sounds[_i];
@@ -247,14 +256,9 @@ export default class Form extends React.Component {
                             this.setState({can_play: true, sound: this.state.sounds[_i]});
 
                             //stock the sound id
-                            let name = this.state.sounds[_i];
-
-                            let story_sound = {sound: this.state.sounds[_i], time: this.getCurrentTimePercentage()}
-                            //console.log(story_sound);
-                            this.story_sounds.push(story_sound);
-                            //console.log("this.story_sounds");
-                            //console.log(this.story_sounds);
-
+                            var name = this.state.sounds[_i]
+                            var story_sound = {sound: this.state.sounds[_i], time: this.getCurrentTimeFromNow()}
+                            this.story_sounds.push(story_sound)
                         }
 
                     }, 4000)
@@ -262,11 +266,11 @@ export default class Form extends React.Component {
             }
         }
     }
+
     setCanPlayValidationSound = () => {
 
         if (this.state.canPlayValidationSound === true) {
-            this.setState({canPlayValidationSound: false});
-            //console.log("A");
+            this.setState({canPlayValidationSound: false})
         }
         else {
             this.setState({canPlayValidationSound: true});
@@ -275,9 +279,29 @@ export default class Form extends React.Component {
             setTimeout(() => {
                 this.setCanPlayValidationSound();
             }, 3000);
-            //console.log("B");
         }
-    };
+    }
+
+    playBaseSound(url, volume, repeat) {
+        if (repeat === "repeat") {
+            this.repeat = true
+        } else {
+            this.repeat = false
+        }
+
+        return (
+            <Video
+                source={{uri: url}}
+                volume={volume}
+                onLoad={this.onLoad}
+                onBuffer={this.onBuffer}
+                onProgress={this.onProgress}
+                repeat={this.repeat}
+            />
+        )
+
+    }
+
     playASound(url, volume, repeat, isValidation) {
 
         if (repeat === "repeat") {
@@ -296,7 +320,6 @@ export default class Form extends React.Component {
                     onLoad={this.onLoad}
                     onBuffer={this.onBuffer}
                     onProgress={this.onProgress}
-                    // onEnd={() => { this.setCanPlayValidationSound(), console.log() }}
                     repeat={this.repeat}
                 />
             )
@@ -313,6 +336,7 @@ export default class Form extends React.Component {
             )
         }
     }
+
     loadSoundsFromAPI() {
         return fetch('https://testappfabulab.herokuapp.com/sounds')
             .then((response) => response.json())
@@ -366,7 +390,7 @@ export default class Form extends React.Component {
                 }
                 // console.log(story);
                 // console.log(this.story_sounds);
-                this.props.navigation.navigate('Correction', {story: story, title: title, sounds:this.story_sounds});
+                this.props.navigation.navigate('Correction', {story: story, title: title, sounds:this.story_sounds, place:this.place});
             }
         }
     }
@@ -1091,10 +1115,9 @@ export default class Form extends React.Component {
                     scrollEventThrottle = {0}
                     showsHorizontalScrollIndicator={false}
                     showsVerticalScrollIndicator={false}
-                    onScroll={this.onScroll} onScrollEndDrag={this.onScrollEndDrag}
-                >
+                    onScroll={this.onScroll} onScrollEndDrag={this.onScrollEndDrag}>
                         { // background sound
-                            this.place ? this.playASound(this.place.url, 0.5, "repeat", false) : null
+                            this.place ? this.playBaseSound(this.place.url, 0.5, "repeat") : null
                         }
                         { //added sound
                             this.state.can_play ? this.playASound(this.state.sound.url, 0.5, "no-repeat", false) : null

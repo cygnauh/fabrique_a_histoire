@@ -31,6 +31,9 @@ render() {
                 <TouchableOpacity onPress={() => { this.props.navigation.navigate('Onboarding')} }>
                     <Text style={GlobalStyle.homeBtn}>{'Commencer'.toUpperCase()}</Text>
                 </TouchableOpacity>
+                <TouchableOpacity onPress={() => { this.props.navigation.navigate('readingMode')} }>
+                    <Text style={GlobalStyle.homeBtn}>{'Lecture'.toUpperCase()}</Text>
+                </TouchableOpacity>
             </View>
         );
     }
