@@ -162,7 +162,7 @@ export default class OnBoardingSlide extends React.Component {
 
     renderHeader = () => {
         return(
-            <Header onPress={() => this.props.navigation.goBack()} />
+            <Header onPress={() => this.props.navigation.goBack()}/>
         );
     };
 

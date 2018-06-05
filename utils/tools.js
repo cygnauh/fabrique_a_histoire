@@ -48,4 +48,8 @@ const generateTitle = (hero, place) => {
     return upperCaseFirst(delEndDot(hero) + ' ' + delEndDot(place)); // hasn't apostrophe
 };
 
-export { getRandomInt, delEndDot, addEndDot, upperCaseFirst, addNil, gatherText, generateTitle }
+let home_url = 'http://192.168.0.37:8080/',
+    christine_url = 'http://192.168.43.71:8080/';
+const networkUrl = christine_url;
+
+export { getRandomInt, delEndDot, addEndDot, upperCaseFirst, addNil, gatherText, generateTitle, networkUrl }

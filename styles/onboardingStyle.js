@@ -47,6 +47,15 @@ export default StyleSheet.create({
         height: scaleWidth(12),
         width: scaleWidth(12),
     },
+    iconShut: {
+        height: scaleWidth(20),
+        width: scaleWidth(20),
+    },
+    iconCross: {
+        top: scaleHeight(5),
+        height: scaleWidth(8),
+        width: scaleWidth(8),
+    },
 
     /** INDICATIONS **/
     indication: {

@@ -132,7 +132,6 @@ export default class Place extends React.Component{
             return(
                 <View style={[GlobalStyle.view, GlobalStyle.headerView]}>
                     <Header
-                        rightElm="none"
                         onPress={() => this.props.navigation.goBack()}
                     />
                     <View style={{flex: 1,  justifyContent: 'center'}}>
