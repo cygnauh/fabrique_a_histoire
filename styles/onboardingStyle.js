@@ -32,20 +32,40 @@ export default StyleSheet.create({
         fontSize: scaleDelta(12, .5),
     },
     homeText: {
-        top: -scaleHeight(20),
-        left: scaleWidth(25),
+        top: -scaleHeight(20), left: scaleWidth(25),
     },
     iconBack: {
-        height: scaleWidth(10),
-        width: scaleWidth(10),
+        height: scaleWidth(10), width: scaleWidth(10),
     },
     iconHome: {
-        height: scaleWidth(20),
-        width: scaleWidth(20),
+        height: scaleWidth(20), width: scaleWidth(20),
     },
     iconAbout: {
-        height: scaleWidth(12),
-        width: scaleWidth(12),
+        height: scaleWidth(12), width: scaleWidth(12),
+    },
+    iconShut: {
+        height: scaleWidth(20), width: scaleWidth(20),
+    },
+    iconCross: {
+        top: scaleHeight(5), height: scaleWidth(8), width: scaleWidth(8),
+    },
+
+    /** CONNECTION **/
+    connectionContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginTop: scaleHeight(40),
+    },
+    connectionIndication: {
+        height: scaleWidth(6),
+        width: scaleWidth(6),
+        borderRadius: scaleWidth(6),
+        marginRight: scaleWidth(5),
+        position: 'relative',
+        top: scaleHeight(2),
+    },
+    connectionText: {
+      fontSize: scaleDelta(10, .5),
     },
 
     /** INDICATIONS **/
@@ -114,10 +134,6 @@ export default StyleSheet.create({
 
     /**  SKIP **/
     skipBtn: {
-        position: 'absolute',
-        top: -scaleHeight(92),
-        right: 0,
-        marginRight: scaleWidth(20),
         fontFamily: 'MaisonNeue-Bold',
         color: colors.greyishBrown,
         fontSize: scaleDelta(12, .5),

@@ -8,6 +8,8 @@ const colors = {
     deepPink: '#d00265', // errors
     white: '#FFFFFF', // place
     warmGreyTwo: '#9b9693', // errors : questions
+    paleSalmon: '#ffb395',
+    greenishTeal: '#2bb395',
 };
 
 export { colors }

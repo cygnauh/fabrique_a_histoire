@@ -4,6 +4,8 @@ import Header from '../components/header';
 import RectangleButton from './rectangleButton';
 import OnBoardingStyle from '../styles/onboardingStyle';
 import GlobalStyle from "../styles/mainStyle";
+import { colors } from "../styles/colors";
+import { networkUrl } from "../utils/tools";
 
 const { width, height } = Dimensions.get('window');
 
@@ -32,6 +34,10 @@ export default class OnBoardingSlide extends React.Component {
         this.internals = {
             isScrolling: false,
             offset
+        };
+        this.connection = {
+            indicatorColor: colors.paleSalmon,
+            text: "Connexion en cours..."
         };
         return state;
     }
@@ -133,8 +139,7 @@ export default class OnBoardingSlide extends React.Component {
             }
         }
         return (
-            <View pointerEvents="none" style={
-                [OnBoardingStyle.fullScreen, OnBoardingStyle.paginationContainer]}>
+            <View pointerEvents="none" style={[OnBoardingStyle.fullScreen, OnBoardingStyle.paginationContainer]}>
                 {paginations}
             </View>
         );
@@ -152,28 +157,52 @@ export default class OnBoardingSlide extends React.Component {
             button = <RectangleButton content="Continuer" src={require('../assets/images/arrowNext.png')} onPress={() => this.swipe()} />
         }
         return (
-                <View pointerEvents="box-none" style={
-                    [OnBoardingStyle.fullScreen, OnBoardingStyle.buttonContainer]}>
-                    <View style={[OnBoardingStyle.line]}/>
-                    {button}
-                </View>
+            <View pointerEvents="box-none" style={
+                [OnBoardingStyle.fullScreen, OnBoardingStyle.buttonContainer]}>
+                <View style={[OnBoardingStyle.line]}/>
+                {button}
+            </View>
         );
     };
 
     renderHeader = () => {
         return(
-            <Header onPress={() => this.props.navigation.goBack()} />
+            <Header
+                rightElm="skip"
+                onPress={() => this.props.navigation.goBack()}
+                goLength={() => this.props.navigation.navigate('Length')}
+            />
         );
     };
 
-    renderSkip = () => {
+
+    renderConnection = () => {
+        // TODO : send in continue the request ?
+        let connection = this.connection;
+
+        fetch(networkUrl, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                action: 'testConnection',
+            })
+        }).then(function (response) {
+            connection.text = "Machine connectée";
+            connection.indicatorColor = colors.greenishTeal;
+            return response;
+        }).catch(function (error) {
+            return error;
+        });
+
         return(
-            <View>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('Length')}>
-                    <Text style={OnBoardingStyle.skipBtn}>{'Passer'}</Text>
-                </TouchableOpacity>
+            <View style={OnBoardingStyle.connectionContainer}>
+                <View style={[OnBoardingStyle.connectionIndication, {backgroundColor: connection.indicatorColor}]}/>
+                <Text style={OnBoardingStyle.connectionText}>{connection.text.toUpperCase()}</Text>
             </View>
-        );
+        )
     };
 
     /* Render the component */
@@ -182,7 +211,7 @@ export default class OnBoardingSlide extends React.Component {
             <View style={[OnBoardingStyle.fullScreen, OnBoardingStyle.container]}>
                 <Image style={GlobalStyle.backgroundImage} source={require('../assets/images/background.png')} />
                 {this.renderHeader()}
-                {this.renderSkip()}
+                {this.renderConnection()}
                 {this.renderScrollView(children)} /*Render screens */
                 {this.renderPagination()} /*Render pagination */
             </View>

@@ -48,12 +48,12 @@ export default StyleSheet.create({
         marginBottom: scaleHeight(25),
     },
     title: {
-        fontSize: scaleDelta(24, 1),
+        fontSize: scaleDelta(20, .5),
         fontFamily: 'Editor-Bold',
         color: colors.indigo,
     },
     subtitle: {
-        fontSize: scaleDelta(18, .5),
+        fontSize: scaleDelta(28, .5),
         fontFamily: 'Editor-Bold',
         color: colors.indigo,
     },
@@ -182,18 +182,27 @@ export default StyleSheet.create({
 
     /** ABOUT **/
     aboutPageContainer: {
+        position: 'relative',
         backgroundColor: '#F1F1F1',
-        paddingVertical: scaleHeight(40),
     },
     aboutContainer: {
+        backgroundColor: 'transparent',
         paddingHorizontal: scaleWidth(40),
+        position: 'relative',
+        bottom: -scaleHeight(20),
     },
     titleAbout: {
         marginTop: scaleHeight(10),
+        paddingTop: scaleHeight(20),
         marginBottom: scaleHeight(20),
+        fontSize: scaleDelta(20, .5),
     },
     aboutText: {
         textAlign: 'left',
         marginBottom: scaleHeight(10)
+    },
+    aboutAuthor: {
+        marginTop: scaleHeight(20),
+        marginBottom: scaleHeight(40),
     }
 });

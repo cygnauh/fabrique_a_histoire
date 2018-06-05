@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StatusBar } from 'react-native';
+import { Image, View, Text, TouchableOpacity, StatusBar } from 'react-native';
 import Header from '../components/header';
 import GlobalStyle from '../styles/mainStyle.js';
 
@@ -12,8 +12,9 @@ export default class Home extends React.Component {
 render() {
         return(
             <View style={[GlobalStyle.view, GlobalStyle.headerView]}>
+                <Image style={GlobalStyle.backgroundImage} source={require('../assets/images/background.png')} />
                 <Header
-                    leftElm="about" rightElm="none"
+                    leftElm="none" rightElm="about"
                     onPress={() => this.props.navigation.goBack()}
                     goAbout={() => this.props.navigation.navigate('About')}/>
                 <View style={GlobalStyle.titleHeader}>

@@ -56,7 +56,7 @@ export default class Length extends React.Component{
             <View style={[GlobalStyle.view, GlobalStyle.headerView]}>
                 <Image style={GlobalStyle.backgroundImage} source={require('../assets/images/background.png')} />
                 <Header
-                    leftElm="about"
+                    rightElm="about"
                     onPress={() => this.props.navigation.goBack()}
                     goAbout={() => this.props.navigation.navigate('About')}/>
                 <View>

@@ -3,7 +3,7 @@ import { Modal, View, Text, Image, TouchableOpacity } from 'react-native';
 import Header from '../components/header';
 import RectangleButton from '../components/rectangleButton';
 import GlobalStyle from "../styles/mainStyle";
-import { addNil } from "../utils/tools";
+import { addNil, networkUrl } from "../utils/tools";
 
 export default class Print extends React.Component {
     constructor(props) {
@@ -23,20 +23,17 @@ export default class Print extends React.Component {
 
     printStory() {
         //console.log(this.props.story);
-
         /** Send a request to the raspberry **/
         // TODO Check the address IP of the network to find the raspberry one
 
-        let home_url = 'http://192.168.0.37:8080/',
-            christine_url = 'http://192.168.43.70:8080/';
-
-        fetch(home_url, {
+        fetch(networkUrl, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
+                action: "print",
                 title: this.props.title,
                 text: this.props.story,
                 quantity: this.state.nbCopies,
@@ -67,7 +64,6 @@ export default class Print extends React.Component {
                 "light":this.props.place.color
             })
         }).then(function (response) {
-
             console.log(response);
             return response.json();
         }).then((responseJson) => {
