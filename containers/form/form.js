@@ -35,12 +35,9 @@ export default class Form extends React.Component {
         this.validationSound = "https://christinehuang.fr/BDDI2018/sounds/VALIDATION/validation.mp3";
         this.place = this.props.navigation.state.params.place;
         this.story_sounds = [];
-        this.adventure_event_id = getRandomInt(0, imposed_events.events.length - 1),
+        this.adventure_event_id = getRandomInt(0, imposed_events.events.length - 1);
         this.state = {
-            part_title: "Introduction",
-            direction: null,
-            previousOffset: 0,
-            current_navigation: 1,
+            part_title: "Introduction", direction: null, previousOffset: 0, current_navigation: 1,
             intro_exp_1: [
                 { label: short_intro.expression_1[0], selected: "none" },
                 { label: short_intro.expression_1[1], selected: "none" },
@@ -165,6 +162,7 @@ export default class Form extends React.Component {
     }
     inputOnChange = (name, value) => {
         this.setState(() => ({[name]: value}));
+        this.setState(() => ({[name + '_isWriting']: true}));
     };
     eventOnVote(index) {
         let choices = this.state.adventure_imposed_event;
@@ -203,7 +201,6 @@ export default class Form extends React.Component {
     // -------------------------------- test son
 
     onFocusHelper(e) {
-
         //can be analyse and play sound
         if (e.nativeEvent.text === "") {
             this.canAnalyseTheString = true
@@ -215,8 +212,7 @@ export default class Form extends React.Component {
         }
     }
     onBlurSearchSound(e) {
-        console.log(this.getCurrentTimePercentage());
-
+        //console.log(this.getCurrentTimePercentage());
         let theString = e.nativeEvent.text;
         if (this.canAnalyseTheString === true && theString !== "") {
             //console.log("this.canAnalyseTheString", this.canAnalyseTheString);
@@ -226,6 +222,9 @@ export default class Form extends React.Component {
             }
             this.setCanPlayValidationSound()
         }
+    }
+    onEndEditing(name) {
+        this.state[name + '_isWriting'] = false;
     }
     // API Call
     searchSound(word) {
@@ -398,6 +397,9 @@ export default class Form extends React.Component {
             }
             placeholder = "Attention: il faut remplir ce champ avant de passer à la suite";
         }
+        if (this.state[name + '_isWriting'] === true && state !== "") {
+            question = <Text style={FormStyle.errorQuestion}>{placeholder}</Text>;
+        }
         let placeholderColor = (completed === false) ? colors.deepPink : colors.pinkishGreyTwo;
 
         return (
@@ -408,9 +410,10 @@ export default class Form extends React.Component {
                     onChangeText={(text) => this.inputOnChange(name, text)}
                     onFocus={(e) => this.onFocusHelper(e)}
                     onBlur={(e) => this.onBlurSearchSound(e)}
+                    onEndEditing={this.onEndEditing.bind(this, name)}
                     placeholderTextColor={placeholderColor}
                     autoCapitalize={autoCapitalize} multiline={true}
-                    placeholder={placeholder} value={state} editable={btnSelected} selectTextOnFocus={btnSelected}
+                    placeholder={placeholder} value={state} editable={btnSelected}
                 />
                 {error_img}
             </View>

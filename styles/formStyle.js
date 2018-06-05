@@ -158,6 +158,7 @@ export default StyleSheet.create({
         color: colors.warmGreyTwo,
         position: 'relative',
         top: scaleHeight(5),
+        fontSize: scaleDelta(10, .5),
     },
     errorImage: {
         position: 'absolute',
