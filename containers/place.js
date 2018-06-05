@@ -55,16 +55,9 @@ export default class Place extends React.Component{
             }
         ).start((animation) => {
 
-            // this.animateBackgroundColor()
             if (animation.finished) {
                 this.animateBackgroundColor()
-                // this.spin();
             }});
-
-        let callback = (value) => {
-            console.log(value)
-        }
-
         let stopAnimation = function(){
             Animated.timing(
                 this.animatedValue
@@ -86,9 +79,6 @@ export default class Place extends React.Component{
         return fetch('https://testappfabulab.herokuapp.com/places')
             .then((response) => response.json())
             .then((responseJson) => {
-
-                // console.log(responseJson)
-
                 let random = Math.floor(Math.random() * Math.floor(responseJson.length));
 
                 this.setState({
@@ -99,12 +89,6 @@ export default class Place extends React.Component{
                 }, function(){
 
                 });
-
-                if(this.state.randomPlaceName.url){
-                    console.log(this.state.randomPlaceName.url)
-                }
-
-                console.log(this.state.dataSource)
             })
             .catch((error) =>{
                 console.error(error);

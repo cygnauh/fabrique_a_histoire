@@ -77,11 +77,17 @@ export default class Print extends React.Component {
             this.story_id = responseJson[0].insertId
 
             console.log(this.props.sounds)
+            console.log("this is the prop sounds")
 
             // ---------------------------------------------------- send the story sounds
 
             if (this.story_id) {
+
+
+
                 for (var i = 0; i < this.props.sounds.length; i++) {
+
+                    console.log(this.story_id, this.props.sounds[i].sound.id, this.props.sounds[i].time)
 
                     fetch(api_url_storysounds, {
                         method: "POST",

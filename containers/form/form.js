@@ -58,9 +58,6 @@ export default class Form extends React.Component {
         this.onLoad = this.onLoad.bind(this);
         this.onProgress = this.onProgress.bind(this);
         this.onBuffer = this.onBuffer.bind(this);
-        this.onEnd = this.onEnd.bind(this);
-
-        this.baseSoundRepeat = 0
         this.loadSoundsFromAPI()
     }
 
@@ -70,9 +67,7 @@ export default class Form extends React.Component {
         if(!this.baseSound_load){
             this.baseSound_load = true
             this.startOriginCounter()
-            console.log("turn to true")
         }
-        console.log('On load fired!');
         this.setState({duration: data.duration});
     }
 
@@ -84,22 +79,6 @@ export default class Form extends React.Component {
         this.setState({isBuffering});
     }
 
-    onEnd(data) {
-        console.log("this is the end")
-        //reset from the beggining of the sound
-        this.baseSoundRepeat ++
-        this.now = new Date().getTime()
-    }
-
-
-    getCurrentTimePercentage() {
-        if (this.state.currentTime > 0) {
-            return parseFloat(this.state.currentTime) / parseFloat(this.state.duration);
-        } else {
-            return 0;
-        }
-    }
-
     getCurrentTimeFromNow() {
 
         this.time = new Date().getTime() - this.now
@@ -108,7 +87,6 @@ export default class Form extends React.Component {
 
     startOriginCounter(){
         if(this.baseSound_load){
-            console.log("isLoad")
             this.now = new Date().getTime()
         }
     }
@@ -145,17 +123,14 @@ export default class Form extends React.Component {
         }
         // in case the input is already fill nothing happens
         else {
-            console.log(e.nativeEvent.text, 'onfocus')
             this.canAnalyseTheString = false
         }
     }
 
     onBlurSearchSound(e) {
-        console.log(this.getCurrentTimePercentage())
 
         var theString = e.nativeEvent.text
         if (this.canAnalyseTheString === true && theString !== "") {
-            console.log("this.canAnalyseTheString", this.canAnalyseTheString)
             var res = theString.split(" ");
             for (var i = 0; i < res.length; i++) {
                 this.searchSound(res[i])
@@ -200,7 +175,6 @@ export default class Form extends React.Component {
 
         if (this.state.canPlayValidationSound === true) {
             this.setState({canPlayValidationSound: false})
-            console.log("A")
         }
         else {
             this.setState({canPlayValidationSound: true})
@@ -209,7 +183,6 @@ export default class Form extends React.Component {
             setTimeout(() => {
                 this.setCanPlayValidationSound();
             }, 3000);
-            console.log("B")
         }
     }
 
@@ -227,13 +200,11 @@ export default class Form extends React.Component {
                 onLoad={this.onLoad}
                 onBuffer={this.onBuffer}
                 onProgress={this.onProgress}
-                onEnd={this.onEnd}
                 repeat={this.repeat}
             />
         )
 
     }
-
 
     playASound(url, volume, repeat, isValidation) {
 
@@ -253,7 +224,6 @@ export default class Form extends React.Component {
                     onLoad={this.onLoad}
                     onBuffer={this.onBuffer}
                     onProgress={this.onProgress}
-                    // onEnd={() => { this.setCanPlayValidationSound(), console.log() }}
                     repeat={this.repeat}
                 />
             )
@@ -407,7 +377,6 @@ export default class Form extends React.Component {
                     story += text_elm[i] + ' ';
                 }
             }
-            console.log(this.story_sounds);
             this.props.navigation.navigate('Correction', {story: story, title: title, sounds:this.story_sounds, place:this.place});
         }
     }

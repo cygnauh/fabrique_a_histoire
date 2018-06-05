@@ -147,15 +147,11 @@ export default class readingMode extends React.Component {
 
             this.state.sounds_added.sort(this.sortBy)
 
-            for (var j = 1; j < this.state.sounds_added.length; j++) {
+            for (var j = 0; j < this.state.sounds_added.length; j++) {
                 for (var i = 0; i < url.length; i++) {
 
                     if (url[i].id === this.state.sounds_added[j].sound_id) {
                         this.state.sounds_added[j].url = url[i].url
-                    }
-
-                    if (url[i].id === this.state.sounds_added[0].sound_id) {
-                        this.state.sounds_added[0].url = url[i].url
                     }
                 }
             }
