@@ -55,16 +55,9 @@ export default class Place extends React.Component{
             }
         ).start((animation) => {
 
-            // this.animateBackgroundColor()
             if (animation.finished) {
                 this.animateBackgroundColor()
-                // this.spin();
             }});
-
-        let callback = (value) => {
-            console.log(value)
-        }
-
         let stopAnimation = function(){
             Animated.timing(
                 this.animatedValue
@@ -86,24 +79,16 @@ export default class Place extends React.Component{
         return fetch('https://testappfabulab.herokuapp.com/places')
             .then((response) => response.json())
             .then((responseJson) => {
-
-                // console.log(responseJson)
-
                 let random = Math.floor(Math.random() * Math.floor(responseJson.length));
 
                 this.setState({
                     isLoading: false,
                     dataSource: responseJson,
                     randomPlace:random,
-                    randomPlaceName:responseJson[random],
-                    colors:responseJson.color
+                    randomPlaceName:responseJson[random]
                 }, function(){
 
                 });
-
-                if(this.state.randomPlaceName.url){
-                    console.log(this.state.randomPlaceName.url)
-                }
             })
             .catch((error) =>{
                 console.error(error);
@@ -140,23 +125,25 @@ export default class Place extends React.Component{
                     </View>
                 </View>
             )
-        }
-        return(
-            <Animated.View style={[GlobalStyle.view, GlobalStyle.headerView, { backgroundColor: backgroundColorVar }]}>
-                <Header onPress={() => this.props.navigation.goBack()}/>
-                <View>
-                    <Text style={GlobalStyle.placePhrase}>Cette histoire se passe </Text>
+        }else{
+            return(
+                <Animated.View style={[GlobalStyle.view, GlobalStyle.headerView, { backgroundColor: backgroundColorVar }]}>
+                    <Header onPress={() => this.props.navigation.goBack()}/>
+                    <View>
+                        <Text style={GlobalStyle.placePhrase}>Cette histoire se passe </Text>
 
-                    <View style={GlobalStyle.placeContainer}>
+                        <View style={GlobalStyle.placeContainer}>
 
-                        {this.state.status ?  <Text style={GlobalStyle.placeTitle}>{this.state.randomPlaceName.name}</Text> : null}
+                            {this.state.status ?  <Text style={GlobalStyle.placeTitle}>{this.state.randomPlaceName.name}</Text> : null}
 
+                        </View>
                     </View>
-                </View>
-                <RectangleButton content={'Continuer'} src={require('../assets/images/validate.png')} onPress={
-                    () => this.props.navigation.navigate('Form',{place: this.state.randomPlaceName, length: this.length} )}/>
-            </Animated.View>
+                    <RectangleButton content={'Continuer'} src={require('../assets/images/validate.png')} onPress={
+                        () => this.props.navigation.navigate('Form',{place: this.state.randomPlaceName, length: this.length} )}/>
+                </Animated.View>
 
-        );
+            );
+        }
+
     }
 }
