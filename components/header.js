@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Image, TouchableOpacity, Text, Alert } from 'react-native';
-import Logo from '../components/logo';
 import OnBoardingStyle from "../styles/onboardingStyle";
 import { networkUrl } from "../utils/tools";
 
@@ -13,6 +12,7 @@ export default class Header extends React.Component{
             isBack: true,
             isShutdown: true,
             isCross: false,
+            isSkip: false,
         };
         this.leftElm = this.props.leftElm;
         this.rightElm = this.props.rightElm;
@@ -45,31 +45,35 @@ export default class Header extends React.Component{
     }
 
     render() {
-        let about = null, back = null, shutdown = null, cross = null,
-            alignElm: null, logo = <Logo/>;
+        let about = null, back = null, shutdown = null, cross = null, skip = null,
+            alignElm: null;
 
         switch (this.leftElm) {
-            case 'about': this.state.isAbout = true; break;
-            case 'shutdown':
-                this.state.isBack = false;
-                this.state.isShutdown = true;
-                break;
-            default:
-                this.state.isAbout = false;
-                break;
-        }
-        switch (this.rightElm) {
             case 'none':
                 this.state.isBack = false;
                 alignElm = 'flex-end';
+                break;
+            case 'shutdown':
+                this.state.isBack = false;
+                this.state.isShutdown = true;
                 break;
             case 'home':
                 this.state.isBack = false;
                 this.state.isHome = true;
                 alignElm = 'space-between';
                 break;
+            default:
+                break;
+        }
+        switch (this.rightElm) {
+            case 'about':
+                this.state.isAbout = true;
+                if (this.leftElm === 'none') {alignElm = 'flex-end'} else {alignElm = 'space-between'}
+                break;
             case 'skip':
                 this.state.isShutdown = false;
+                this.state.isSkip = true;
+                alignElm = 'space-between';
                 break;
             case 'back':
                 this.state.isCross = true;
@@ -80,10 +84,6 @@ export default class Header extends React.Component{
                 this.state.isShutdown = false;
                 alignElm = 'space-between';
                 break;
-        }
-        switch (this.centerElm) {
-            case 'none': logo = null; break;
-            default: break;
         }
 
         /* Left element */
@@ -100,7 +100,24 @@ export default class Header extends React.Component{
                 </TouchableOpacity>;
         }
 
-        /* Center element */
+        /* Right element */
+        if (this.state.isAbout === true) {
+            about =
+                <TouchableOpacity onPress={this.props.goAbout}>
+                    <Image style={OnBoardingStyle.iconAbout} source={require('../assets/images/about.png')}/>
+                </TouchableOpacity>;
+        } else if (this.state.isShutdown === true) {
+            shutdown =
+                <TouchableOpacity onPress={this.shutDown} >
+                    <Image style={OnBoardingStyle.iconShut} source={require('../assets/images/shutDown.png')}/>
+                </TouchableOpacity>;
+        } else if (this.state.isSkip === true) {
+            skip =
+                <TouchableOpacity onPress={this.props.goLength}>
+                    <Text style={OnBoardingStyle.skipBtn}>{'Passer'}</Text>
+                </TouchableOpacity>
+        }
+
         if (this.state.isHome === true) {
             back =
                 <TouchableOpacity onPress={ this.props.goHome }>
@@ -109,26 +126,12 @@ export default class Header extends React.Component{
                 </TouchableOpacity>
         }
 
-        /* Right element */
-        if (this.state.isAbout === true) {
-            about =
-                <TouchableOpacity onPress={this.props.goAbout} >
-                    <Image style={OnBoardingStyle.iconAbout} source={require('../assets/images/about.png')}/>
-                </TouchableOpacity>;
-        } else if (this.state.isShutdown === true) {
-            shutdown =
-                <TouchableOpacity onPress={this.shutDown} >
-                    <Image style={OnBoardingStyle.iconShut} source={require('../assets/images/shutDown.png')}/>
-                </TouchableOpacity>;
-        }
-
         return(
             <View>
                 <View style={[OnBoardingStyle.backBtn, {justifyContent: alignElm}]}>
                     {back}{shutdown}
-                    {about}{cross}
+                    {about}{cross}{skip}
                 </View>
-                {logo}
             </View>
         );
     }

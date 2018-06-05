@@ -23,7 +23,6 @@ export default class Print extends React.Component {
 
     printStory() {
         //console.log(this.props.story);
-
         /** Send a request to the raspberry **/
         // TODO Check the address IP of the network to find the raspberry one
 
@@ -34,6 +33,7 @@ export default class Print extends React.Component {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
+                action: "print",
                 title: this.props.title,
                 text: this.props.story,
                 quantity: this.state.nbCopies,
@@ -60,7 +60,6 @@ export default class Print extends React.Component {
                 "content": this.props.story
             })
         }).then(function (response) {
-
             console.log(response);
             return response.json();
         }).then((responseJson) => {

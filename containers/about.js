@@ -10,7 +10,7 @@ export default class About extends React.Component {
             <View style={[GlobalStyle.headerView, GlobalStyle.aboutPageContainer]}>
                 <Image style={GlobalStyle.backgroundImage} source={require('../assets/images/background.png')} />
                 <Header
-                    centerElm="none" leftElm="shutdown" rightElm="back"
+                    leftElm="shutdown" rightElm="back"
                     onPress={() => this.props.navigation.goBack()}
                     goAbout={() => this.props.navigation.navigate('About')}/>
                 <ScrollView style={GlobalStyle.aboutContainer} showsVerticalScrollIndicator={false} bounces={false}>

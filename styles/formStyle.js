@@ -22,6 +22,9 @@ export default StyleSheet.create({
         marginHorizontal: scaleWidth(5),
         marginVertical: scaleHeight(5),
     },
+    formScrollContainer: {
+        marginTop: scaleHeight(20),
+    },
 
     /** NAVIGATION **/
     partContainer: {
