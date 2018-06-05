@@ -775,194 +775,28 @@ export default class Form extends React.Component {
         switch (state.current_navigation) {
             case 1:
                 if (currentOffset >= this.partHeight.introduction / 2 && state.direction === "down") {
-
-                    let intro_exp_1 = state.intro_exp_1.filter((exp) => { return exp.selected === true }),
-                        hero = addEndDot(state.intro_hero_who), characteristic = addEndDot(state.intro_hero_characteristic),
-                        habit_before = state.intro_hero_habit_before,
-                        intro_exp_2 = state.intro_hero_habit, habit_after = addEndDot(state.intro_hero_habit_after),
-                        intro_exp_3 = state.intro_hero_now, current_action = state.intro_hero_current_action,
-                        place = addEndDot(state.intro_place),
-                        partner_who = addEndDot(state.intro_partner_who), partner_how = addEndDot(state.intro_partner_how),
-                        intro_where = addEndDot(state.intro_description_where), intro_time = addEndDot(state.intro_description_time);
-
-                    let short_check = !hero || !characteristic || !habit_before || !habit_after || !current_action,
-                        medium_check = short_check || !partner_who || !partner_how,
-                        long_check = medium_check || !intro_where || !intro_time;
-
-                    if (intro_exp_1.length !== 0) {
-                        let check_inputs = null;
-                        switch (this.length) {
-                            case 1: check_inputs = medium_check; break;
-                            case 2: check_inputs = long_check; break;
-                            default: check_inputs = short_check; break;
-                        }
-                        if (check_inputs) {
-                            state.intro_completed = false;
-                            this.refs.FormScrollView.scrollTo({x: 0, y: 0, animated: true}); // scroll to top
-                        } else {
-                            // scroll and save
-                            state.intro_completed = true;
-                            this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true}); // scroll to next part
-                            let sentences = [
-                                intro_exp_1[0].label, hero, characteristic,
-                                habit_before, intro_exp_2, habit_after, intro_exp_3, current_action, place,
-                                partner_who, partner_how, intro_where, intro_time];
-                            state.complete_story.title = generateTitle(hero, place);
-                            state.complete_story.introduction = gatherText(sentences);
-                        }
-                    } else { // scroll to see the next part if no linking word choose
-                        this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true});
-                    }
+                    this.introSave();
                 } else if (state.direction === "up") {
                     this.refs.FormScrollView.scrollTo({x: 0, y: 0, animated: true}); // scroll to top
                 }
                 break;
             case 2:
                 if (currentOffset >= this.partEnd.introduction + this.partHeight.disruption / 2 && state.direction === "down") {
-
-                    let disrupt_exp_1 = state.disrupt_exp_1.filter((exp) => { return exp.selected === true }),
-                        disrupt_description = addEndDot(state.disrupt_description),
-                        disrupt_message = state.disrupt_message, disrupt_content = addEndDot(state.disrupt_content);
-                    if (this.length === 0 || this.length === 1) { disrupt_message = "";}
-
-                    let short_check = !disrupt_exp_1 || !disrupt_description,
-                        long_check = short_check || !disrupt_content;
-
-                    if (disrupt_exp_1.length !== 0) {
-                        let check_inputs = null;
-                        switch (this.length) {
-                            case 1: check_inputs = short_check; break;
-                            case 2: check_inputs = long_check; break;
-                            default: check_inputs = short_check; break;
-                        }
-                        if (check_inputs) {
-                            state.disrupt_completed = false;
-                            this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true});
-                        } else {
-                            // scroll and save
-                            state.disrupt_completed = true;
-                            this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true});
-                            let sentences = [ disrupt_exp_1[0].label, disrupt_description, disrupt_message, disrupt_content];
-                            state.complete_story.disrupt = gatherText(sentences);
-                        }
-                    } else {
-                        this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true});
-                    }
+                    this.disruptSave();
                 } else if (state.direction === "up") {
                     this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true});
                 }
                 break;
             case 3:
                 if (currentOffset >= this.partEnd.disruption + this.partHeight.adventure / 2 && state.direction === "down") {
-                    let advent_hero_reaction = addEndDot(state.advent_hero_reaction), advent_partner_reaction = addEndDot(state.advent_partner_reaction),
-                        advent_exp_1 = state.advent_exp_1.filter((exp) => { return exp.selected === true }),
-                        advent_then = addEndDot(state.advent_then), advent_consequence = addEndDot(state.advent_consequence),
-                        imposed_event = imposed_events.events[this.adventure_event_id].event,
-                        response_event = state.adventure_imposed_event.filter((exp) => { return exp.selected === true }),
-                        advent_emotion = addEndDot(state.advent_emotion),
-                        advent_exp_2 = state.advent_exp_2.filter((exp) => { return exp.selected === true }),
-                        advent_action = addEndDot(state.advent_action);
-                    state.outcome_margin_bottom = scaleHeight(350);
-
-                    // Allow scroll if the story isn't written yet
-                    if (state.intro_completed === null && state.disrupt_completed === null) {
-                        this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true});
-                    } else { // Start to check inputs
-                        if (advent_exp_1.length === 0) {
-                            if (this.length === 0) {
-                                if (!advent_hero_reaction) {
-                                    state.adventure_completed_1 = false;
-                                }
-                                this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true}); // scroll if empty
-                            } else if (this.length === 1 || this.length === 2) {
-                                if (!advent_hero_reaction || !advent_partner_reaction) {
-                                    state.adventure_completed_1 = false;
-                                    this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true});
-                                } else {
-                                    this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + scaleHeight(120), animated: true});
-                                }
-                            }
-
-                        } else { // Check the first linking word
-                            let check_inputs = null;
-                            let short_check = !advent_then || !imposed_event || !response_event.length > 0,
-                                medium_check = short_check || !advent_partner_reaction || !advent_consequence || !advent_exp_2,
-                                long_check = medium_check || !advent_emotion;
-                            switch (this.length) {
-                                case 1: check_inputs = medium_check; break;
-                                case 2: check_inputs = long_check; break;
-                                default: check_inputs = short_check; break;
-                            }
-                            if (check_inputs) { // something empty
-                                state.adventure_completed_2 = false;
-                                if (this.length === 0) {
-                                    this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true}); // short version
-                                } else { // length === 1 || length === 2 : scroll to first linking word
-                                    this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + scaleHeight(120), animated: true});
-                                }
-                            } else {
-                                if (this.length === 0) {
-                                    state.adventure_completed = true;
-                                    this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true});
-                                    let sentences = [advent_hero_reaction, advent_exp_1[0].label, advent_then, imposed_event, response_event[0].label];
-                                    state.complete_story.adventure = gatherText(sentences);
-                                } else { // length === 1 || length === 2 : check the second linking word
-                                    if (advent_exp_2.length !== 0) {
-                                        let check_input = !advent_action;
-                                        if (check_input) {
-                                            state.adventure_completed_3 = false;
-                                            this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + scaleHeight(280), animated: true});
-                                        } else {
-                                            state.adventure_completed = true;
-                                            this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true});
-                                            let sentences = [
-                                                advent_hero_reaction, advent_partner_reaction,
-                                                advent_exp_1[0].label, advent_then, advent_consequence,
-                                                imposed_event, response_event[0].label, advent_emotion,
-                                                advent_exp_2[0].label, advent_action
-                                            ];
-                                            state.complete_story.adventure = gatherText(sentences);
-                                        }
-                                    } else {
-                                        this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + scaleHeight(280), animated: true});
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    this.adventSave();
                 } else if (state.direction === "up") {
                     this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true});
                 }
                 break;
             case 4:
                 if (currentOffset >= this.partEnd.adventure + this.partHeight.outcome / 2 && state.direction === "down") {
-
-                    let outcome_exp_1 = state.outcome_exp_1.filter((exp) => { return exp.selected === true }),
-                        outcome_hero_solution = addEndDot(state.outcome_hero_solution),
-                        outcome_partner_solution = addEndDot(state.outcome_partner_solution);
-
-                    let short_check = !outcome_exp_1 || !outcome_hero_solution,
-                        medium_check = short_check || !outcome_partner_solution;
-
-                    if (outcome_exp_1.length !== 0) {
-                        let check_inputs = null;
-                        switch (this.length) {
-                            case 1: check_inputs = medium_check; break;
-                            case 2: check_inputs = medium_check; break;
-                            default: check_inputs = short_check; break;
-                        }
-                        if (check_inputs) {
-                            state.outcome_completed = false;
-                            this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true}); // scroll to top
-                        } else { // scroll and save
-                            state.outcome_completed = true;
-                            this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.outcome + 1, animated: true}); // scroll to next part
-                            let sentences = [outcome_exp_1[0].label, outcome_hero_solution, outcome_partner_solution];
-                            state.complete_story.outcome = gatherText(sentences);
-                        }
-                    } else { // scroll to see the next part if no linking word choose
-                        this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.outcome + 1, animated: true});
-                    }
+                    this.outcomeSave();
                 } else if (state.direction === "up") {
                     this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true});
                 }
@@ -1004,15 +838,19 @@ export default class Form extends React.Component {
         switch (index) {
             case 2:
                 this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true});
+                this.introSave();
                 break;
             case 3:
                 this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true});
+                this.disruptSave();
                 break;
             case 4:
                 this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true});
+                this.adventSave();
                 break;
             case 5:
                 this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.outcome + 1, animated: true});
+                this.outcomeSave();
                 break;
             default:
                 this.refs.FormScrollView.scrollTo({x: 0, y: 0, animated: true});
@@ -1031,7 +869,7 @@ export default class Form extends React.Component {
                 this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true});
                 break;
             default:
-                this.refs.FormScrollView.scrollTo({x: 0, y: 0, animated: true}); // case 2
+                this.refs.FormScrollView.scrollTo({x: 0, y: 0, animated: true}); // case 2 to intro
                 break;
         }
     };
@@ -1039,18 +877,204 @@ export default class Form extends React.Component {
         switch (index) {
             case 2:
                 this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true});
+                this.disruptSave();
                 break;
             case 3:
                 this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true});
+                this.adventSave();
                 break;
             case 4:
                 this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.outcome + 1, animated: true});
+                this.outcomeSave();
                 break;
             default:
                 this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true}); // case 1
+                this.introSave();
                 break;
         }
     };
+
+    introSave() {
+        let state = this.state;
+        let intro_exp_1 = state.intro_exp_1.filter((exp) => { return exp.selected === true }),
+            hero = addEndDot(state.intro_hero_who), characteristic = addEndDot(state.intro_hero_characteristic),
+            habit_before = state.intro_hero_habit_before,
+            intro_exp_2 = state.intro_hero_habit, habit_after = addEndDot(state.intro_hero_habit_after),
+            intro_exp_3 = state.intro_hero_now, current_action = state.intro_hero_current_action,
+            place = addEndDot(state.intro_place),
+            partner_who = addEndDot(state.intro_partner_who), partner_how = addEndDot(state.intro_partner_how),
+            intro_where = addEndDot(state.intro_description_where), intro_time = addEndDot(state.intro_description_time);
+
+        let short_check = !hero || !characteristic || !habit_before || !habit_after || !current_action,
+            medium_check = short_check || !partner_who || !partner_how,
+            long_check = medium_check || !intro_where || !intro_time;
+
+        if (intro_exp_1.length !== 0) {
+            // console.log("Un mot de liaison a été ajouté");
+            let check_inputs = null;
+            switch (this.length) {
+                case 1: check_inputs = medium_check; break;
+                case 2: check_inputs = long_check; break;
+                default: check_inputs = short_check; break;
+            }
+            if (check_inputs) {
+                state.intro_completed = false;
+                this.refs.FormScrollView.scrollTo({x: 0, y: 0, animated: true}); // scroll to top
+                // console.log("Tout n'est pas rempli");
+            } else {
+                // scroll and save
+                state.intro_completed = true;
+                this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true}); // scroll to next part
+                let sentences = [
+                    intro_exp_1[0].label, hero, characteristic,
+                    habit_before, intro_exp_2, habit_after, intro_exp_3, current_action, place,
+                    partner_who, partner_how, intro_where, intro_time];
+                state.complete_story.title = generateTitle(hero, place);
+                state.complete_story.introduction = gatherText(sentences);
+            }
+        } else { // scroll to see the next part if no linking word choose
+            this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true});
+        }
+    }
+    disruptSave() {
+        let state = this.state;
+        let disrupt_exp_1 = state.disrupt_exp_1.filter((exp) => { return exp.selected === true }),
+            disrupt_description = addEndDot(state.disrupt_description),
+            disrupt_message = state.disrupt_message, disrupt_content = addEndDot(state.disrupt_content);
+        if (this.length === 0 || this.length === 1) { disrupt_message = "";}
+
+        let short_check = !disrupt_exp_1 || !disrupt_description,
+            long_check = short_check || !disrupt_content;
+
+        if (disrupt_exp_1.length !== 0) {
+            let check_inputs = null;
+            switch (this.length) {
+                case 1: check_inputs = short_check; break;
+                case 2: check_inputs = long_check; break;
+                default: check_inputs = short_check; break;
+            }
+            if (check_inputs) {
+                state.disrupt_completed = false;
+                this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.introduction + 1, animated: true});
+            } else {
+                // scroll and save
+                state.disrupt_completed = true;
+                this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true});
+                let sentences = [ disrupt_exp_1[0].label, disrupt_description, disrupt_message, disrupt_content];
+                state.complete_story.disrupt = gatherText(sentences);
+            }
+        } else {
+            this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true});
+        }
+    }
+    adventSave() {
+        let state = this.state;
+        let advent_hero_reaction = addEndDot(state.advent_hero_reaction), advent_partner_reaction = addEndDot(state.advent_partner_reaction),
+            advent_exp_1 = state.advent_exp_1.filter((exp) => { return exp.selected === true }),
+            advent_then = addEndDot(state.advent_then), advent_consequence = addEndDot(state.advent_consequence),
+            imposed_event = imposed_events.events[this.adventure_event_id].event,
+            response_event = state.adventure_imposed_event.filter((exp) => { return exp.selected === true }),
+            advent_emotion = addEndDot(state.advent_emotion),
+            advent_exp_2 = state.advent_exp_2.filter((exp) => { return exp.selected === true }),
+            advent_action = addEndDot(state.advent_action);
+        state.outcome_margin_bottom = scaleHeight(350);
+
+        // Allow scroll if the story isn't written yet
+        if (state.intro_completed === null && state.disrupt_completed === null) {
+            this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true});
+        } else { // Start to check inputs
+            if (advent_exp_1.length === 0) {
+                if (this.length === 0) {
+                    if (!advent_hero_reaction) {
+                        state.adventure_completed_1 = false;
+                    }
+                    this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true}); // scroll if empty
+                } else if (this.length === 1 || this.length === 2) {
+                    if (!advent_hero_reaction || !advent_partner_reaction) {
+                        state.adventure_completed_1 = false;
+                        this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true});
+                    } else {
+                        this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + scaleHeight(120), animated: true});
+                    }
+                }
+
+            } else { // Check the first linking word
+                let check_inputs = null;
+                let short_check = !advent_then || !imposed_event || !response_event.length > 0,
+                    medium_check = short_check || !advent_partner_reaction || !advent_consequence || !advent_exp_2,
+                    long_check = medium_check || !advent_emotion;
+                switch (this.length) {
+                    case 1: check_inputs = medium_check; break;
+                    case 2: check_inputs = long_check; break;
+                    default: check_inputs = short_check; break;
+                }
+                if (check_inputs) { // something empty
+                    state.adventure_completed_2 = false;
+                    if (this.length === 0) {
+                        this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true}); // short version
+                    } else { // length === 1 || length === 2 : scroll to first linking word
+                        this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + scaleHeight(120), animated: true});
+                    }
+                } else {
+                    if (this.length === 0) {
+                        state.adventure_completed = true;
+                        this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true});
+                        let sentences = [advent_hero_reaction, advent_exp_1[0].label, advent_then, imposed_event, response_event[0].label];
+                        state.complete_story.adventure = gatherText(sentences);
+                    } else { // length === 1 || length === 2 : check the second linking word
+                        if (advent_exp_2.length !== 0) {
+                            let check_input = !advent_action;
+                            if (check_input) {
+                                state.adventure_completed_3 = false;
+                                this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + scaleHeight(280), animated: true});
+                            } else {
+                                state.adventure_completed = true;
+                                this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true});
+                                let sentences = [
+                                    advent_hero_reaction, advent_partner_reaction,
+                                    advent_exp_1[0].label, advent_then, advent_consequence,
+                                    imposed_event, response_event[0].label, advent_emotion,
+                                    advent_exp_2[0].label, advent_action
+                                ];
+                                state.complete_story.adventure = gatherText(sentences);
+                            }
+                        } else {
+                            this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + scaleHeight(280), animated: true});
+                        }
+                    }
+                }
+            }
+        }
+    }
+    outcomeSave() {
+        let state = this.state;
+        let outcome_exp_1 = state.outcome_exp_1.filter((exp) => { return exp.selected === true }),
+            outcome_hero_solution = addEndDot(state.outcome_hero_solution),
+            outcome_partner_solution = addEndDot(state.outcome_partner_solution);
+
+        let short_check = !outcome_exp_1 || !outcome_hero_solution,
+            medium_check = short_check || !outcome_partner_solution;
+
+        if (outcome_exp_1.length !== 0) {
+            let check_inputs = null;
+            switch (this.length) {
+                case 1: check_inputs = medium_check; break;
+                case 2: check_inputs = medium_check; break;
+                default: check_inputs = short_check; break;
+            }
+            if (check_inputs) {
+                state.outcome_completed = false;
+                this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true}); // scroll to top
+            } else { // scroll and save
+                state.outcome_completed = true;
+                this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.outcome + 1, animated: true}); // scroll to next part
+                let sentences = [outcome_exp_1[0].label, outcome_hero_solution, outcome_partner_solution];
+                state.complete_story.outcome = gatherText(sentences);
+            }
+        } else { // scroll to see the next part if no linking word choose
+            this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.outcome + 1, animated: true});
+        }
+    }
 
     render() {
         return (
