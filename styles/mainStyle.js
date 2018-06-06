@@ -204,5 +204,29 @@ export default StyleSheet.create({
     aboutAuthor: {
         marginTop: scaleHeight(20),
         marginBottom: scaleHeight(40),
-    }
+    },
+
+    /** CONNECTION **/
+    connectContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginTop: scaleHeight(40),
+    },
+    connectIndication: {
+        height: scaleWidth(6),
+        width: scaleWidth(6),
+        borderRadius: scaleWidth(6),
+        marginRight: scaleWidth(5),
+        position: 'relative',
+        top: scaleHeight(2),
+    },
+    errorIndication: {
+        height: scaleWidth(8),
+        width: scaleWidth(8),
+        marginRight: scaleWidth(5),
+        position: 'relative',
+    },
+    connectText: {
+        fontSize: scaleDelta(10, .5),
+    },
 });

@@ -49,7 +49,8 @@ const generateTitle = (hero, place) => {
 };
 
 let home_url = 'http://192.168.0.37:8080/',
-    christine_url = 'http://192.168.43.71:8080/';
+    christine_url = 'http://192.168.43.71:8080/',
+    noemie_url = 'http://192.168.43.70:8080/';
 const networkUrl = christine_url;
 
 export { getRandomInt, delEndDot, addEndDot, upperCaseFirst, addNil, gatherText, generateTitle, networkUrl }

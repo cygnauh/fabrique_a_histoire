@@ -35,11 +35,6 @@ export default class OnBoardingSlide extends React.Component {
             isScrolling: false,
             offset
         };
-        this.connection = {
-            indicatorColor: colors.paleSalmon,
-            isError: false,
-            text: "Connexion en cours..."
-        };
         return state;
     }
 
@@ -151,18 +146,9 @@ export default class OnBoardingSlide extends React.Component {
         let button;
         const lastSlide = this.state.index === this.state.nbSlides - 1;
         if (lastSlide) {
-            if (this.connection.isError === false) {
-                button = <RectangleButton
-                    content="Commencer" src={require('../assets/images/validate.png')}
-                    onPress={() => this.props.navigation.navigate('Length')} />
-            } else {
-                button = <RectangleButton
-                    content="Commencer" src={require('../assets/images/validate.png')}
-                    onPress={() => Alert.alert(
-                        'Attention', 'Vérifier la connexion à la machine avant de continuer.',
-                        [{text: 'OK', onPress: () => console.log('OK Pressed')}], { cancelable: false }
-                    )}/>
-            }
+            button = <RectangleButton
+                content="Commencer" src={require('../assets/images/validate.png')}
+                onPress={() => this.props.navigation.navigate('Length')} />
         } else {
             button = <RectangleButton
                 content="Continuer" src={require('../assets/images/arrowNext.png')}
@@ -178,69 +164,12 @@ export default class OnBoardingSlide extends React.Component {
     };
 
     renderHeader = () => {
-        let header = null;
-
-        if (this.connection.isError === false) {
-            header =
-                <Header
-                    rightElm="skip"
-                    onPress={() => this.props.navigation.goBack()}
-                    goLength={() => this.props.navigation.navigate('Length')}
-                />
-        } else {
-            header =
-                <Header
-                    onPress={() => this.props.navigation.goBack()}
-                    goLength={() => Alert.alert(
-                        'Attention', 'Vérifier la connexion à la machine avant de continuer.',
-                        [{text: 'OK', onPress: () => console.log('OK Pressed')}], { cancelable: false }
-                    )}
-                />
-
-        }
+        let header =
+            <Header rightElm="skip"
+                onPress={() => this.props.navigation.goBack()}
+                goLength={() => this.props.navigation.navigate('Length')}
+            />;
         return(header);
-    };
-
-
-    renderConnection = () => {
-        let indication = null, text = null,
-            connection = this.connection;
-
-        fetch(networkUrl, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                action: 'testConnection',
-            })
-        }).then(function (response) {
-            connection.text = "Machine connectée";
-            connection.isError = false;
-            connection.indicatorColor = colors.greenishTeal;
-            return response;
-        }).catch(function (error) {
-            connection.text = "Echec de connexion";
-            connection.isError = true;
-            connection.indicatorColor = colors.deepPink;
-            return error;
-        });
-
-        if (connection.isError === true) {
-            indication = <Image style={[OnBoardingStyle.errorIndication]} source={require('../assets/images/warning.png')}/>;
-            text = <Text style={[OnBoardingStyle.connectText, {color: connection.indicatorColor}]}>{connection.text.toUpperCase()}</Text>
-        } else if (connection.isError === false) {
-            indication = <View style={[OnBoardingStyle.connectIndication, {backgroundColor: connection.indicatorColor}]}/>;
-            text = <Text style={OnBoardingStyle.connectText}>{connection.text.toUpperCase()}</Text>;
-        }
-
-        let connection_render =
-            <View style={OnBoardingStyle.connectContainer}>
-                {indication}{text}
-            </View>;
-
-        return(connection_render)
     };
 
     /* Render the component */
@@ -249,7 +178,6 @@ export default class OnBoardingSlide extends React.Component {
             <View style={[OnBoardingStyle.fullScreen, OnBoardingStyle.container]}>
                 <Image style={GlobalStyle.backgroundImage} source={require('../assets/images/background.png')} />
                 {this.renderHeader()}
-                {this.renderConnection()}
                 {this.renderScrollView(children)} /*Render screens */
                 {this.renderPagination()} /*Render pagination */
             </View>
