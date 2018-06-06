@@ -105,10 +105,11 @@ export default class Home extends React.Component {
                 <View>
                     <View>
                         {this.state.story_not_found ? (
-                            <Text style={{color: "#D66853"}}> Aucune histoire n'a été trouvée.</Text>
+                            <Text style={{color: "#D66853"}}>{"Aucune histoire n'a été trouvée."} </Text>
                         ) : null}
+
                         {this.state.story_id_incorrect ? (
-                            <Text style={{color: "#D66853"}}> Le code est incorrect. </Text>
+                            <Text style={{color: "#D66853"}}>{"Le code est incorrect."}  </Text>
                         ) : null}
 
 
