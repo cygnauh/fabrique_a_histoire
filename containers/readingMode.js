@@ -12,7 +12,7 @@ export default class ReadingMode extends React.Component {
         console.log(this.responseJson)
         this.state = {
             isLoading: false
-        }
+        };
 
         if(this.state){
             this.handleResponseJson()

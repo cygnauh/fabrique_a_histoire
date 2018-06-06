@@ -65,7 +65,7 @@ export default class Place extends React.Component {
                 this.setTimeOutStopAnimation()
             }
         }, 300)
-    }
+    };
 
 
     componentDidMount() {

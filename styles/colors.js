@@ -1,6 +1,7 @@
 import React from 'react';
 
 const colors = {
+    bgColor: '#F1F1F1',
     pinkishGreyTwo : '#c9c6c5', // opacity
     indigo: '#300365',
     heather: '#c0b5cd', // linking words
