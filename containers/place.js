@@ -71,6 +71,9 @@ export default class Place extends React.Component {
     componentDidMount() {
         this.animateBackgroundColor();
 
+        setTimeout(()=>{
+            this.state.canContinue=true
+        }, 3000)
         return fetch('https://testappfabulab.herokuapp.com/places')
             .then((response) => response.json())
             .then((responseJson) => {
@@ -139,12 +142,21 @@ export default class Place extends React.Component {
 
                     </View>
                 </View>
-                <RectangleButton content={'Continuer'} src={require('../assets/images/validate.png')} onPress={
-                    () => this.props.navigation.navigate('Form', {
-                        place: this.state.randomPlaceName,
-                        length: this.length
-                    })}
-                />
+                <View>
+                    {this.state.canContinue ?
+                        (<RectangleButton
+                        content={'Continuer'}
+                        src={require('../assets/images/validate.png')}
+                        onPress={
+                            () => this.props.navigation.navigate('Form', {
+                                place: this.state.randomPlaceName,
+                                length: this.length
+                            })}
+
+                    />) : null}
+                </View>
+
+
             </Animated.View>
 
         );

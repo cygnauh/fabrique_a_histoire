@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, View, Text, Image, TouchableOpacity } from 'react-native';
+import { Modal, View, Text, Image, TouchableOpacity, TextInput } from 'react-native';
 import Header from '../components/header';
 import RectangleButton from '../components/rectangleButton';
 import GlobalStyle from "../styles/mainStyle";

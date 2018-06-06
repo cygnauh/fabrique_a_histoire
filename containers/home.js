@@ -33,15 +33,17 @@ export default class Home extends React.Component {
             });
 
             if (code !== '') {
-                var num = parseInt(code)
-                if (isNaN(num)) {
+
+                if (isNaN(code)) {
                     this.setState({
                         isLoading: false,
                         story_id_incorrect: true
                     });
                 } else {
 
-                    var request = 'https://testappfabulab.herokuapp.com/storysoundsforreading?story=' + num
+                    let num = parseInt(code)
+
+                    let request = 'https://testappfabulab.herokuapp.com/storysoundsforreading?story=' + num;
 
                     return fetch(request)
 
