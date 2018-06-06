@@ -51,12 +51,12 @@ export default StyleSheet.create({
     },
 
     /** CONNECTION **/
-    connectionContainer: {
+    connectContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
         marginTop: scaleHeight(40),
     },
-    connectionIndication: {
+    connectIndication: {
         height: scaleWidth(6),
         width: scaleWidth(6),
         borderRadius: scaleWidth(6),
@@ -64,7 +64,13 @@ export default StyleSheet.create({
         position: 'relative',
         top: scaleHeight(2),
     },
-    connectionText: {
+    errorIndication: {
+        height: scaleWidth(10),
+        width: scaleWidth(10),
+        marginRight: scaleWidth(5),
+        position: 'relative',
+    },
+    connectText: {
       fontSize: scaleDelta(10, .5),
     },
 

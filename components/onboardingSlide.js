@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, Dimensions, TouchableOpacity, Image} from 'react-native';
+import { View, Text, ScrollView, Dimensions, TouchableOpacity, Image, Alert} from 'react-native';
 import Header from '../components/header';
 import RectangleButton from './rectangleButton';
 import OnBoardingStyle from '../styles/onboardingStyle';
@@ -37,6 +37,7 @@ export default class OnBoardingSlide extends React.Component {
         };
         this.connection = {
             indicatorColor: colors.paleSalmon,
+            isError: false,
             text: "Connexion en cours..."
         };
         return state;
@@ -150,11 +151,22 @@ export default class OnBoardingSlide extends React.Component {
         let button;
         const lastSlide = this.state.index === this.state.nbSlides - 1;
         if (lastSlide) {
-            button = <RectangleButton
-                content="Commencer" src={require('../assets/images/validate.png')}
-                onPress={() => this.props.navigation.navigate('Length')} />
+            if (this.connection.isError === false) {
+                button = <RectangleButton
+                    content="Commencer" src={require('../assets/images/validate.png')}
+                    onPress={() => this.props.navigation.navigate('Length')} />
+            } else {
+                button = <RectangleButton
+                    content="Commencer" src={require('../assets/images/validate.png')}
+                    onPress={() => Alert.alert(
+                        'Attention', 'Vérifier la connexion à la machine avant de continuer.',
+                        [{text: 'OK', onPress: () => console.log('OK Pressed')}], { cancelable: false }
+                    )}/>
+            }
         } else {
-            button = <RectangleButton content="Continuer" src={require('../assets/images/arrowNext.png')} onPress={() => this.swipe()} />
+            button = <RectangleButton
+                content="Continuer" src={require('../assets/images/arrowNext.png')}
+                onPress={() => this.swipe()} />
         }
         return (
             <View pointerEvents="box-none" style={
@@ -166,19 +178,33 @@ export default class OnBoardingSlide extends React.Component {
     };
 
     renderHeader = () => {
-        return(
-            <Header
-                rightElm="skip"
-                onPress={() => this.props.navigation.goBack()}
-                goLength={() => this.props.navigation.navigate('Length')}
-            />
-        );
+        let header = null;
+
+        if (this.connection.isError === false) {
+            header =
+                <Header
+                    rightElm="skip"
+                    onPress={() => this.props.navigation.goBack()}
+                    goLength={() => this.props.navigation.navigate('Length')}
+                />
+        } else {
+            header =
+                <Header
+                    onPress={() => this.props.navigation.goBack()}
+                    goLength={() => Alert.alert(
+                        'Attention', 'Vérifier la connexion à la machine avant de continuer.',
+                        [{text: 'OK', onPress: () => console.log('OK Pressed')}], { cancelable: false }
+                    )}
+                />
+
+        }
+        return(header);
     };
 
 
     renderConnection = () => {
-        // TODO : send in continue the request ?
-        let connection = this.connection;
+        let indication = null, text = null,
+            connection = this.connection;
 
         fetch(networkUrl, {
             method: 'POST',
@@ -191,18 +217,30 @@ export default class OnBoardingSlide extends React.Component {
             })
         }).then(function (response) {
             connection.text = "Machine connectée";
+            connection.isError = false;
             connection.indicatorColor = colors.greenishTeal;
             return response;
         }).catch(function (error) {
+            connection.text = "Echec de connexion";
+            connection.isError = true;
+            connection.indicatorColor = colors.deepPink;
             return error;
         });
 
-        return(
-            <View style={OnBoardingStyle.connectionContainer}>
-                <View style={[OnBoardingStyle.connectionIndication, {backgroundColor: connection.indicatorColor}]}/>
-                <Text style={OnBoardingStyle.connectionText}>{connection.text.toUpperCase()}</Text>
-            </View>
-        )
+        if (connection.isError === true) {
+            indication = <Image style={[OnBoardingStyle.errorIndication]} source={require('../assets/images/warning.png')}/>;
+            text = <Text style={[OnBoardingStyle.connectText, {color: connection.indicatorColor}]}>{connection.text.toUpperCase()}</Text>
+        } else if (connection.isError === false) {
+            indication = <View style={[OnBoardingStyle.connectIndication, {backgroundColor: connection.indicatorColor}]}/>;
+            text = <Text style={OnBoardingStyle.connectText}>{connection.text.toUpperCase()}</Text>;
+        }
+
+        let connection_render =
+            <View style={OnBoardingStyle.connectContainer}>
+                {indication}{text}
+            </View>;
+
+        return(connection_render)
     };
 
     /* Render the component */
