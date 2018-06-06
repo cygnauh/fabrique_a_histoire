@@ -10,7 +10,7 @@ export default class readingMode extends React.Component {
 
         this.state = {
             isLoading: false
-        }
+        };
 
         this.onLoad = this.onLoad.bind(this);
         this.onProgress = this.onProgress.bind(this);

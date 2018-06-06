@@ -13,9 +13,9 @@ export default StyleSheet.create({
         paddingBottom: 0,
     },
     formContainer: {
-        //width: width - scaleWidth(80),
+        width: width,
         paddingTop: scaleHeight(30),
-        paddingBottom: scaleHeight(60),
+        paddingBottom: scaleHeight(100),
         paddingHorizontal: scaleWidth(40),
     },
     formItem:{

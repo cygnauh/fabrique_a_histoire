@@ -71,7 +71,7 @@ export default class Place extends React.Component{
         setTimeout( ()=>{
             stopAnimation(this.animatedValue);
         }, 3000);
-    }
+    };
 
     componentDidMount(){
         this.animateBackgroundColor();

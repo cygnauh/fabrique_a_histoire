@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, Dimensions, TouchableOpacity, Image} from 'react-native';
+import { View, Text, ScrollView, Dimensions, TouchableOpacity, Image, Alert} from 'react-native';
 import Header from '../components/header';
 import RectangleButton from './rectangleButton';
 import OnBoardingStyle from '../styles/onboardingStyle';
@@ -34,10 +34,6 @@ export default class OnBoardingSlide extends React.Component {
         this.internals = {
             isScrolling: false,
             offset
-        };
-        this.connection = {
-            indicatorColor: colors.paleSalmon,
-            text: "Connexion en cours..."
         };
         return state;
     }
@@ -154,7 +150,9 @@ export default class OnBoardingSlide extends React.Component {
                 content="Commencer" src={require('../assets/images/validate.png')}
                 onPress={() => this.props.navigation.navigate('Length')} />
         } else {
-            button = <RectangleButton content="Continuer" src={require('../assets/images/arrowNext.png')} onPress={() => this.swipe()} />
+            button = <RectangleButton
+                content="Continuer" src={require('../assets/images/arrowNext.png')}
+                onPress={() => this.swipe()} />
         }
         return (
             <View pointerEvents="box-none" style={
@@ -166,43 +164,12 @@ export default class OnBoardingSlide extends React.Component {
     };
 
     renderHeader = () => {
-        return(
-            <Header
-                rightElm="skip"
+        let header =
+            <Header rightElm="skip"
                 onPress={() => this.props.navigation.goBack()}
                 goLength={() => this.props.navigation.navigate('Length')}
-            />
-        );
-    };
-
-
-    renderConnection = () => {
-        // TODO : send in continue the request ?
-        let connection = this.connection;
-
-        fetch(networkUrl, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                action: 'testConnection',
-            })
-        }).then(function (response) {
-            connection.text = "Machine connectée";
-            connection.indicatorColor = colors.greenishTeal;
-            return response;
-        }).catch(function (error) {
-            return error;
-        });
-
-        return(
-            <View style={OnBoardingStyle.connectionContainer}>
-                <View style={[OnBoardingStyle.connectionIndication, {backgroundColor: connection.indicatorColor}]}/>
-                <Text style={OnBoardingStyle.connectionText}>{connection.text.toUpperCase()}</Text>
-            </View>
-        )
+            />;
+        return(header);
     };
 
     /* Render the component */
@@ -211,7 +178,6 @@ export default class OnBoardingSlide extends React.Component {
             <View style={[OnBoardingStyle.fullScreen, OnBoardingStyle.container]}>
                 <Image style={GlobalStyle.backgroundImage} source={require('../assets/images/background.png')} />
                 {this.renderHeader()}
-                {this.renderConnection()}
                 {this.renderScrollView(children)} /*Render screens */
                 {this.renderPagination()} /*Render pagination */
             </View>
