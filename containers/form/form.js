@@ -104,7 +104,6 @@ export default class Form extends React.Component {
         this.onProgress = this.onProgress.bind(this);
         this.onBuffer = this.onBuffer.bind(this);
         this.loadSoundsFromAPI();
-        this.loadSoundsFromAPI();
     }
 
     onLoad(data) {

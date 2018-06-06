@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Slider, Image, Alert } from 'react-native';
+import { View, Text, Slider, Image, TouchableOpacity, Alert } from 'react-native';
 import Header from '../components/header';
 import RectangleButton from '../components/rectangleButton';
 import GlobalStyle from '../styles/mainStyle';
@@ -17,6 +17,31 @@ export default class Length extends React.Component{
             testConnection : true,
         };
     }
+
+
+    changeOnClick(value){
+        var newVal = ''
+        if(value === 0){
+            if(this.state.value > 0){
+                newVal = this.state.value-1
+            }
+        }else{
+            if(this.state.value < 2){
+                newVal = this.state.value+1
+            }
+        }
+
+        if(newVal !==''){
+            this.renderLength(newVal);
+            this.setState(() => {
+                return { value : newVal}
+            })
+        }
+
+    }
+
+
+
 
     onChange(value) {
         this.renderLength(value);
@@ -154,7 +179,9 @@ export default class Length extends React.Component{
                 <View>
                     <Text style={GlobalStyle.titleContent}>Longueur du récit</Text>
                     <View style={GlobalStyle.lengthSliderContainer}>
-                        <Text style={GlobalStyle.manageLength}>-</Text>
+                        <TouchableOpacity onPress={()=>{this.changeOnClick(0)}}>
+                            <Text style={GlobalStyle.manageLength}>-</Text>
+                        </TouchableOpacity>
                         <View>
                             <Slider style={GlobalStyle.lengthSlider} step={1}
                                     minimumTrackTintColor={'#4D4641'}
@@ -164,7 +191,11 @@ export default class Length extends React.Component{
                                     onValueChange={(value) => this.onChange(value)}/>
                             {this.renderLength(this.state.value)}
                         </View>
-                        <Text style={GlobalStyle.manageLength}>+</Text>
+                        <TouchableOpacity onPress={()=>{this.changeOnClick(1)}}>
+                            <Text style={GlobalStyle.manageLength}>+</Text>
+                        </TouchableOpacity>
+
+                        {/*<TouchableOpacity onPress={()=>console.log('hello')}>+</TouchableOpacity>*/}
                     </View>
                 </View>
                 {this.renderNextButton()}
