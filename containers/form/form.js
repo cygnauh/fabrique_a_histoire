@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TextInput, Animated, Keyboard, ScrollView, Alert, UIManager, findNodeHandle, TouchableOpacity, Image} from 'react-native';
+import {View, Text, TextInput, Animated, Keyboard, ScrollView, Dimensions, UIManager, findNodeHandle, TouchableOpacity, Image} from 'react-native';
 import Header from '../../components/header';
 import RadioButton from '../../components/form/radioButton';
 import RectangleButton from '../../components/rectangleButton';
@@ -9,6 +9,7 @@ import FormStyle from "../../styles/formStyle";
 import Video from 'react-native-video';
 import { scaleDelta, scaleHeight } from "../../utils/scale";
 import { colors } from "../../styles/colors";
+const { width, height } = Dimensions.get('window');
 import { getRandomInt, delEndDot, addEndDot, upperCaseFirst, gatherText, generateTitle } from "../../utils/tools";
 
 const data = require('../../assets/data/structure.json');
@@ -91,20 +92,18 @@ export default class Form extends React.Component {
             intro_completed: null, disrupt_completed: null,
             adventure_completed: null, adventure_completed_1: null, adventure_completed_2: null, adventure_completed_3: null,
             outcome_completed: null, end_completed: null,
-            outcome_margin_bottom: scaleHeight(140)
         };
 
-        this.partHeight = { introduction: '', disruption: '', adventure: '', outcome: '',};
+        this.partHeight = { introduction: '', disruption: '', adventure: '', outcome: ''};
         this.partEnd = { introduction: '', disruption: '', adventure: '', outcome: '' };
         this.keyboardHeight = new Animated.Value(0);
         // this.fadeIn = new Animated.Value(0);
 
         // this.baseSound_load = false
-
         this.onLoad = this.onLoad.bind(this);
         this.onProgress = this.onProgress.bind(this);
         this.onBuffer = this.onBuffer.bind(this);
-        this.loadSoundsFromAPI()
+        this.loadSoundsFromAPI();
         this.loadSoundsFromAPI();
     }
 
@@ -183,31 +182,6 @@ export default class Form extends React.Component {
         });
         choices[index].selected = true;
         this.setState({voteItems: choices}); // update view
-    };
-
-    componentWillMount() {
-        this.keyboardWillShowSub = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow);
-        this.keyboardWillHideSub = Keyboard.addListener('keyboardWillHide', this.keyboardWillHide);
-    }
-    componentWillUnmount() {
-        this.keyboardWillShowSub.remove();
-        this.keyboardWillHideSub.remove();
-    }
-    keyboardWillShow = (e) => {
-        Animated.parallel([
-            Animated.timing(this.keyboardHeight, {
-                duration: e.duration,
-                toValue: e.endCoordinates.height,
-            }),
-        ]).start();
-    };
-    keyboardWillHide = (e) => {
-        Animated.parallel([
-            Animated.timing(this.keyboardHeight, {
-                duration: e.duration,
-                toValue: 0,
-            }),
-        ]).start();
     };
 
     // -------------------------------- test son
@@ -524,8 +498,8 @@ export default class Form extends React.Component {
             content_opacity = null,
             btn_selected = state.intro_exp_selected,
             completed = state.intro_completed;
-        if (state.current_navigation === 1) { opacity = 1; } else { opacity = .4; }
-        if (btn_selected === true) { content_opacity = 1; } else { content_opacity = .4; }
+        if (state.current_navigation === 1) { opacity = 1; } else { opacity = .3; }
+        if (btn_selected === true) { content_opacity = 1; } else { content_opacity = .3; }
 
         let intro_exp =
             <View>
@@ -584,8 +558,8 @@ export default class Form extends React.Component {
             content_opacity: null,
             btn_selected = state.disrupt_exp_selected,
             completed = state.disrupt_completed;
-        if (state.current_navigation === 2) { opacity = 1; } else { opacity = .4; }
-        if (btn_selected === true) { content_opacity = 1; } else { content_opacity = .4; }
+        if (state.current_navigation === 2) { opacity = 1; } else { opacity = .3; }
+        if (btn_selected === true) { content_opacity = 1; } else { content_opacity = .3; }
 
         let disrupt_exp =
             <View>
@@ -637,13 +611,13 @@ export default class Form extends React.Component {
             completed_1 = state.adventure_completed_1,
             completed_2 = state.adventure_completed_2,
             completed_3 = state.adventure_completed_3;
-        if (state.current_navigation === 3) { opacity = 1; } else { opacity = .4; }
-        if (btn_selected_1 === true) { content_opacity_1 = 1; } else { content_opacity_1 = .4; }
-        if (btn_selected_2 === true) { content_opacity_2 = 1; } else { content_opacity_2 = .4; }
+        if (state.current_navigation === 3) { opacity = 1; } else { opacity = .3; }
+        if (btn_selected_1 === true) { content_opacity_1 = 1; } else { content_opacity_1 = .3; }
+        if (btn_selected_2 === true) { content_opacity_2 = 1; } else { content_opacity_2 = .3; }
 
         let short_reaction =
             <View>
-                {this.renderInput("advent_hero_reaction", short_adventure.event.hero_reaction, state.advent_hero_reaction, true, completed_1)}
+                {this.renderInput("advent_hero_reaction", short_adventure.event.hero_reaction, state.advent_hero_reaction, state.intro_disrupt_completed, completed_1)}
             </View>;
         let short_exp_1 = <View>{this.renderRadioBtn(state.advent_exp_1, "adventure_btn_1")}</View>;
         let short_then = <View>{this.renderInput("advent_then", short_adventure.event.then, state.advent_then, btn_selected_1, completed_2, 'none')}</View>;
@@ -651,7 +625,7 @@ export default class Form extends React.Component {
         if (this.length === 1 || this.length === 2) {
             medium_reaction =
                 <View>
-                    {this.renderInput("advent_partner_reaction", medium_adventure.event.partner_reaction, state.advent_partner_reaction, true, completed_1)}
+                    {this.renderInput("advent_partner_reaction", medium_adventure.event.partner_reaction, state.advent_partner_reaction, state.intro_disrupt_completed, completed_1)}
                 </View>;
             medium_consequence =
                 <View>
@@ -703,8 +677,8 @@ export default class Form extends React.Component {
             content_opacity: null,
             btn_selected = state.outcome_exp_selected,
             completed = state.outcome_completed;
-        if (state.current_navigation === 4) { opacity = 1; } else { opacity = .4; }
-        if (btn_selected === true) { content_opacity = 1; } else { content_opacity = .4; }
+        if (state.current_navigation === 4) { opacity = 1; } else { opacity = .3; }
+        if (btn_selected === true) { content_opacity = 1; } else { content_opacity = .3; }
 
         let outcome_exp =
             <View>
@@ -750,8 +724,8 @@ export default class Form extends React.Component {
             content_opacity: null,
             btn_selected = state.end_exp_selected,
             completed = state.end_completed;
-        if (state.current_navigation === 5) { opacity = 1; } else { opacity = .4; }
-        if (btn_selected === true) { content_opacity = 1; } else { content_opacity = .4; }
+        if (state.current_navigation === 5) { opacity = 1; } else { opacity = .3; }
+        if (btn_selected === true) { content_opacity = 1; } else { content_opacity = .3; }
 
         let end_exp =
             <View>
@@ -781,15 +755,14 @@ export default class Form extends React.Component {
         }
 
         return (
-            <Animated.View
-                style={[FormStyle.formContainer, {paddingBottom: this.keyboardHeight, opacity: opacity, marginBottom: state.outcome_margin_bottom}]}>
+            <View style={[FormStyle.formContainer, {opacity: opacity, height: height - scaleHeight(40)}]}>
                 {end_exp}
                 <View style={{ opacity: content_opacity}}>
                     {short_end_render}
                     {medium_end_render}
                 </View>
                 {print_btn_render}
-            </Animated.View>
+            </View>
         );
     }
 
@@ -853,7 +826,7 @@ export default class Form extends React.Component {
             this.setState({part_title: "Dénouement"});
             this.setState({current_navigation: 4})
         }
-        if (currentOffset >= this.partEnd.outcome) {
+        if (currentOffset >= this.partEnd.outcome - (this.partHeight.outcome / 2)) {
             this.setState({part_title: "Conclusion"});
             this.setState({current_navigation: 5})
         }
@@ -934,7 +907,7 @@ export default class Form extends React.Component {
             long_check = medium_check || !intro_where || !intro_time;
 
         if (intro_exp_1.length !== 0) {
-            // console.log("Un mot de liaison a été ajouté");
+            // console.log("A linking word has been had");
             let check_inputs = null;
             switch (this.length) {
                 case 1: check_inputs = medium_check; break;
@@ -944,7 +917,7 @@ export default class Form extends React.Component {
             if (check_inputs) {
                 state.intro_completed = false;
                 this.refs.FormScrollView.scrollTo({x: 0, y: 0, animated: true}); // scroll to top
-                // console.log("Tout n'est pas rempli");
+                // console.log("Something is empty");
             } else {
                 // scroll and save
                 state.intro_completed = true;
@@ -983,6 +956,7 @@ export default class Form extends React.Component {
             } else {
                 // scroll and save
                 state.disrupt_completed = true;
+                if (state.intro_completed === true && state.disrupt_completed === true) { state.intro_disrupt_completed = true; }
                 this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + 1, animated: true});
                 let sentences = [ disrupt_exp_1[0].label, disrupt_description, disrupt_message, disrupt_content];
                 state.complete_story.disrupt = gatherText(sentences);
@@ -1001,7 +975,6 @@ export default class Form extends React.Component {
             advent_emotion = addEndDot(state.advent_emotion),
             advent_exp_2 = state.advent_exp_2.filter((exp) => { return exp.selected === true }),
             advent_action = addEndDot(state.advent_action);
-        state.outcome_margin_bottom = scaleHeight(350);
 
         // Allow scroll if the story isn't written yet
         if (state.intro_completed === null && state.disrupt_completed === null) {
@@ -1091,12 +1064,12 @@ export default class Form extends React.Component {
                 this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true}); // scroll to top
             } else { // scroll and save
                 state.outcome_completed = true;
-                this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.outcome + 1, animated: true}); // scroll to next part
+                this.refs.FormScrollView.scrollToEnd({animated: true}); // scroll to the end
                 let sentences = [outcome_exp_1[0].label, outcome_hero_solution, outcome_partner_solution];
                 state.complete_story.outcome = gatherText(sentences);
             }
         } else { // scroll to see the next part if no linking word choose
-            this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.outcome + 1, animated: true});
+            this.refs.FormScrollView.scrollToEnd({animated: true}); // scroll to the end
         }
     }
 

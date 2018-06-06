@@ -9,7 +9,7 @@ export default StyleSheet.create({
 
     /** GENERAL **/
     view: {
-        backgroundColor: '#F1F1F1',
+        backgroundColor: colors.bgColor,
         paddingHorizontal: scaleWidth(40),
         paddingVertical: scaleHeight(40),
         flex: 1,
