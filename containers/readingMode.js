@@ -4,12 +4,18 @@ import Header from '../components/header';
 import GlobalStyle from '../styles/mainStyle';
 import Video from 'react-native-video';
 
-export default class readingMode extends React.Component {
+export default class ReadingMode extends React.Component {
     constructor(props) {
         super(props);
 
+        this.responseJson = this.props.navigation.state.params.responseJson;
+        console.log(this.responseJson)
         this.state = {
             isLoading: false
+        }
+
+        if(this.state){
+            this.handleResponseJson()
         }
 
         this.onLoad = this.onLoad.bind(this);
@@ -37,92 +43,25 @@ export default class readingMode extends React.Component {
 
     onEnd() {
 
-            this.setState({
-                canPlay: false
-            });
-
-    }
-
-    getSounds(id) {
-
         this.setState({
-            isLoading: true,
-            story_not_found: false,
-            story_id_incorrect: false
+            canPlay: false
         });
 
-        if (id !== '') {
-            var num = parseInt(id)
-            if (isNaN(num)) {
-                this.setState({
-                    isLoading: false,
-                    story_id_incorrect: true
-                });
-            } else {
-                var request = 'https://testappfabulab.herokuapp.com/storysoundsforreading?story=' + num
-
-                return fetch(request)
-
-                    .then((response) => {
-
-                        if (response.status === 500) {
-                            this.setState({
-                                story_not_found: true,
-                                isLoading: false
-                            })
-                        } else {
-                            response.json()
-                                .then((responseJson) => {
-                                    if (responseJson && responseJson.length === 4) {
-                                        this.setState({
-                                            base_sound: responseJson[3].base_sound[0],
-                                            story_title: responseJson[0].title,
-                                            sounds_added: responseJson[1].sounds_added,
-                                            sounds_added_url: responseJson[2].sounds_added_url
-                                        }, function () {
-
-                                        });
-                                    }
-
-                                    if (this.state.sounds_added) {
-                                        this.handleAddedSound(this.state.sounds_added_url)
-                                    }
-
-                                    this.setState({
-                                        isLoading: false,
-                                    });
-                                })
-                        }
-                    })
-
-                    .catch((error) => {
-                        console.error(error);
-                    });
-            }
-
-        }
     }
 
-    apiRequestForStorySounds() {
+    handleResponseJson() {
 
-        if (!this.state.base_sound) {
-            return (
-                <View>
-                    <TextInput
-                        placeholder={"Entrer le code"}
-                        onChangeText={(text) => this.setState({input: text})}
-                        style={{padding: 20}}
-                        keyboardType='numeric'
-                    />
 
-                    <TouchableOpacity onPress={() => {
-                        this.getSounds(this.state.input)
-                    }}>
-                        <Text style={GlobalStyle.homeBtn}>{'Relire mon histoire'}</Text>
-                    </TouchableOpacity>
-                </View>
+        if (this.responseJson && this.responseJson.length === 4) {
 
-            )
+            this.state.base_sound = this.responseJson[3].base_sound[0]
+            this.state.story_title = this.responseJson[0].title
+            this.state.sounds_added = this.responseJson[1].sounds_added
+            this.state.sounds_added_url = this.responseJson[2].sounds_added_url
+        }
+
+        if (this.state.sounds_added) {
+            this.handleAddedSound(this.state.sounds_added_url)
         }
     }
 
@@ -190,7 +129,6 @@ export default class readingMode extends React.Component {
         )
     }
 
-
     setBackgroundColor() {
         if (this.state.base_sound) {
             return this.state.base_sound.color
@@ -198,7 +136,6 @@ export default class readingMode extends React.Component {
             return 'transparent'
         }
     }
-
 
     render() {
 
@@ -223,15 +160,6 @@ export default class readingMode extends React.Component {
                     justifyContent: 'center',
                     alignItems: 'center'
                 }}>
-
-                    {this.state.story_not_found ? (
-                        <View> <Text style={{color: "#D66853"}}> Nous n'avons pas trouvé d'histoire avec ce code.</Text>
-                        </View>) : null}
-                    {this.state.story_id_incorrect ? (
-                        <View> <Text style={{color: "#D66853"}}> Il faut entrer seulement des chiffres. </Text>
-                        </View>) : null}
-
-                    {this.apiRequestForStorySounds()}
 
                     {this.state.base_sound ? (<View>
 

@@ -3,6 +3,7 @@ import {Image, View, Text, TouchableOpacity, StatusBar, TextInput} from 'react-n
 import Header from '../components/header';
 import GlobalStyle from '../styles/mainStyle.js';
 import FormStyle from "../styles/formStyle";
+import ReadingMode from "./readingMode";
 
 export default class Home extends React.Component {
 
@@ -14,14 +15,13 @@ export default class Home extends React.Component {
         this.contentText = "Entrer votre code"
     }
 
-
     componentDidMount() {
         StatusBar.setHidden(true);
     }
 
-    checkingMode(id) {
+    checkingMode(code) {
 
-        if(id === "FA8U"){
+        if(code === "FA8U"){
             this.props.navigation.navigate('Onboarding')
         }
         else {
@@ -32,14 +32,15 @@ export default class Home extends React.Component {
                 story_id_incorrect: false
             });
 
-            if (id !== '') {
-                var num = parseInt(id)
+            if (code !== '') {
+                var num = parseInt(code)
                 if (isNaN(num)) {
                     this.setState({
                         isLoading: false,
                         story_id_incorrect: true
                     });
                 } else {
+
                     var request = 'https://testappfabulab.herokuapp.com/storysoundsforreading?story=' + num
 
                     return fetch(request)
@@ -56,22 +57,16 @@ export default class Home extends React.Component {
                                     .then((responseJson) => {
                                         if (responseJson && responseJson.length === 4) {
                                             this.setState({
-                                                base_sound: responseJson[3].base_sound[0],
-                                                story_title: responseJson[0].title,
-                                                sounds_added: responseJson[1].sounds_added,
-                                                sounds_added_url: responseJson[2].sounds_added_url
-                                            }, function () {
-
+                                                response:responseJson
                                             });
                                         }
 
-                                        if (this.state.sounds_added) {
-                                            this.handleAddedSound(this.state.sounds_added_url)
+                                        if(responseJson && this.state.response){
+                                            this.props.navigation.navigate('ReadingMode',{responseJson: this.state.response})
                                         }
-
-                                        this.setState({
-                                            isLoading: false,
-                                        });
+                                        // this.setState({
+                                        //     isLoading: false,
+                                        // });
                                     })
                             }
                         })
@@ -83,7 +78,6 @@ export default class Home extends React.Component {
 
             }
         }
-
     }
 
 
@@ -107,22 +101,31 @@ export default class Home extends React.Component {
                 </Text>
 
                 <View>
-                    {this.state.story_not_found ? (
-                        <Text style={{color: "#D66853"}}> Nous n'avons pas trouvé d'histoire avec ce code.</Text>
-                    ) : null}
-                    {this.state.story_id_incorrect ? (
-                        <Text style={{color: "#D66853"}}> Il faut entrer seulement des chiffres. </Text>
-                    ) : null}
-                    { this.state.input ? <Text style={FormStyle.errorQuestion}>{this.contentText}</Text> :null}
+                    <View>
+                        {this.state.story_not_found ? (
+                            <Text style={{color: "#D66853"}}> Aucune histoire n'a été trouvée.</Text>
+                        ) : null}
+                        {this.state.story_id_incorrect ? (
+                            <Text style={{color: "#D66853"}}> Le code est incorrect. </Text>
+                        ) : null}
 
-                    <TextInput
-                        placeholder={this.contentText}
-                        onChangeText={(text) => this.setState({input: text})}
-                        style={[{padding: 20, fontSize: 30, borderBottom:3},FormStyle.inputItem]}
-                        multiline={true}
-                    />
 
+                    </View>
+                     <View>
+                         { this.state.input ? <Text style={[FormStyle.errorQuestion,{paddingBottom: 10}]}>{this.contentText}</Text> :null}
+                        <TextInput
+                            placeholder={this.contentText}
+                            onChangeText={(text) => this.setState({input: text})}
+                            style={FormStyle.inputItem}
+                            autoCapitalize={'characters'}
+                            maxLength={7}
+                            textAlign={'center'}
+                        />
+
+                    </View>
                 </View>
+
+
                 <TouchableOpacity onPress={() => {
                     this.checkingMode(this.state.input)
                 }}>
