@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Image, TouchableOpacity, Text, Alert } from 'react-native';
 import OnBoardingStyle from "../styles/onboardingStyle";
-import { networkUrl } from "../utils/tools";
+import {shutDown, networkUrl } from "../utils/tools";
 
 export default class Header extends React.Component{
     constructor(props) {
@@ -17,31 +17,6 @@ export default class Header extends React.Component{
         this.leftElm = this.props.leftElm;
         this.rightElm = this.props.rightElm;
         this.centerElm = this.props.centerElm;
-    }
-
-    shutDown() {
-        Alert.alert('Attention', 'Voulez-vous vraiment éteindre la machine ?',
-            [
-                {text: 'Annuler', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-                {text: 'Éteindre', onPress: () => fetch(networkUrl, {
-                        method: 'POST',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            action: 'shutdown',
-                        })
-                    }).then(function (response) {
-                        console.log(response);
-                        return response;
-                    }).catch(function (error) {
-                        return error;
-                    })
-                },
-            ],
-            { cancelable: false } // unable dismiss by tapping outside of the alert box
-        );
     }
 
     render() {
@@ -108,7 +83,7 @@ export default class Header extends React.Component{
                 </TouchableOpacity>;
         } else if (this.state.isShutdown === true) {
             shutdown =
-                <TouchableOpacity onPress={this.shutDown} >
+                <TouchableOpacity onPress={shutDown} >
                     <Image style={OnBoardingStyle.iconShut} source={require('../assets/images/shutDown.png')}/>
                 </TouchableOpacity>;
         } else if (this.state.isSkip === true) {

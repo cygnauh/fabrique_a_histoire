@@ -43,9 +43,11 @@ export default StyleSheet.create({
     titleHeader: {
       flexDirection: 'column',
       alignItems: 'flex-start'
+
     },
     titleContainer: {
         marginBottom: scaleHeight(25),
+        top:-scaleHeight(70)
     },
     title: {
         fontSize: scaleDelta(20, .5),
@@ -61,17 +63,20 @@ export default StyleSheet.create({
         borderBottomColor: colors.pinkishGreyTwo,
         borderBottomWidth: 2,
         width: width - scaleWidth(80),
+        top:-scaleHeight(70)
     },
     text: {
         fontSize: scaleDelta(12, .5),
         lineHeight: scaleDelta(20, .5),
         fontFamily: 'MaisonNeue-Medium',
         color: colors.greyishBrown,
-        textAlign: 'center',
+        textAlign: 'center'
+
     },
     homeText: {
         marginHorizontal: scaleWidth(40),
-        textAlign: 'center'
+        textAlign: 'center',
+        top:-scaleHeight(70)
     },
     homeBtn: {
         fontSize: scaleDelta(12, .5),
@@ -81,8 +86,14 @@ export default StyleSheet.create({
         paddingBottom: scaleHeight(6),
         paddingHorizontal: scaleWidth(15),
         borderWidth: 2,
-        borderColor: colors.greyishBrown,
+        borderColor: colors.greyishBrown
     },
+
+    homeCodeContainer: {
+        top:-scaleHeight(170)
+    },
+
+
 
     /** SUB PAGE **/
     titleContent: {

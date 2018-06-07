@@ -33,7 +33,7 @@ export default class Correction extends React.Component {
                 <Image style={GlobalStyle.backgroundImage} source={require('../assets/images/background.png')} />
                 <Logo/>
                 {this.renderStory()}
-                <Print prevNav={this.props.navigation} title={this.title} story={this.story} sounds={this.sounds} place={this.place}/>
+                <Print nav={this.props.navigation} title={this.title} story={this.story} sounds={this.sounds} place={this.place}/>
             </View>
         )
     }

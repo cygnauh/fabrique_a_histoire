@@ -11,6 +11,8 @@ export default class Home extends React.Component {
         super(props);
         this.state = {
             isLoading: false,
+            story_not_found:0,
+            story_id_incorrect: 0
         }
         this.contentText = "Entrer votre code"
     }
@@ -28,8 +30,8 @@ export default class Home extends React.Component {
 
             this.setState({
                 isLoading: true,
-                story_not_found: false,
-                story_id_incorrect: false
+                story_not_found: 0,
+                story_id_incorrect: 0
             });
 
             if (code !== '') {
@@ -37,7 +39,7 @@ export default class Home extends React.Component {
                 if (isNaN(code)) {
                     this.setState({
                         isLoading: false,
-                        story_id_incorrect: true
+                        story_id_incorrect: 1
                     });
                 } else {
 
@@ -51,7 +53,7 @@ export default class Home extends React.Component {
 
                             if (response.status === 500) {
                                 this.setState({
-                                    story_not_found: true,
+                                    story_not_found: 1,
                                     isLoading: false
                                 })
                             } else {
@@ -98,24 +100,29 @@ export default class Home extends React.Component {
                     </View>
                     <View style={GlobalStyle.line}/>
                 </View>
+
+                <View>
+
+                </View>
+
                 <Text style={[GlobalStyle.text, GlobalStyle.homeText]}>
                     Repérer le code de votre machine ou d'une histoire pour commencer l'expérience
                 </Text>
 
-                <View>
+                <View style={[GlobalStyle.homeCodeContainer]}>
                     <View>
-                        {this.state.story_not_found ? (
-                            <Text style={{color: "#D66853"}}>{"Aucune histoire n'a été trouvée."} </Text>
-                        ) : null}
+                        {/*{this.state.story_not_found ? (*/}
+                            {/*<Text style={{color: "#D66853", opacity:this.state.story_not_found}}>{"Aucune histoire n'a été trouvée."} </Text>*/}
+                        {/*) : null}*/}
 
-                        {this.state.story_id_incorrect ? (
-                            <Text style={{color: "#D66853"}}>{"Le code est incorrect."}  </Text>
-                        ) : null}
+                        {/*{this.state.story_id_incorrect ? (*/}
+                            <Text style={{color: "#D66853",opacity:this.state.story_id_incorrect, paddingTop:12}}>{"Le code est incorrect."}  </Text>
+                        {/*) : null}*/}
 
 
                     </View>
-                     <View>
-                         { this.state.input ? <Text style={[FormStyle.errorQuestion,{paddingBottom: 10}]}>{this.contentText}</Text> :null}
+                    <View>
+                        { this.state.input ? <Text style={[FormStyle.errorQuestion,{paddingBottom: 20, }]}>{this.contentText}</Text> :null}
                         <TextInput
                             placeholder={this.contentText}
                             onChangeText={(text) => this.setState({input: text})}
@@ -124,22 +131,28 @@ export default class Home extends React.Component {
                             maxLength={7}
                             textAlign={'center'}
                         />
-
                     </View>
+                    <TouchableOpacity onPress={() => {
+                        this.checkingMode(this.state.input)
+                    }}>
+
+                        {this.state.input && this.state.input.length>3 ?
+
+                            <Text style={[GlobalStyle.homeBtn, {textAlign:'center'}]}>{'Valider'}</Text>
+
+                            :null}
+                    </TouchableOpacity>
+
+
+                    {/*<TouchableOpacity onPress={() => {*/}
+                        {/*this.props.navigation.navigate('Redirection')*/}
+                    {/*}}>*/}
+
+                            {/*<Text style={{textAlign:'center'}}>{'SCAN'}</Text>*/}
+
+
+                    {/*</TouchableOpacity>*/}
                 </View>
-
-
-                <TouchableOpacity onPress={() => {
-                    this.checkingMode(this.state.input)
-                }}>
-
-                {this.state.input && this.state.input.length>3 ?
-
-                        <Text style={GlobalStyle.homeBtn}>{'Valider'}</Text>
-
-                    :null}
-                </TouchableOpacity>
-
             </View>
         );
     }
