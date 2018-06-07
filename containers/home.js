@@ -131,9 +131,6 @@ export default class Home extends React.Component {
                             maxLength={7}
                             textAlign={'center'}
                         />
-
-
-
                     </View>
                     <TouchableOpacity onPress={() => {
                         this.checkingMode(this.state.input)

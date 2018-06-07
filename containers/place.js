@@ -147,11 +147,9 @@ export default class Place extends React.Component {
                         (<RectangleButton
                         content={'Continuer'}
                         src={require('../assets/images/validate.png')}
-                        onPress={
-                            () => this.props.navigation.navigate('Form', {
+                        onPress={() => this.props.navigation.navigate('Form', {
                                 place: this.state.randomPlaceName,
-                                length: this.length
-                            })}
+                                length: this.length})}
 
                     />) : null}
                 </View>

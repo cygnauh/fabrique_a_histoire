@@ -2,20 +2,13 @@ import React from 'react';
 import {
     View,
     Text,
-    Animated,
     StyleSheet,
-    Easing,
-    Image,
-    TouchableHighlight,
-    AppRegistry,
-    Dimensions,
-    TouchableOpacity
+    TouchableOpacity,
+    TouchableHighlight
+
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
-import Header from '../components/header';
-import RectangleButton from '../components/rectangleButton';
-import GlobalStyle from '../styles/mainStyle';
-import FormStyle from "../styles/formStyle";
+
 
 const PendingView = () => (
     <View
@@ -40,46 +33,82 @@ export default class Redirection extends React.Component {
         }
     }
 
-    redirection(){
-        this.setState({
-            index: this.state.index+1
-        })
-
-
+    redirectionWriting(){
 
         if(this.state.index > 1){
+            this.state.index = 1
             this.props.navigation.navigate('Length')
+        }else{
+            this.setState({
+                index: this.state.index+1
+            })
         }
-
-        console.log(this.state.index)
-
     }
 
+    redirectionReading(){
+            this.state.index = 1
 
+        //default story
+            let num = 1462
+            let request = 'https://testappfabulab.herokuapp.com/storysoundsforreading?story=' + num;
 
+            return fetch(request)
+
+                .then((response) => {
+
+                    if (response.status === 500) {
+                        this.setState({
+                            story_not_found: 1,
+                            isLoading: false
+                        })
+                    } else {
+                        response.json()
+                            .then((responseJson) => {
+                                if (responseJson && responseJson.length === 4) {
+                                    this.setState({
+                                        response:responseJson
+                                    });
+                                }
+
+                                if(responseJson && this.state.response){
+                                    this.props.navigation.navigate('ReadingMode',{responseJson: this.state.response})
+                                }
+                                // this.setState({
+                                //     isLoading: false,
+                                // });
+                            })
+                    }
+                })
+
+                .catch((error) => {
+                    console.error(error);
+                });
+    }
 
     render() {
         return (
-            <View style={styles.container}>
-                <RNCamera
-                    style={styles.preview}
-                    type={RNCamera.Constants.Type.back}
-                    flashMode={RNCamera.Constants.FlashMode.on}
-                    permissionDialogTitle={'Permission to use camera'}
-                    permissionDialogMessage={'We need your permission to use your camera phone'}
-                >
-                    {({ camera, status }) => {
-                        if (status !== 'READY') return <PendingView />;
-                        return (
-                            <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
-                                <TouchableOpacity onPress={() => this.takePicture(camera)} style={styles.capture}>
-                                    <Text style={{ fontSize: 14 }}> SNAP </Text>
-                                </TouchableOpacity>
-                            </View>
-                        );
-                    }}
-                </RNCamera>
-            </View>
+            <TouchableHighlight style={{flex:1}} onPress={()=>this.redirectionWriting()} onLongPress={()=>this.redirectionReading()}>
+                <View style={styles.container}>
+                    <RNCamera
+                        style={styles.preview}
+                        type={RNCamera.Constants.Type.back}
+                        permissionDialogTitle={'Permission to use camera'}
+                        permissionDialogMessage={'We need your permission to use your camera phone'}
+                    >
+                        {({ camera, status }) => {
+                            if (status !== 'READY') return <PendingView />;
+                            return (
+                                <View style={{opacity: 0 ,flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
+                                    <TouchableOpacity onPress={() => this.takePicture(camera)} style={styles.capture}>
+                                        <Text style={{ fontSize: 14 }}> SNAP </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            );
+                        }}
+                    </RNCamera>
+                </View>
+             </TouchableHighlight>
+
         );
     }
 
