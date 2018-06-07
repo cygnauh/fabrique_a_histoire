@@ -9,7 +9,7 @@ import {
     TouchableOpacity,
     TouchableHighlight
 } from 'react-native';
-import Camera from 'react-native-camera';
+import { RNCamera } from 'react-native-camera';
 import Header from '../components/header';
 import RectangleButton from '../components/rectangleButton';
 import GlobalStyle from '../styles/mainStyle';
@@ -41,38 +41,53 @@ export default class Redirection extends React.Component {
 
     }
 
-
-
     render() {
-
         return (
-            <View>
-                <Camera
-                    ref={ref => {
-                        this.camera = ref;
+            <View style={styles.container}>
+                <RNCamera
+                    ref={(cam) => {
+                        this.camera = cam
                     }}
-                    type={Camera.Constants.Type.back}
-                    flashMode={Camera.Constants.FlashMode.on}
-                    permissionDialogTitle={'Permission to use camera'}
-                    permissionDialogMessage={'We need your permission to use your camera phone'}
-                />
-                <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center',}}>
-                    <TouchableOpacity
-                        onPress={this.takePicture.bind(this)}
-                    >
-                        <Text style={{fontSize: 14}}> SNAP </Text>
-                    </TouchableOpacity>
-                </View>
+                    style={styles.view}
+                    aspect={RNCamera.constants.Aspect.fill}>
+                    <Text
+                        style={styles.capture}
+                        onPress={this.takePicture.bind(this)}>
+                        [CAPTURE_IMAGE]
+                    </Text>
+                </RNCamera>
             </View>
-
-        )
-
+        );
     }
-    takePicture = async function() {
-        if (this.camera) {
-            const options = { quality: 0.5, base64: true };
-            const data = await this.camera.takePictureAsync(options)
-            console.log(data.uri);
-        }
+
+    takePicture() {
+        const options = {}
+
+        this.camera.capture({metadata: options}).then((data) => {
+            console.log(data)
+        }).catch((error) => {
+            console.log(error)
+        })
     }
 }
+
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'row'
+    },
+    view: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'center'
+    },
+    capture: {
+        flex: 0,
+        backgroundColor: 'steelblue',
+        borderRadius: 10,
+        color: 'red',
+        padding: 15,
+        margin: 45
+    }
+});
