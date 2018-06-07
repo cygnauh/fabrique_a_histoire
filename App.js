@@ -2,6 +2,7 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
 import Home from './containers/home';
+import Redirection from './containers/redirection';
 import OnBoarding from './containers/onboarding';
 import Length from './containers/length';
 import Place from './containers/place';
@@ -13,6 +14,7 @@ import About from './containers/about';
 const StackNavigation = StackNavigator(
     {
         Home: { screen: Home },
+        Redirection: { screen: Redirection },
         Onboarding: { screen: OnBoarding },
         Length: { screen: Length },
         Place: { screen: Place },
