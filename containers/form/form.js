@@ -96,7 +96,6 @@ export default class Form extends React.Component {
 
         this.partHeight = { introduction: '', disruption: '', adventure: '', outcome: ''};
         this.partEnd = { introduction: '', disruption: '', adventure: '', outcome: '' };
-        this.keyboardHeight = new Animated.Value(0);
         // this.fadeIn = new Animated.Value(0);
 
         // this.baseSound_load = false
@@ -354,7 +353,7 @@ export default class Form extends React.Component {
                     title = state.complete_story.title;
                 for (let key in state.complete_story) {
                     if (key !== 'title' && state.complete_story.hasOwnProperty(key)) {
-                        if (key === Object.keys(state.complete_story)[Object.keys(state.complete_story).length - 1]) {
+                        if (key === Object.keys(state.complete_story)[Object.keys(state.complete_story).length - 1] || key === 'disrupt') {
                             story += state.complete_story[key];
                         } else {
                             story += state.complete_story[key] + "@";
