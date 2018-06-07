@@ -1,9 +1,9 @@
 import React from 'react';
-import { Modal, View, Text, Image, TouchableOpacity, TextInput } from 'react-native';
+import { Modal, View, Text, Image, TouchableOpacity, TextInput, Alert } from 'react-native';
 import Header from '../components/header';
 import RectangleButton from '../components/rectangleButton';
 import GlobalStyle from "../styles/mainStyle";
-import { addNil, networkUrl } from "../utils/tools";
+import { addNil, shutDown, networkUrl } from "../utils/tools";
 
 export default class Print extends React.Component {
     constructor(props) {
@@ -25,6 +25,11 @@ export default class Print extends React.Component {
         //console.log(this.props.story);
         /** Send a request to the raspberry **/
         // TODO Check the address IP of the network to find the raspberry one
+
+        this.setState({
+            canDisplay:true
+        })
+
 
         fetch(networkUrl, {
             method: 'POST',
@@ -115,7 +120,7 @@ export default class Print extends React.Component {
             update_btn = <RectangleButton
                 content={'Modifier'}
                 src={require('../assets/images/arrowPrev.png')}
-                onPress={() => this.props.prevNav.goBack()}/>;
+                onPress={() => this.props.nav.goBack()}/>;
         }
         return(update_btn)
     }
@@ -166,10 +171,27 @@ export default class Print extends React.Component {
                 </Modal>
                 <View style={GlobalStyle.reReadingBtnContainer}>
                     {this.renderUpdateBtn()}
-                    <RectangleButton
+
+                    {!this.state.canDisplay ? (
+                        <RectangleButton
                         content={'Valider'}
                         src={require('../assets/images/validate.png')}
-                        onPress = {() => {this.setModalVisible(true)}}/>
+                        onPress = {() => {this.setModalVisible(true)}}
+                        />
+                        )
+
+                     :null}
+
+                    {this.state.canDisplay ? (<RectangleButton
+                        content={'Recommencer'}
+
+                        onPress = {() => this.props.nav.navigate('Length')}/>) : null
+                    }
+
+                    {this.state.canDisplay ? (<RectangleButton
+                        content={'Terminer'}
+                        onPress = {() => {shutDown()}}/>) : null
+                    }
                 </View>
             </View>
         );

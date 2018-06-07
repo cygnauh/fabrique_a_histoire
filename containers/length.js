@@ -194,8 +194,6 @@ export default class Length extends React.Component{
                         <TouchableOpacity onPress={()=>{this.changeOnClick(1)}}>
                             <Text style={GlobalStyle.manageLength}>+</Text>
                         </TouchableOpacity>
-
-                        {/*<TouchableOpacity onPress={()=>console.log('hello')}>+</TouchableOpacity>*/}
                     </View>
                 </View>
                 {this.renderNextButton()}
