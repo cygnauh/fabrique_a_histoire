@@ -184,12 +184,13 @@ export default class Print extends React.Component {
 
                     {this.state.canDisplay ? (<RectangleButton
                         content={'Recommencer'}
-
+                        textAlign={'center'}
                         onPress = {() => this.props.nav.navigate('Length')}/>) : null
                     }
 
                     {this.state.canDisplay ? (<RectangleButton
                         content={'Terminer'}
+                        textAlign={'center'}
                         onPress = {() => {shutDown()}}/>) : null
                     }
                 </View>

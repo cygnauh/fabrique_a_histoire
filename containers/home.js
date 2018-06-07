@@ -143,14 +143,15 @@ export default class Home extends React.Component {
                             :null}
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => {
-                        this.props.navigation.navigate('Redirection')
-                    }}>
 
-                            <Text style={{textAlign:'center'}}>{'SCAN'}</Text>
+                    {/*<TouchableOpacity onPress={() => {*/}
+                        {/*this.props.navigation.navigate('Redirection')*/}
+                    {/*}}>*/}
+
+                            {/*<Text style={{textAlign:'center'}}>{'SCAN'}</Text>*/}
 
 
-                    </TouchableOpacity>
+                    {/*</TouchableOpacity>*/}
                 </View>
             </View>
         );

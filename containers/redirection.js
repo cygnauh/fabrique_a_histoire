@@ -8,6 +8,7 @@ import {
 
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
+import Header from '../components/header';
 
 
 const PendingView = () => (
@@ -89,6 +90,10 @@ export default class Redirection extends React.Component {
         return (
             <TouchableHighlight style={{flex:1}} onPress={()=>this.redirectionWriting()} onLongPress={()=>this.redirectionReading()}>
                 <View style={styles.container}>
+                    <Header
+                        leftElm="back" rightElm="about"
+                        onPress={() => this.props.navigation.goBack()}
+                        goAbout={() => this.props.navigation.navigate('About')}/>
                     <RNCamera
                         style={styles.preview}
                         type={RNCamera.Constants.Type.back}
