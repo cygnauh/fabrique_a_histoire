@@ -12,7 +12,8 @@ export default class Home extends React.Component {
         this.state = {
             isLoading: false,
             story_not_found:0,
-            story_id_incorrect: 0
+            story_id_incorrect: 0,
+            canValidate:true
         }
         this.contentText = "Entrer votre code"
     }
@@ -23,7 +24,11 @@ export default class Home extends React.Component {
 
     checkingMode(code) {
 
-        if(code === "FA8U"){
+        this.setState({
+            canValidate:false
+        })
+
+        if(code.toUpperCase() === "FA8U"){
             this.props.navigation.navigate('Onboarding')
         }
         else {
@@ -73,6 +78,10 @@ export default class Home extends React.Component {
                                         // });
                                     })
                             }
+
+                            this.setState({
+                                canValidate:true
+                            })
                         })
 
                         .catch((error) => {
@@ -133,7 +142,9 @@ export default class Home extends React.Component {
                         />
                     </View>
                     <TouchableOpacity onPress={() => {
-                        this.checkingMode(this.state.input)
+                        if(this.state.canValidate){
+                            this.checkingMode(this.state.input)
+                        }
                     }}>
 
                         {this.state.input && this.state.input.length>3 ?

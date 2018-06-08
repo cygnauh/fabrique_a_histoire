@@ -23,17 +23,19 @@ export default class Place extends React.Component {
         };
         this.colors = [
             '#7d7d7d', //ville
-            '#e0650b', //volvan
+            '#66892C', //jungle
             '#E3A34B', //désert
             '#f4ddac', //plage
-            '#004C34', //jungle
-            '#1a507d', //lac
-            '#6b9adb', //océan
+            '#F79E90',//coquillage
+            '#6B9ADB', //cascade
             '#2F0265', //lune
+            '#004C34', //forêt
         ]
 
         this.inputRange = [0, 0.1, 0.3, 0.4, 0.5, 0.6, 0.7, 1];
         this.animatedValue = new Animated.Value(0);
+
+
     }
 
     setTimeOutStopAnimation() {

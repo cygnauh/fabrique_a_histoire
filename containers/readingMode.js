@@ -11,7 +11,8 @@ export default class ReadingMode extends React.Component {
         this.responseJson = this.props.navigation.state.params.responseJson;
         console.log(this.responseJson)
         this.state = {
-            isLoading: false
+            isLoading: false,
+            displayReadingSound:true
         };
 
         if(this.state){
@@ -154,7 +155,13 @@ export default class ReadingMode extends React.Component {
 
             <View style={[GlobalStyle.view, GlobalStyle.headerView, {backgroundColor: this.setBackgroundColor()}]}>
 
-                <Header onPress={() => this.props.navigation.goBack()}/>
+                <Header onPress={() => {
+                    this.setState({
+                        displayReadingSound:false
+                    });
+                    setTimeout(()=>{this.props.navigation.goBack();}, 500)
+
+                }}/>
                 <View style={{
                     flex: 1,
                     justifyContent: 'center',
@@ -173,7 +180,7 @@ export default class ReadingMode extends React.Component {
                     }
 
                     {// background sound
-                        this.state.base_sound ? (
+                        (this.state.displayReadingSound && this.state.base_sound) ? (
                             <Video
                                 source={{uri: this.state.base_sound.url}}
                                 volume={0.2}
@@ -187,7 +194,7 @@ export default class ReadingMode extends React.Component {
                     }
 
                     { // detected sound
-                        (this.state.canPlay && this.state.sound_url) ? this.playASound(this.state.sound_url) : null
+                        ( this.state.displayReadingSound && this.state.canPlay && this.state.sound_url) ? this.playASound(this.state.sound_url) : null
                     }
 
                 </View>

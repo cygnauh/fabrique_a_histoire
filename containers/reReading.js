@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, ScrollView } from 'react-native';
 import Logo from '../components/logo';
 import Print from '../containers/print';
 import GlobalStyle from "../styles/mainStyle";
@@ -11,6 +11,11 @@ export default class Correction extends React.Component {
         this.title = this.props.navigation.state.params.title;
         this.sounds = this.props.navigation.state.params.sounds;
         this.place = this.props.navigation.state.params.place;
+        this.formState = this.props.navigation.state.params.state;
+
+        if(this.formState){
+                this.formState.playPlaceSound=false;
+        }
     }
     renderStory() {
         let story_parts = this.story.split("@"),

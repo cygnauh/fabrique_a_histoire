@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import Header from '../components/header';
+import OnBoarding from "./onboarding";
 
 
 const PendingView = () => (
@@ -38,7 +39,7 @@ export default class Redirection extends React.Component {
 
         if(this.state.index > 1){
             this.state.index = 1
-            this.props.navigation.navigate('Length')
+            this.props.navigation.navigate('Onboarding')
         }else{
             this.setState({
                 index: this.state.index+1

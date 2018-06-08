@@ -33,7 +33,7 @@ export default class Form extends React.Component {
         super(props);
         this.length = this.props.navigation.state.params.length;
         this.basesound = this.props.navigation.state.params.basesound;
-        this.validationSound = "https://noemie-ey.com/fabulab/sounds/design_input-2.mp3";
+        this.validationSound = "https://noemie-ey.com/fabulab/sounds/design_input-3.mp3";
         // this.validationSound = "https://christinehuang.fr/BDDI2018/sounds/VALIDATION/validation.mp3";
         this.place = this.props.navigation.state.params.place;
         this.story_sounds = [];
@@ -93,6 +93,9 @@ export default class Form extends React.Component {
             intro_completed: null, disrupt_completed: null,
             adventure_completed: null, adventure_completed_1: null, adventure_completed_2: null, adventure_completed_3: null,
             outcome_completed: null, end_completed: null,
+
+            toResetSound : false,
+            playPlaceSound:true
         };
 
         this.partHeight = { introduction: '', disruption: '', adventure: '', outcome: ''};
@@ -226,7 +229,7 @@ export default class Form extends React.Component {
                         });
                         if (!found) {
 
-                            this.setState({can_play: true, sound: this.state.sounds[_i]});
+                            this.setState({canPlay: true, sound: this.state.sounds[_i]});
 
                             //stock the sound id
                             var name = this.state.sounds[_i]
@@ -361,9 +364,7 @@ export default class Form extends React.Component {
                         }
                     }
                 }
-                // console.log(story);
-                // console.log(this.story_sounds);
-                this.props.navigation.navigate('Correction', {story: story, title: title, sounds:this.story_sounds, place:this.place});
+                this.props.navigation.navigate('Correction', {story: story, title: title, sounds:this.story_sounds, place:this.place, state:this.state});
             }
         }
     }
@@ -1078,7 +1079,11 @@ export default class Form extends React.Component {
                 <Image style={GlobalStyle.backgroundImage} source={require('../../assets/images/background.png')} />
                 <Header
                     leftElm="home" rightElm="about"
-                    goHome={() => this.props.navigation.navigate('Home')}
+                    goHome={() =>{
+                        this.state.canPlay = false
+                        this.state.playPlaceSound = false;
+                        this.props.navigation.navigate('Home')
+                    }}
                     goAbout={() => this.props.navigation.navigate('About')}/>
                 {this.renderTitlePart()}
                 <ScrollView style={FormStyle.formScrollContainer}
@@ -1089,13 +1094,13 @@ export default class Form extends React.Component {
                     showsVerticalScrollIndicator={false}
                     onScroll={this.onScroll} onScrollEndDrag={this.onScrollEndDrag}>
                         { // background sound
-                            this.place ? this.playBaseSound(this.place.url, 0.5, "repeat") : null
+                            this.state.playPlaceSound ? this.playBaseSound(this.place.url, 0.5, "repeat") : null
                         }
                         { //added sound
-                            this.state.can_play ? this.playASound(this.state.sound.url, 0.5, "no-repeat", false) : null
+                            this.state.canPlay ? this.playASound(this.state.sound.url, 0.5, "no-repeat", false) : null
                         }
                         { //validation sound
-                            this.state.canPlayValidationSound ? this.playASound(this.validationSound, 1, "no-repeat", true) : null
+                            this.state.canPlayValidationSound ? this.playASound(this.validationSound, 0.5, "no-repeat", true) : null
                         }
                         {this.renderIntroduction()}
                         {this.renderDisruption()}
