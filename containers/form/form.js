@@ -33,7 +33,8 @@ export default class Form extends React.Component {
         super(props);
         this.length = this.props.navigation.state.params.length;
         this.basesound = this.props.navigation.state.params.basesound;
-        this.validationSound = "https://christinehuang.fr/BDDI2018/sounds/VALIDATION/validation.mp3";
+        this.validationSound = "https://noemie-ey.com/fabulab/sounds/design_input-2.mp3";
+        // this.validationSound = "https://christinehuang.fr/BDDI2018/sounds/VALIDATION/validation.mp3";
         this.place = this.props.navigation.state.params.place;
         this.story_sounds = [];
         this.adventure_event_id = getRandomInt(0, imposed_events.events.length - 1);
@@ -1094,7 +1095,7 @@ export default class Form extends React.Component {
                             this.state.can_play ? this.playASound(this.state.sound.url, 0.5, "no-repeat", false) : null
                         }
                         { //validation sound
-                            this.state.canPlayValidationSound ? this.playASound(this.validationSound, 0.5, "no-repeat", true) : null
+                            this.state.canPlayValidationSound ? this.playASound(this.validationSound, 1, "no-repeat", true) : null
                         }
                         {this.renderIntroduction()}
                         {this.renderDisruption()}

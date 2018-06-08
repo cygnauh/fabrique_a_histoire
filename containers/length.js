@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Slider, Image, TouchableOpacity, Alert } from 'react-native';
 import Header from '../components/header';
+import Video from 'react-native-video';
 import RectangleButton from '../components/rectangleButton';
 import GlobalStyle from '../styles/mainStyle';
 import {networkUrl} from "../utils/tools";
@@ -16,8 +17,26 @@ export default class Length extends React.Component{
             connectText: "Connexion en cours...",
             testConnection : true,
         };
+
+        this.connectionSound = "https://noemie-ey.com/fabulab/sounds/design_connexion-2.mp3"
+        this.onLoad = this.onLoad.bind(this);
+        this.onProgress = this.onProgress.bind(this);
+        this.onBuffer = this.onBuffer.bind(this);
     }
 
+    onLoad(data) {
+
+        if(!this.baseSound_load){
+            this.baseSound_load = true;
+        }
+        this.setState({duration: data.duration});
+    }
+    onProgress(data) {
+        this.setState({currentTime: data.currentTime});
+    }
+    onBuffer({isBuffering}: { isBuffering: boolean }) {
+        this.setState({isBuffering});
+    }
 
     changeOnClick(value){
         var newVal = ''
@@ -65,6 +84,7 @@ export default class Length extends React.Component{
                 return {
                     connectText : "Machine connectée",
                     indicatorColor : colors.greenishTeal,
+                    isConnect:true,
                     isError: false,
                     testConnection : false
                 }
@@ -175,6 +195,15 @@ export default class Length extends React.Component{
                     goAbout={() => this.props.navigation.navigate('About')}/>
                 <View>
                     {this.renderConnection()}
+                </View>
+                <View>{this.state.isConnect ? (<Video
+                    source={{uri: this.connectionSound}}
+                    volume={0.5}
+                    onLoad={this.onLoad}
+                    onBuffer={this.onBuffer}
+                    onProgress={this.onProgress}
+                    repeat={false}
+                />) : null}
                 </View>
                 <View>
                     <Text style={GlobalStyle.titleContent}>Longueur du récit</Text>
