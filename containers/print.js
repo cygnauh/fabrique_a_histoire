@@ -1,9 +1,10 @@
 import React from 'react';
-import { Modal, View, Text, Image, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { Modal, View, Text, Image, TouchableOpacity, TextInput, Alert, Button } from 'react-native';
 import Header from '../components/header';
 import RectangleButton from '../components/rectangleButton';
 import GlobalStyle from "../styles/mainStyle";
 import { addNil, shutDown, networkUrl } from "../utils/tools";
+import FormStyle from "../styles/formStyle";
 
 export default class Print extends React.Component {
     constructor(props) {
@@ -32,7 +33,11 @@ export default class Print extends React.Component {
         })
 
 
-        fetch(networkUrl, {
+        if(!this.raspberryUrl){
+            this.raspberryUrl = networkUrl
+        }
+
+        fetch(this.raspberryUrl, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -175,6 +180,22 @@ export default class Print extends React.Component {
                                 <Text style={GlobalStyle.manageQuantity}>+</Text>
                             </TouchableOpacity>
                         </View>
+
+                        {/*TO BE TESTED*/}
+
+                        <View>
+                            { this.state.input ? <Text style={[{paddingBottom: 20}]}>{networkUrl}</Text> :null}
+                            <TextInput
+                                placeholder={networkUrl}
+                                onChangeText={(text) => this.setState({input: text})}
+                            />
+                            <Button title={'update url'} onPress={() => {this.raspberryUrl = this.input}}/>
+
+                        </View>
+
+                        {/*TO BE TESTED*/}
+
+
                         /*run request the set modal visible*/
                         <RectangleButton
                             content={'Imprimer'}

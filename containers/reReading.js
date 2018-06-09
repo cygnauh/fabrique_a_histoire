@@ -26,20 +26,28 @@ export default class Correction extends React.Component {
         }
 
         return(
-            <View>
+            <ScrollView style={{marginBottom:30}}
+                        showsHorizontalScrollIndicator={false}
+                        showsVerticalScrollIndicator={false}>
                 <Text style={[GlobalStyle.subtitle, GlobalStyle.storyTitle]}>{this.title}</Text>
                 <View>{paragraphs}</View>
-            </View>
+            </ScrollView>
         )
     }
     render() {
         return(
             <View style={[GlobalStyle.view]}>
-                <Image style={GlobalStyle.backgroundImage} source={require('../assets/images/background.png')} />
-                <Logo/>
-                {this.renderStory()}
-                <Print nav={this.props.navigation} title={this.title} story={this.story} sounds={this.sounds} place={this.place}/>
+                    <Image style={GlobalStyle.backgroundImage} source={require('../assets/images/background.png')} />
+                    <Logo/>
+                    {this.renderStory()}
+                    <Print onPress={()=>{
+
+                        }
+                    }
+                           nav={this.props.navigation}
+                           title={this.title} story={this.story} sounds={this.sounds} place={this.place}/>
             </View>
+
         )
     }
 }
