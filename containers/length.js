@@ -6,6 +6,8 @@ import RectangleButton from '../components/rectangleButton';
 import GlobalStyle from '../styles/mainStyle';
 import {networkUrl} from "../utils/tools";
 import {colors} from "../styles/colors";
+import OnBoardingStyle from "../styles/onboardingStyle";
+import {scaleDelta} from "../utils/scale";
 
 export default class Length extends React.Component{
     constructor(props) {
@@ -156,9 +158,49 @@ export default class Length extends React.Component{
             }
         }
 
+        console.log(lengths)
+
         return (
-            <View style={GlobalStyle.lengthContainer}>
-                {lengths}
+            <View>
+                <View style={GlobalStyle.lengthContainer}>
+                    {lengths}
+
+                </View>
+                <View style={GlobalStyle.lengthContainer}>
+                    <View style={{flexDirection: 'column', left:-25}}>
+                        <View style={{flexDirection: 'row'}}>
+                            <Image style={GlobalStyle.iconLength} source={require('../assets/images/timeShort.png')}/>
+                            <Text style={GlobalStyle.lengthIndication}>15min</Text>
+                        </View>
+                        <View style={{flexDirection: 'row', paddingTop:15}}>
+                            <Image style={GlobalStyle.iconLength} source={require('../assets/images/age6.png')}/>
+                            <Text style={GlobalStyle.lengthIndication}>6-7ans</Text>
+                        </View>
+                    </View>
+
+                    <View style={{flexDirection: 'column'}}>
+                        <View style={{flexDirection: 'row'}}>
+                            <Image style={GlobalStyle.iconLength} source={require('../assets/images/timeMedium.png')}/>
+                            <Text style={GlobalStyle.lengthIndication}>20min</Text>
+                        </View>
+                        <View style={{flexDirection: 'row',paddingTop:15}}>
+                            <Image style={GlobalStyle.iconLength} source={require('../assets/images/age7.png')}/>
+                            <Text style={GlobalStyle.lengthIndication}>7-8ans</Text>
+                        </View>
+                    </View>
+
+                    <View style={{flexDirection: 'column', left:25}}>
+                        <View style={{flexDirection: 'row'}}>
+                            <Image style={GlobalStyle.iconLength} source={require('../assets/images/timeLong.png')}/>
+                            <Text style={GlobalStyle.lengthIndication}>45min</Text>
+                        </View>
+                        <View style={{flexDirection: 'row',paddingTop:15}}>
+                            <Image style={GlobalStyle.iconLength} source={require('../assets/images/age8.png')}/>
+                            <Text style={GlobalStyle.lengthIndication}>8-9ans</Text>
+                        </View>
+                    </View>
+
+                </View>
             </View>
         );
 

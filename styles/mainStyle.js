@@ -135,6 +135,18 @@ export default StyleSheet.create({
         color: colors.greyishBrown,
     },
 
+    iconLength:{
+        height: scaleWidth(12), width: scaleWidth(12),
+    },
+
+    lengthIndication:{
+        width:75,
+        paddingTop:5,
+        paddingLeft:10,
+        textAlign:"right",
+        fontSize:scaleDelta(10, .5)
+    },
+
     /** PLACE **/
     placePhrase: {
         color: colors.white,
@@ -239,5 +251,6 @@ export default StyleSheet.create({
     },
     connectText: {
         fontSize: scaleDelta(10, .5),
+        position: 'relative'
     },
 });
