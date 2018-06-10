@@ -169,33 +169,33 @@ export default class Length extends React.Component{
                 <View style={GlobalStyle.lengthContainer}>
                     <View style={{flexDirection: 'column', left:-25}}>
                         <View style={{flexDirection: 'row'}}>
-                            <Image style={GlobalStyle.iconLength} source={require('../assets/images/timeShort.png')}/>
+                            <Image style={GlobalStyle.iconLength} source={require('../assets/images/length/timeShort.png')}/>
                             <Text style={GlobalStyle.lengthIndication}>15min</Text>
                         </View>
                         <View style={{flexDirection: 'row', paddingTop:15}}>
-                            <Image style={GlobalStyle.iconLength} source={require('../assets/images/age6.png')}/>
+                            <Image style={GlobalStyle.iconLength} source={require('../assets/images/length/age6.png')}/>
                             <Text style={GlobalStyle.lengthIndication}>6-7ans</Text>
                         </View>
                     </View>
 
                     <View style={{flexDirection: 'column'}}>
                         <View style={{flexDirection: 'row'}}>
-                            <Image style={GlobalStyle.iconLength} source={require('../assets/images/timeMedium.png')}/>
+                            <Image style={GlobalStyle.iconLength} source={require('../assets/images/length/timeMedium.png')}/>
                             <Text style={GlobalStyle.lengthIndication}>20min</Text>
                         </View>
                         <View style={{flexDirection: 'row',paddingTop:15}}>
-                            <Image style={GlobalStyle.iconLength} source={require('../assets/images/age7.png')}/>
+                            <Image style={GlobalStyle.iconLength} source={require('../assets/images/length/age7.png')}/>
                             <Text style={GlobalStyle.lengthIndication}>7-8ans</Text>
                         </View>
                     </View>
 
                     <View style={{flexDirection: 'column', left:25}}>
                         <View style={{flexDirection: 'row'}}>
-                            <Image style={GlobalStyle.iconLength} source={require('../assets/images/timeLong.png')}/>
+                            <Image style={GlobalStyle.iconLength} source={require('../assets/images/length/timeLong.png')}/>
                             <Text style={GlobalStyle.lengthIndication}>45min</Text>
                         </View>
                         <View style={{flexDirection: 'row',paddingTop:15}}>
-                            <Image style={GlobalStyle.iconLength} source={require('../assets/images/age8.png')}/>
+                            <Image style={GlobalStyle.iconLength} source={require('../assets/images/length/age8.png')}/>
                             <Text style={GlobalStyle.lengthIndication}>8-9ans</Text>
                         </View>
                     </View>
