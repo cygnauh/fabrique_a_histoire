@@ -5,6 +5,7 @@ import RectangleButton from '../components/rectangleButton';
 import GlobalStyle from "../styles/mainStyle";
 import { addNil, shutDown, networkUrl } from "../utils/tools";
 import FormStyle from "../styles/formStyle";
+import OnBoardingStyle from "../styles/onboardingStyle";
 
 export default class Print extends React.Component {
     constructor(props) {
@@ -183,15 +184,15 @@ export default class Print extends React.Component {
 
                         {/*TO BE TESTED*/}
 
-                        <View>
-                            { this.state.input ? <Text style={[{paddingBottom: 20}]}>{networkUrl}</Text> :null}
-                            <TextInput
-                                placeholder={networkUrl}
-                                onChangeText={(text) => this.setState({input: text})}
-                            />
-                            <Button title={'update url'} onPress={() => {this.raspberryUrl = this.input}}/>
+                        {/*<View>*/}
+                            {/*{ this.state.input ? <Text style={[{paddingBottom: 20}]}>{networkUrl}</Text> :null}*/}
+                            {/*<TextInput*/}
+                                {/*placeholder={networkUrl}*/}
+                                {/*onChangeText={(text) => this.setState({input: text})}*/}
+                            {/*/>*/}
+                            {/*<Button title={'update url'} onPress={() => {this.raspberryUrl = this.input}}/>*/}
 
-                        </View>
+                        {/*</View>*/}
 
                         {/*TO BE TESTED*/}
 
