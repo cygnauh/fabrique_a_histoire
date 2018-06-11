@@ -32,13 +32,13 @@ export default StyleSheet.create({
         fontSize: scaleDelta(12, .5),
     },
     homeText: {
-        top: -scaleHeight(20), left: scaleWidth(25),
+        top: -scaleHeight(15), left: scaleWidth(22),
     },
     iconBack: {
         height: scaleWidth(10), width: scaleWidth(10),
     },
     iconHome: {
-        height: scaleWidth(20), width: scaleWidth(20),
+        height: scaleWidth(15), width: scaleWidth(11), // original : 95 * 123
     },
     iconAbout: {
         height: scaleWidth(12), width: scaleWidth(12),
