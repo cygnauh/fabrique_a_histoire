@@ -8,7 +8,6 @@ export default class About extends React.Component {
     render() {
         return(
             <View style={[GlobalStyle.headerView, GlobalStyle.aboutPageContainer]}>
-                <Image style={GlobalStyle.backgroundImage} source={require('../assets/images/background.png')} />
                 <Header
                     leftElm="shutdown" rightElm="back"
                     onPress={() => this.props.navigation.goBack()}

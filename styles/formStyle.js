@@ -202,6 +202,12 @@ export default StyleSheet.create({
         overflow: "hidden",
     },
 
+    /** RE-READING **/
+    reReadingContainer: {
+        marginBottom: scaleHeight(60),
+        backgroundColor: 'red',
+    },
+
     /** PRINT **/
     printBtnContainer: {
         paddingVertical: scaleHeight(30),

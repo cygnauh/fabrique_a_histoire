@@ -162,7 +162,6 @@ export default class Length extends React.Component{
             <View>
                 <View style={GlobalStyle.lengthContainer}>
                     {lengths}
-
                 </View>
                 <View style={GlobalStyle.lengthContainer}>
                     <View style={{flexDirection: 'column', left:-25}}>
@@ -228,7 +227,6 @@ export default class Length extends React.Component{
     render() {
         return(
             <View style={[GlobalStyle.view, GlobalStyle.headerView]}>
-                <Image style={GlobalStyle.backgroundImage} source={require('../assets/images/background.png')} />
                 <Header
                     rightElm="about"
                     onPress={() => this.props.navigation.goBack()}

@@ -50,14 +50,14 @@ export default class Redirection extends React.Component {
     redirectionWriting(){
 
         if(this.state.index > 1){
-            this.state.index = 1
+            this.state.index = 1;
 
             this.setState({
                 scanValid:true
-            })
+            });
 
 
-            this.animationDisplayValidation()
+            this.animationDisplayValidation();
 
             setTimeout(()=>{
                 this.props.navigation.navigate('Onboarding')
@@ -65,7 +65,7 @@ export default class Redirection extends React.Component {
 
 
 
-        }else{
+        } else {
             this.setState({
                 index: this.state.index+1
             })
@@ -73,10 +73,10 @@ export default class Redirection extends React.Component {
     }
 
     redirectionReading(){
-            this.state.index = 1
+            this.state.index = 1;
 
         //default story
-            let num = 1462
+            let num = 1462;
             let request = 'https://testappfabulab.herokuapp.com/storysoundsforreading?story=' + num;
 
             return fetch(request)
@@ -101,9 +101,9 @@ export default class Redirection extends React.Component {
 
                                     this.setState({
                                         scanValid:true
-                                    })
+                                    });
 
-                                    this.animationDisplayValidation()
+                                    this.animationDisplayValidation();
 
                                     setTimeout(()=>{
                                         this.props.navigation.navigate('ReadingMode',{responseJson: this.state.response})
@@ -125,11 +125,12 @@ export default class Redirection extends React.Component {
     render() {
         return (
             <TouchableHighlight style={{flex:1}} onPress={()=>this.redirectionWriting()} onLongPress={()=>this.redirectionReading()}>
-                <View style={[GlobalStyle.view,styles.container]}>
-                    <Header
-                        leftElm="back" rightElm="about"
-                        onPress={() => this.props.navigation.goBack()}
-                        goAbout={() => this.props.navigation.navigate('About')}/>
+                <View style={[GlobalStyle.view,styles.container, GlobalStyle.headerView]}>
+
+                    <Header leftElm="whiteBack" centerElm="whiteLogo" rightElm="whiteAbout"
+                            onPress={() => this.props.navigation.goBack()}
+                            goAbout={() => this.props.navigation.navigate('About')}
+                    />
                     <RNCamera
                         style={styles.preview}
                         type={RNCamera.Constants.Type.back}
