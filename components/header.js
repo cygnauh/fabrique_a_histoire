@@ -134,6 +134,7 @@ export default class Header extends React.Component{
             back =
                 <TouchableOpacity onPress={ this.props.goHome }>
                     <Image style={OnBoardingStyle.iconHome} source={require('../assets/images/logo/logoBlack.png')}/>
+
                     <Text style={[OnBoardingStyle.backText, OnBoardingStyle.homeText]}>{'Accueil'}</Text>
                 </TouchableOpacity>
         }

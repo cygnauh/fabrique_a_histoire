@@ -1,9 +1,11 @@
 import React from 'react';
-import { Modal, View, Text, Image, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { Modal, View, Text, Image, TouchableOpacity, TextInput, Alert, Button } from 'react-native';
 import Header from '../components/header';
 import RectangleButton from '../components/rectangleButton';
 import GlobalStyle from "../styles/mainStyle";
 import { addNil, shutDown, networkUrl } from "../utils/tools";
+import FormStyle from "../styles/formStyle";
+import OnBoardingStyle from "../styles/onboardingStyle";
 
 export default class Print extends React.Component {
     constructor(props) {
@@ -12,6 +14,7 @@ export default class Print extends React.Component {
             modalVisible: false,
             nbCopies: 1,
             updateBtnVisible: true,
+            isRegistered:false
         };
     }
 
@@ -31,7 +34,11 @@ export default class Print extends React.Component {
         })
 
 
-        fetch(networkUrl, {
+        if(!this.raspberryUrl){
+            this.raspberryUrl = networkUrl
+        }
+
+        fetch(this.raspberryUrl, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -56,56 +63,68 @@ export default class Print extends React.Component {
 
         console.log(this.props.place)
 
-        fetch(api_url, {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                "Content-Type": "text/plain"
-            },
-            body: JSON.stringify({
-                "title": this.props.title,
-                "content": this.props.story,
-                "base_sound":this.props.place.id,
-                "light":this.props.place.color
-            })
-        }).then(function (response) {
-            console.log(response);
-            return response.json();
-        }).then((responseJson) => {
+        if(!this.state.isRegistered){
 
-            this.story_id = responseJson[0].insertId;
+            fetch(api_url, {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    "Content-Type": "text/plain"
+                },
+                body: JSON.stringify({
+                    "title": this.props.title,
+                    "content": this.props.story,
+                    "base_sound":this.props.place.id,
+                    "light":this.props.place.color
+                })
+            }).then(function (response) {
+                console.log(response);
+                return response.json();
+            }).then((responseJson) => {
 
-            // ---------------------------------------------------- send the story sounds
+                this.story_id = responseJson[0].insertId;
 
-            if (this.story_id) {
+                // ---------------------------------------------------- send the story sounds
 
-                for (let i = 0; i < this.props.sounds.length; i++) {
+                if (this.story_id) {
 
-                    console.log(this.story_id, this.props.sounds[i].sound.id, this.props.sounds[i].time)
+                    for (let i = 0; i < this.props.sounds.length; i++) {
 
-                    fetch(api_url_storysounds, {
-                        method: "POST",
-                        headers: {
-                            'Accept': 'application/json',
-                            "Content-Type": "text/plain"
-                        },
-                        body: JSON.stringify({
-                            'storyId': this.story_id,
-                            'soundId': this.props.sounds[i].sound.id,
-                            'addAtTime': this.props.sounds[i].time
+                        console.log(this.story_id, this.props.sounds[i].sound.id, this.props.sounds[i].time)
+
+                        fetch(api_url_storysounds, {
+                            method: "POST",
+                            headers: {
+                                'Accept': 'application/json',
+                                "Content-Type": "text/plain"
+                            },
+                            body: JSON.stringify({
+                                'storyId': this.story_id,
+                                'soundId': this.props.sounds[i].sound.id,
+                                'addAtTime': this.props.sounds[i].time
+                            })
+                        }).then(function (response) {
+
+
+                            this.setState({
+                                isRegistered:true
+                            })
+
+                            console.log(response);
+                            console.log("good");
+                            return response;
+                        }).catch(function (error) {
+                            return error;
                         })
-                    }).then(function (response) {
-                        console.log(response);
-                        console.log("good");
-                        return response;
-                    }).catch(function (error) {
-                        return error;
-                    })
+                    }
                 }
-            }
-        }).catch(function (error) {
-            return error;
-        })
+            }).catch(function (error) {
+                return error;
+            })
+
+        }else{
+            console.log("already registered")
+        }
 
 
 
@@ -162,6 +181,22 @@ export default class Print extends React.Component {
                                 <Text style={GlobalStyle.manageQuantity}>+</Text>
                             </TouchableOpacity>
                         </View>
+
+                        {/*TO BE TESTED*/}
+
+                        {/*<View>*/}
+                            {/*{ this.state.input ? <Text style={[{paddingBottom: 20}]}>{networkUrl}</Text> :null}*/}
+                            {/*<TextInput*/}
+                                {/*placeholder={networkUrl}*/}
+                                {/*onChangeText={(text) => this.setState({input: text})}*/}
+                            {/*/>*/}
+                            {/*<Button title={'update url'} onPress={() => {this.raspberryUrl = this.input}}/>*/}
+
+                        {/*</View>*/}
+
+                        {/*TO BE TESTED*/}
+
+
                         /*run request the set modal visible*/
                         <RectangleButton
                             content={'Imprimer'}
