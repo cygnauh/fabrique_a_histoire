@@ -214,6 +214,12 @@ export default StyleSheet.create({
     },
     aboutAuthor: {
         marginTop: scaleHeight(20),
+        marginBottom: scaleHeight(20),
+    },
+    logoAbout: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
         marginBottom: scaleHeight(40),
     },
 

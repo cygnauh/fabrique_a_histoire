@@ -32,6 +32,10 @@ export default class About extends React.Component {
                     <Text style={[GlobalStyle.text, GlobalStyle.aboutText, GlobalStyle.aboutAuthor]}>
                         Robin Blanc--Beyne - Noémie Eyoum - Christine Huang - Nathalie Zhang
                     </Text>
+                    <View style={GlobalStyle.logoAbout}>
+                        <Image source={require('../assets/images/logo/LogoGOBELINS.png')}/>
+                        <Image source={require('../assets/images/logo/LogoCCI.png')}/>
+                    </View>
                 </ScrollView>
             </View>
         );
