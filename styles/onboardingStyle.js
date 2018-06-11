@@ -31,6 +31,9 @@ export default StyleSheet.create({
         color: colors.greyishBrown,
         fontSize: scaleDelta(12, .5),
     },
+    backWhiteText: {
+      color: colors.white,
+    },
     homeText: {
         top: -scaleHeight(15), left: scaleWidth(22),
     },

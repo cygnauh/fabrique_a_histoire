@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Image, TouchableOpacity, Text, Alert } from 'react-native';
 import OnBoardingStyle from "../styles/onboardingStyle";
 import {shutDown, networkUrl } from "../utils/tools";
+import GlobalStyle from "../styles/mainStyle";
 
 export default class Header extends React.Component{
     constructor(props) {
@@ -13,6 +14,9 @@ export default class Header extends React.Component{
             isShutdown: true,
             isCross: false,
             isSkip: false,
+            isBackWhite: false,
+            isWhiteLogo: false,
+            isWhiteAbout: false,
         };
         this.leftElm = this.props.leftElm;
         this.rightElm = this.props.rightElm;
@@ -20,7 +24,7 @@ export default class Header extends React.Component{
     }
 
     render() {
-        let about = null, back = null, shutdown = null, cross = null, skip = null,
+        let about = null, back = null, shutdown = null, cross = null, skip = null, backWhite = null, whiteLogo = null, whiteAbout = null,
             alignElm: null;
 
         switch (this.leftElm) {
@@ -37,7 +41,21 @@ export default class Header extends React.Component{
                 this.state.isHome = true;
                 alignElm = 'space-between';
                 break;
+            case 'whiteBack':
+                this.state.isBack = false;
+                this.state.isBackWhite = true;
+                alignElm = 'space-between';
+                break;
             default:
+                break;
+        }
+        switch (this.centerElm) {
+            case 'whiteLogo':
+                this.state.isWhiteLogo = true;
+                break;
+            default:
+                whiteLogo = null;
+                this.state.isWhiteLogo = false;
                 break;
         }
         switch (this.rightElm) {
@@ -53,6 +71,10 @@ export default class Header extends React.Component{
             case 'back':
                 this.state.isCross = true;
                 alignElm = 'space-between';
+                break;
+            case 'whiteAbout':
+                this.state.isWhiteAbout = true;
+                this.state.isShutdown = false;
                 break;
             default:
                 this.state.isBack = true;
@@ -73,6 +95,12 @@ export default class Header extends React.Component{
                 <TouchableOpacity onPress={this.props.onPress} >
                     <Image style={OnBoardingStyle.iconCross} source={require('../assets/images/cross.png')}/>
                 </TouchableOpacity>;
+        } else if (this.state.isBackWhite === true) {
+            backWhite =
+                <TouchableOpacity onPress={ this.props.onPress }>
+                    <Image style={OnBoardingStyle.iconBack} source={require('../assets/images/iconBackLight.png')}/>
+                    <Text style={[OnBoardingStyle.backText, OnBoardingStyle.backWhiteText]}>{'Retour'}</Text>
+                </TouchableOpacity>
         }
 
         /* Right element */
@@ -91,8 +119,17 @@ export default class Header extends React.Component{
                 <TouchableOpacity onPress={this.props.goLength}>
                     <Text style={OnBoardingStyle.skipBtn}>{'Passer'}</Text>
                 </TouchableOpacity>
+        } else if (this.state.isWhiteAbout === true) {
+            whiteAbout =
+                <TouchableOpacity onPress={this.props.goAbout}>
+                    <Image style={OnBoardingStyle.iconAbout} source={require('../assets/images/aboutLight.png')}/>
+                </TouchableOpacity>;
         }
 
+        /* Center element */
+        if (this.state.isWhiteLogo === true) {
+            whiteLogo = <Image style={GlobalStyle.logo} source={require('../assets/images/logo/logoWhite.png')} />
+        }
         if (this.state.isHome === true) {
             back =
                 <TouchableOpacity onPress={ this.props.goHome }>
@@ -104,8 +141,9 @@ export default class Header extends React.Component{
         return(
             <View>
                 <View style={[OnBoardingStyle.backBtn, {justifyContent: alignElm}]}>
-                    {back}{shutdown}
-                    {about}{cross}{skip}
+                    {back}{shutdown}{backWhite}
+                    {whiteLogo}
+                    {whiteAbout}{about}{cross}{skip}
                 </View>
             </View>
         );
