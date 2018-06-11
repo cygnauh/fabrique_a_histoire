@@ -127,7 +127,7 @@ export default StyleSheet.create({
     },
 
     iconLength:{
-        height: scaleWidth(12), width: scaleWidth(12),
+        height: scaleWidth(10), width: scaleWidth(10),
     },
 
     lengthIndication:{

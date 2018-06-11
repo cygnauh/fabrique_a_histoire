@@ -57,7 +57,7 @@ const shutDown = () => {
         ],
         { cancelable: false } // unable dismiss by tapping outside of the alert box
     );
-}
+};
 
 const gatherText = (sentences) => {
     let text = "";
