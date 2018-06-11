@@ -156,9 +156,7 @@ export default class Length extends React.Component{
                     lengths.splice(1, 1, React.cloneElement(currentLength, { key }));
                     break;
             }
-        }
-
-        console.log(lengths)
+        };
 
         return (
             <View>
