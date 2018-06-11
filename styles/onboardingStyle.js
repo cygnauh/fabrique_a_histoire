@@ -31,14 +31,17 @@ export default StyleSheet.create({
         color: colors.greyishBrown,
         fontSize: scaleDelta(12, .5),
     },
+    backWhiteText: {
+      color: colors.white,
+    },
     homeText: {
-        top: -scaleHeight(20), left: scaleWidth(25),
+        top: -scaleHeight(15), left: scaleWidth(22),
     },
     iconBack: {
         height: scaleWidth(10), width: scaleWidth(10),
     },
     iconHome: {
-        height: scaleWidth(20), width: scaleWidth(20),
+        height: scaleWidth(15), width: scaleWidth(11), // original : 95 * 123
     },
     iconAbout: {
         height: scaleWidth(12), width: scaleWidth(12),
@@ -56,8 +59,9 @@ export default StyleSheet.create({
         top: 0, bottom: 0,
         flexDirection: 'column',
         justifyContent: 'flex-start', // update when add img
+        alignItems: 'center',
         paddingHorizontal: scaleWidth(40),
-        marginTop: scaleHeight(230), // 80 : do not hide back btn
+        marginTop: scaleHeight(100), // 80 : do not hide back btn
     },
     title: {
         fontSize: scaleDelta(24, .5),
@@ -65,17 +69,21 @@ export default StyleSheet.create({
         fontFamily: 'Editor-Bold',
         color: colors.indigo,
         textAlign: 'center',
+        position: 'relative',
+        top: scaleHeight(40)
     },
     text: {
         marginHorizontal: scaleWidth(40),
         fontFamily: 'MaisonNeue-Medium',
         paddingBottom: scaleHeight(50),
+        position: 'relative',
+        top: scaleHeight(40)
     },
 
     /** BUTTON **/
     buttonContainer: {
         position: 'absolute',
-        top: scaleHeight(65),
+        top: scaleHeight(140),
         bottom: 0,
         flexDirection: 'column',
         justifyContent: 'center',
@@ -108,7 +116,7 @@ export default StyleSheet.create({
     },
     line: {
         position: 'relative',
-        top: scaleHeight(-110),
+        top: scaleHeight(-115),
         borderBottomColor: '#c9c6c5',
         borderBottomWidth: 2,
         width: width - scaleWidth(160), // subtract margin + btn width
@@ -130,7 +138,7 @@ export default StyleSheet.create({
         alignItems: 'flex-end',
     },
     paginationItem: {
-        paddingHorizontal: scaleWidth(8),
+        paddingHorizontal: scaleWidth(5),
         fontSize: scaleDelta(12, .5),
         fontFamily: 'Editor-Medium',
         color: colors.pinkishGreyTwo,

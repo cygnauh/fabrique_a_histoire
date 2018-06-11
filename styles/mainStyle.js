@@ -33,10 +33,10 @@ export default StyleSheet.create({
         paddingBottom: scaleHeight(40),
     },
     logo: {
-        width: scaleWidth(45),
-        height: scaleWidth(45),
+        width: scaleWidth(30 * 95 / 123), // original : 95 * 123
+        height: scaleWidth(30),
         alignSelf: 'center',
-        marginBottom: scaleHeight(10),
+        marginBottom: -scaleHeight(50),
     },
 
     /** HOME **/
@@ -226,6 +226,12 @@ export default StyleSheet.create({
     },
     aboutAuthor: {
         marginTop: scaleHeight(20),
+        marginBottom: scaleHeight(20),
+    },
+    logoAbout: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
         marginBottom: scaleHeight(40),
     },
 

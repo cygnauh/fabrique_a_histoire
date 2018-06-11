@@ -14,7 +14,7 @@ import TimerMixin from 'react-timer-mixin';
 export default class Place extends React.Component {
     constructor(props) {
         super(props);
-        this.length = this.props.navigation.state.params.length
+        this.length = this.props.navigation.state.params.length;
         this.state = {
             value: 1,
             isLoading: true,
@@ -75,7 +75,7 @@ export default class Place extends React.Component {
 
         setTimeout(()=>{
             this.state.canContinue=true
-        }, 3000)
+        }, 3000);
         return fetch('https://testappfabulab.herokuapp.com/places')
             .then((response) => response.json())
             .then((responseJson) => {
@@ -133,7 +133,10 @@ export default class Place extends React.Component {
         return (
             <Animated.View
                 style={[GlobalStyle.view, GlobalStyle.headerView, {backgroundColor: backgroundColorVar}]}>
-                <Header onPress={() => this.props.navigation.goBack()}/>
+                <Header leftElm="whiteBack" centerElm="whiteLogo" rightElm="whiteAbout"
+                        onPress={() => this.props.navigation.goBack()}
+                        goAbout={() => this.props.navigation.navigate('About')}
+                />
                 <View>
                     <Text style={GlobalStyle.placePhrase}>Cette histoire se passe </Text>
 
