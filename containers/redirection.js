@@ -155,7 +155,7 @@ export default class Redirection extends React.Component {
                         {/*leftElm="back" rightElm="about"*/}
                         {/*onPress={() => this.props.navigation.goBack()}*/}
                         {/*goAbout={() => this.props.navigation.navigate('About')}/>*/}
-                        <View style={{zIndex:3,  backgroundColor: 'red', position:'absolute',
+                        <View style={{zIndex:3, position:'absolute',
                             paddingTop: scaleHeight(25),
                             paddingBottom: scaleHeight(20),
                         }}>
@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: scaleWidth(0),
         // paddingVertical: scaleHeight(70),
         // flexDirection: 'column',
-        backgroundColor: 'red',
+        backgroundColor: 'black',
         alignItems: 'stretch',
         paddingBottom: scaleHeight(60)
     },

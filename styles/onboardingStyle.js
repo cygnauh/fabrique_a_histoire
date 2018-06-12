@@ -94,10 +94,26 @@ export default StyleSheet.create({
         alignSelf: 'center', // self width
         width: scaleWidth(90),
         backgroundColor: 'white',
-        borderWidth: 2,
+        borderWidth: 1,
+        borderRadius:30,
         borderColor: colors.greyishBrown,
         paddingLeft: scaleWidth(15),
         paddingRight: scaleWidth(10),
+        marginHorizontal: scaleWidth(5),
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    buttonLeft: {
+        alignSelf: 'center', // self width
+        width: scaleWidth(100),
+        backgroundColor: 'white',
+        borderWidth: 2,
+        borderRadius:30,
+        borderColor: colors.greyishBrown,
+        paddingLeft: scaleWidth(10),
+        paddingRight: scaleWidth(15),
         marginHorizontal: scaleWidth(5),
         flexDirection: 'row',
         justifyContent: 'center',
