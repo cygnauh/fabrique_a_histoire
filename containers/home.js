@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, View, Text, TouchableOpacity, StatusBar, TextInput} from 'react-native';
+import {Image, View, Text, TouchableOpacity, StatusBar, TextInput, ActivityIndicator} from 'react-native';
 import Header from '../components/header';
 import GlobalStyle from '../styles/mainStyle.js';
 import FormStyle from "../styles/formStyle";
@@ -11,9 +11,9 @@ export default class Home extends React.Component {
         super(props);
         this.state = {
             isLoading: false,
-            story_not_found:0,
+            story_not_found: 0,
             story_id_incorrect: 0,
-            canValidate:true
+            canValidate: true
         }
         this.contentText = "Entrer votre code"
     }
@@ -24,12 +24,13 @@ export default class Home extends React.Component {
 
     checkingMode(code) {
 
-        this.setState({
-            canValidate:false
-        })
 
-        if(code.toUpperCase() === "FA8U"){
+        if (code.toUpperCase() === "FA8U") {
+            this.setState({
+                isLoading: false
+            });
             this.props.navigation.navigate('Onboarding')
+
         }
         else {
 
@@ -50,6 +51,7 @@ export default class Home extends React.Component {
 
                     let num = parseInt(code)
 
+                    this.state.isLoading = true
                     let request = 'https://testappfabulab.herokuapp.com/storysoundsforreading?story=' + num;
 
                     return fetch(request)
@@ -66,25 +68,30 @@ export default class Home extends React.Component {
                                     .then((responseJson) => {
                                         if (responseJson && responseJson.length === 4) {
                                             this.setState({
-                                                response:responseJson
+                                                response: responseJson,
+                                                isLoading: false
                                             });
                                         }
 
-                                        if(responseJson && this.state.response){
-                                            this.props.navigation.navigate('ReadingMode',{responseJson: this.state.response})
+                                        if (responseJson && this.state.response) {
+                                            this.props.navigation.navigate('ReadingMode', {
+                                                responseJson: this.state.response,
+                                                num: num
+                                            })
                                         }
-                                        // this.setState({
-                                        //     isLoading: false,
-                                        // });
+                                        this.setState({
+                                            isLoading: false,
+                                        });
                                     })
                             }
 
                             this.setState({
-                                canValidate:true
+                                canValidate: true
                             })
                         })
 
                         .catch((error) => {
+                            this.state.isLoading = false
                             console.error(error);
                         });
                 }
@@ -119,18 +126,16 @@ export default class Home extends React.Component {
 
                 <View style={[GlobalStyle.homeCodeContainer]}>
                     <View>
-                        {/*{this.state.story_not_found ? (*/}
-                            {/*<Text style={{color: "#D66853", opacity:this.state.story_not_found}}>{"Aucune histoire n'a été trouvée."} </Text>*/}
-                        {/*) : null}*/}
-
-                        {/*{this.state.story_id_incorrect ? (*/}
-                            <Text style={{color: "#D66853",opacity:this.state.story_id_incorrect, paddingTop:12}}>{"Le code est incorrect."}  </Text>
-                        {/*) : null}*/}
-
+                        {/*ENTER BY INPUT*/}
+                        <Text style={{color: "#D66853",opacity:this.state.story_id_incorrect, paddingTop:40}}>{"Le code est incorrect."}  </Text>
 
                     </View>
+
+                    {/*ENTER BY INPUT*/}
+
                     <View>
-                        { this.state.input ? <Text style={[FormStyle.errorQuestion,{paddingBottom: 20, }]}>{this.contentText}</Text> :null}
+                        {this.state.input ? <Text
+                            style={[FormStyle.errorQuestion, {paddingBottom: 20,}]}>{this.contentText}</Text> : null}
                         <TextInput
                             placeholder={this.contentText}
                             onChangeText={(text) => this.setState({input: text})}
@@ -140,25 +145,35 @@ export default class Home extends React.Component {
                             textAlign={'center'}
                         />
                     </View>
+
+                    {this.state.isLoading ?
+                        (
+                            <View style={{padding:10}}>
+                                <ActivityIndicator/>
+                            </View>
+                        ) : null
+                    }
+
                     <TouchableOpacity onPress={() => {
-                        if(this.state.canValidate){
-                            this.checkingMode(this.state.input)
-                        }
+                        this.checkingMode(this.state.input)
                     }}>
 
-                        {this.state.input && this.state.input.length>3 ?
+                        {this.state.input && this.state.input.length > 3 ?
 
-                            <Text style={[GlobalStyle.homeBtn, {textAlign:'center'}]}>{'Valider'}</Text>
+                            <Text style={[GlobalStyle.homeBtn, {textAlign: 'center'}]}>{'Valider'}</Text>
 
-                            :null}
+                            : null}
                     </TouchableOpacity>
 
+                    <Text style={{textAlign:'center', paddingTop:10}}>ou</Text>
+                    }
 
-                    <TouchableOpacity onPress={() => {
+
+                    <TouchableOpacity style={{paddingTop:30}} onPress={() => {
                         this.props.navigation.navigate('Redirection')
                     }}>
 
-                            <Text style={{textAlign:'center'}}>{'SCAN'}</Text>
+                        <Text style={{textAlign: 'center'}}>{'SCAN'}</Text>
 
 
                     </TouchableOpacity>
