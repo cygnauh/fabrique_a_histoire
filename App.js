@@ -10,6 +10,7 @@ import Form from './containers/form/form';
 import Correction from './containers/reReading';
 import ReadingMode from './containers/readingMode';
 import About from './containers/about';
+import Settings from "./containers/settings";
 
 const StackNavigation = StackNavigator(
     {
@@ -21,7 +22,8 @@ const StackNavigation = StackNavigator(
         Form: { screen: Form },
         Correction: { screen: Correction },
         ReadingMode: { screen: ReadingMode },
-        About: { screen: About},
+        About: { screen: About },
+        Settings: { screen: Settings }
     },
     {
         initialRouteName: 'Home',
