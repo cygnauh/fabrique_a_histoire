@@ -1,8 +1,11 @@
 import React from 'react';
 import { View, Text, Image, ScrollView } from 'react-native';
 import Logo from '../components/logo';
+import Header from '../components/header';
 import Print from '../containers/print';
+import FormStyle from "../styles/formStyle";
 import GlobalStyle from "../styles/mainStyle";
+import {scaleHeight} from "../utils/scale";
 
 export default class Correction extends React.Component {
     constructor(props) {
@@ -26,9 +29,10 @@ export default class Correction extends React.Component {
         }
 
         return(
-            <ScrollView style={{marginBottom:30}}
-                        showsHorizontalScrollIndicator={false}
-                        showsVerticalScrollIndicator={false}>
+            <ScrollView
+                style={{marginTop: scaleHeight(40), marginBottom: scaleHeight(30)}} bounces={false}
+                showsHorizontalScrollIndicator={false}
+                showsVerticalScrollIndicator={false}>
                 <Text style={[GlobalStyle.subtitle, GlobalStyle.storyTitle]}>{this.title}</Text>
                 <View>{paragraphs}</View>
             </ScrollView>
@@ -36,16 +40,15 @@ export default class Correction extends React.Component {
     }
     render() {
         return(
-            <View style={[GlobalStyle.view]}>
-                    <Image style={GlobalStyle.backgroundImage} source={require('../assets/images/background.png')} />
-                    <Logo/>
+            <View style={[GlobalStyle.view, GlobalStyle.headerView]}>
+                    <Header
+                        leftElm="home" rightElm="about"
+                        goHome={() => this.props.navigation.navigate('Home')}
+                        goAbout={() => this.props.navigation.navigate('About')}/>
                     {this.renderStory()}
-                    <Print onPress={()=>{
-
-                        }
-                    }
-                           nav={this.props.navigation}
-                           title={this.title} story={this.story} sounds={this.sounds} place={this.place}/>
+                    <Print
+                        nav={this.props.navigation}
+                        title={this.title} story={this.story} sounds={this.sounds} place={this.place}/>
             </View>
 
         )

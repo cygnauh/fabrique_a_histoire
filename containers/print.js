@@ -162,8 +162,7 @@ export default class Print extends React.Component {
         return(
             <View>
                 <Modal animationType="slide" transparent={false} visible={this.state.modalVisible}>
-                    <View style={[GlobalStyle.view]}>
-                        <Image style={GlobalStyle.backgroundImage} source={require('../assets/images/background.png')} />
+                    <View style={[GlobalStyle.view, GlobalStyle.headerView]}>
                         <Header onPress={() => this.setModalVisible(!this.state.modalVisible)}/>
                         <Text style={[GlobalStyle.subtitle, GlobalStyle.printTitle]}>
                             Combien de copies faut-il imprimer ?

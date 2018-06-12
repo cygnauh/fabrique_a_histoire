@@ -176,7 +176,6 @@ export default class OnBoardingSlide extends React.Component {
     render = ({ children } = this.props) => {
         return (
             <View style={[OnBoardingStyle.fullScreen, OnBoardingStyle.container]}>
-                <Image style={GlobalStyle.backgroundImage} source={require('../assets/images/background.png')} />
                 {this.renderHeader()}
                 {this.renderScrollView(children)} /*Render screens */
                 {this.renderPagination()} /*Render pagination */

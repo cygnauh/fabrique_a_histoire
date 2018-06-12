@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Slider, Image, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, Slider, Image, TouchableOpacity, Alert, Dimensions } from 'react-native';
 import Header from '../components/header';
 import Video from 'react-native-video';
 import RectangleButton from '../components/rectangleButton';
@@ -7,7 +7,10 @@ import GlobalStyle from '../styles/mainStyle';
 import {networkUrl} from "../utils/tools";
 import {colors} from "../styles/colors";
 import OnBoardingStyle from "../styles/onboardingStyle";
-import {scaleDelta} from "../utils/scale";
+import {scaleDelta, scaleWidth} from "../utils/scale";
+
+const { width, height } = Dimensions.get('window');
+
 
 export default class Length extends React.Component{
     constructor(props) {
@@ -18,9 +21,14 @@ export default class Length extends React.Component{
             isError: false,
             connectText: "Connexion en cours...",
             testConnection : true,
+            detail: {
+                short: false,
+                medium: true,
+                long: false,
+            }
         };
 
-        this.connectionSound = "https://noemie-ey.com/fabulab/sounds/design_connexion-2.mp3"
+        this.connectionSound = "https://noemie-ey.com/fabulab/sounds/design_connexion-2.mp3";
         this.onLoad = this.onLoad.bind(this);
         this.onProgress = this.onProgress.bind(this);
         this.onBuffer = this.onBuffer.bind(this);
@@ -41,34 +49,52 @@ export default class Length extends React.Component{
     }
 
     changeOnClick(value){
-        var newVal = ''
-        if(value === 0){
-            if(this.state.value > 0){
-                newVal = this.state.value-1
+        let newVal = '';
+        if (value === 0) {
+            if (this.state.value > 0){
+                newVal = this.state.value-1;
             }
-        }else{
+        } else {
             if(this.state.value < 2){
-                newVal = this.state.value+1
+                newVal = this.state.value+1;
             }
         }
 
-        if(newVal !==''){
+        if (newVal !=='') {
             this.renderLength(newVal);
             this.setState(() => {
                 return { value : newVal}
-            })
+            });
+            switch (newVal) {
+                case 1:
+                    this.state.detail.short = false; this.state.detail.medium = true; this.state.detail.long = false;
+                    break;
+                case 2:
+                    this.state.detail.short = false; this.state.detail.medium = false; this.state.detail.long = true;
+                    break;
+                default:
+                    this.state.detail.short = true; this.state.detail.medium = false; this.state.detail.long = false;
+                    break;
+            }
         }
-
     }
-
-
-
 
     onChange(value) {
         this.renderLength(value);
         this.setState(() => {
             return { value : value } // update value
         });
+        switch (value) {
+            case 1:
+                this.state.detail.short = false; this.state.detail.medium = true; this.state.detail.long = false;
+                break;
+            case 2:
+                this.state.detail.short = false; this.state.detail.medium = false; this.state.detail.long = true;
+                break;
+            default:
+                this.state.detail.short = true; this.state.detail.medium = false; this.state.detail.long = false;
+                break;
+        }
     }
 
     testConnection = () => {
@@ -134,9 +160,41 @@ export default class Length extends React.Component{
         return(connection_render)
     };
 
+    renderLengthDetail = (time, age, length) => {
+        let time_img = null, age_img = null;
+
+        switch (length) {
+            case 1:
+                time_img = <Image style={GlobalStyle.iconLength} source={require("../assets/images/length/timeMedium.png")}/>;
+                age_img = <Image style={GlobalStyle.iconLength} source={require("../assets/images/length/age7.png")}/>;
+                break;
+            case 2:
+                time_img = <Image style={GlobalStyle.iconLength} source={require("../assets/images/length/timeLong.png")}/>;
+                age_img = <Image style={GlobalStyle.iconLength} source={require("../assets/images/length/age8.png")}/>;
+                break;
+            default:
+                time_img = <Image style={GlobalStyle.iconLength} source={require("../assets/images/length/timeShort.png")}/>;
+                age_img = <Image style={GlobalStyle.iconLength} source={require("../assets/images/length/age6.png")}/>;
+                break;
+
+        }
+        return(
+            <View style={{flexDirection: 'column'}}>
+                <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                    {time_img}
+                    <Text style={GlobalStyle.lengthIndication}>{time}</Text>
+                </View>
+                <View style={{flexDirection: 'row', paddingTop:15}}>
+                    {age_img}
+                    <Text style={GlobalStyle.lengthIndication}>{age}</Text>
+                </View>
+            </View>
+        )
+    };
+
     renderLength = (value) => {
         let lengthText = ['Court', 'Moyen', 'Long'],
-            lengths = [];
+            lengths = [], short_detail = null, medium_detail = null, long_detail = null, justify = null;
         const currentLength = <Text style={[GlobalStyle.lengthItem, GlobalStyle.currentLength]}>{ lengthText[value] }</Text>;
         for (let key = 0, nbLengths = lengthText.length; key < nbLengths; key++) {
             const otherLength = <Text style={[GlobalStyle.lengthItem]}>{ lengthText[key] }</Text>;
@@ -156,48 +214,28 @@ export default class Length extends React.Component{
                     lengths.splice(1, 1, React.cloneElement(currentLength, { key }));
                     break;
             }
-        };
+        }
+
+        if (this.state.detail.short === true) {
+            short_detail = this.renderLengthDetail("15min", "6-7ans", 0);
+            justify = 'flex-start';
+        }
+        if (this.state.detail.medium === true) {
+            medium_detail = this.renderLengthDetail("20min", "7-8ans", 1);
+            justify = 'center';
+        }
+        if (this.state.detail.long === true) {
+            long_detail = this.renderLengthDetail("45min", "8-9ans", 2);
+            justify = 'flex-end';
+        }
 
         return (
             <View>
                 <View style={GlobalStyle.lengthContainer}>
                     {lengths}
-
                 </View>
-                <View style={GlobalStyle.lengthContainer}>
-                    <View style={{flexDirection: 'column', left:-25}}>
-                        <View style={{flexDirection: 'row'}}>
-                            <Image style={GlobalStyle.iconLength} source={require('../assets/images/length/timeShort.png')}/>
-                            <Text style={GlobalStyle.lengthIndication}>15min</Text>
-                        </View>
-                        <View style={{flexDirection: 'row', paddingTop:15}}>
-                            <Image style={GlobalStyle.iconLength} source={require('../assets/images/length/age6.png')}/>
-                            <Text style={GlobalStyle.lengthIndication}>6-7ans</Text>
-                        </View>
-                    </View>
-
-                    <View style={{flexDirection: 'column'}}>
-                        <View style={{flexDirection: 'row'}}>
-                            <Image style={GlobalStyle.iconLength} source={require('../assets/images/length/timeMedium.png')}/>
-                            <Text style={GlobalStyle.lengthIndication}>20min</Text>
-                        </View>
-                        <View style={{flexDirection: 'row',paddingTop:15}}>
-                            <Image style={GlobalStyle.iconLength} source={require('../assets/images/length/age7.png')}/>
-                            <Text style={GlobalStyle.lengthIndication}>7-8ans</Text>
-                        </View>
-                    </View>
-
-                    <View style={{flexDirection: 'column', left:25}}>
-                        <View style={{flexDirection: 'row'}}>
-                            <Image style={GlobalStyle.iconLength} source={require('../assets/images/length/timeLong.png')}/>
-                            <Text style={GlobalStyle.lengthIndication}>45min</Text>
-                        </View>
-                        <View style={{flexDirection: 'row',paddingTop:15}}>
-                            <Image style={GlobalStyle.iconLength} source={require('../assets/images/length/age8.png')}/>
-                            <Text style={GlobalStyle.lengthIndication}>8-9ans</Text>
-                        </View>
-                    </View>
-
+                <View style={[GlobalStyle.lengthContainer, {flexDirection: 'row', justifyContent: justify}]}>
+                    {short_detail}{medium_detail}{long_detail}
                 </View>
             </View>
         );
@@ -228,7 +266,6 @@ export default class Length extends React.Component{
     render() {
         return(
             <View style={[GlobalStyle.view, GlobalStyle.headerView]}>
-                <Image style={GlobalStyle.backgroundImage} source={require('../assets/images/background.png')} />
                 <Header
                     rightElm="about"
                     onPress={() => this.props.navigation.goBack()}

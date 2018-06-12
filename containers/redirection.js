@@ -50,20 +50,19 @@ export default class Redirection extends React.Component {
 
     redirectionWriting() {
 
-        if (this.state.index > 1) {
-            this.state.index = 1
+        if(this.state.index > 1){
+            this.state.index = 1;
 
             this.setState({
-                scanValid: true
-            })
+                scanValid:true
+            });
 
 
-            this.animationDisplayValidation()
+            this.animationDisplayValidation();
 
             setTimeout(() => {
                 this.props.navigation.navigate('Onboarding')
             }, 1000)
-
 
         } else {
             this.setState({
@@ -78,6 +77,7 @@ export default class Redirection extends React.Component {
         this.state.index = 1
 
         //default story
+
 
         // let num = this.props.navigation.state.params.num
         //                         console.log(num)
@@ -152,6 +152,8 @@ export default class Redirection extends React.Component {
             .catch((error) => {
                 console.error(error);
             });
+
+
     }
 
     render() {
@@ -164,6 +166,7 @@ export default class Redirection extends React.Component {
                         leftElm="back" rightElm="about"
                         onPress={() => this.props.navigation.goBack()}
                         goAbout={() => this.props.navigation.navigate('About')}/>
+
                     <RNCamera
                         style={styles.preview}
                         type={RNCamera.Constants.Type.back}

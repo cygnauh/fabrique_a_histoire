@@ -17,15 +17,6 @@ export default StyleSheet.create({
         justifyContent: 'space-between', // vertical
         alignItems: 'center', // horizontal
     },
-    backgroundImage: {
-        position: 'absolute',
-        flex: 1,
-        width: width,
-        height: height,
-        resizeMode,
-        justifyContent: 'center',
-        opacity: .15,
-    },
 
     /** HEADER **/
     headerView: {
@@ -136,7 +127,7 @@ export default StyleSheet.create({
     },
 
     iconLength:{
-        height: scaleWidth(12), width: scaleWidth(12),
+        height: scaleWidth(10), width: scaleWidth(10),
     },
 
     lengthIndication:{
