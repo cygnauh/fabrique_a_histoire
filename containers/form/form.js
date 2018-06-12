@@ -1076,15 +1076,15 @@ export default class Form extends React.Component {
     render() {
         return (
             <View style={[GlobalStyle.view, GlobalStyle.headerView, FormStyle.formView]}>
-                <Image style={GlobalStyle.backgroundImage} source={require('../../assets/images/background.png')} />
                 <Header
                     leftElm="home" rightElm="about"
                     goHome={() =>{
-                        this.state.canPlay = false
+                        this.state.canPlay = false;
                         this.state.playPlaceSound = false;
                         this.props.navigation.navigate('Home')
                     }}
                     goAbout={() => this.props.navigation.navigate('About')}/>
+
                 {this.renderTitlePart()}
                 <ScrollView style={FormStyle.formScrollContainer}
                     ref="FormScrollView"
