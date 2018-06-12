@@ -73,18 +73,7 @@ export default class Redirection extends React.Component {
 
     redirectionReading() {
 
-        console.log("okok")
         this.state.index = 1
-
-        //default story
-
-
-        // let num = this.props.navigation.state.params.num
-        //                         console.log(num)
-        // let request = 'https://testappfabulab.herokuapp.com/storysoundsforreading?story=' + num;
-        //
-        //
-
 
         fetch('https://testappfabulab.herokuapp.com/laststory')
 
@@ -102,14 +91,13 @@ export default class Redirection extends React.Component {
                                 responseLastStory: responseJson
                             });
 
-                            let num = this.state.responseLastStory[0].id
+                            let num = this.state.responseLastStory[0].id;
 
                             fetch('https://testappfabulab.herokuapp.com/storysoundsforreading?story=' + num)
 
                                 .then((response) => {
 
                                     if (response.status === 500) {
-                                        console.log("444")
                                         this.setState({
                                             story_not_found: 1,
                                             isLoading: false
@@ -125,12 +113,9 @@ export default class Redirection extends React.Component {
 
                                                 if (responseJson && this.state.response) {
 
-
-                                                    console.log("hello")
-
                                                     this.setState({
                                                         scanValid: true
-                                                    })
+                                                    });
 
                                                     this.animationDisplayValidation()
 
@@ -161,14 +146,29 @@ export default class Redirection extends React.Component {
             <TouchableHighlight style={{flex: 1}}
                                 onPress={() => this.redirectionWriting()}
                                 onLongPress={() => this.redirectionReading()}>
-                <View style={[GlobalStyle.view, styles.container]}>
-                    <Header
-                        leftElm="back" rightElm="about"
-                        onPress={() => this.props.navigation.goBack()}
-                        goAbout={() => this.props.navigation.navigate('About')}/>
+                <View style={[
+                    GlobalStyle.view,
+                    GlobalStyle.headerView,
+                    styles.container
+                ]}>
+                    {/*<Header*/}
+                        {/*leftElm="back" rightElm="about"*/}
+                        {/*onPress={() => this.props.navigation.goBack()}*/}
+                        {/*goAbout={() => this.props.navigation.navigate('About')}/>*/}
+                        <View style={{zIndex:3,  backgroundColor: 'red', position:'absolute',
+                            paddingTop: scaleHeight(25),
+                            paddingBottom: scaleHeight(20),
+                        }}>
+                            <Header leftElm="whiteBack" centerElm="null" rightElm="whiteAbout"
+                                    onPress={() => this.props.navigation.goBack()}
+                                    goAbout={() => this.props.navigation.navigate('About')}
+
+                            />
+                        </View>
+
 
                     <RNCamera
-                        style={styles.preview}
+                        style={[styles.preview, {backgroundColor:"red",zIndex:2}]}
                         type={RNCamera.Constants.Type.back}
                         permissionDialogTitle={'Permission to use camera'}
                         permissionDialogMessage={'We need your permission to use your camera phone'}
@@ -244,9 +244,13 @@ export default class Redirection extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1,
+        flex: 1,
+        paddingHorizontal: scaleWidth(0),
+        // paddingVertical: scaleHeight(70),
         // flexDirection: 'column',
-        backgroundColor: 'black'
+        backgroundColor: 'red',
+        alignItems: 'stretch',
+        paddingBottom: scaleHeight(60)
     },
     preview: {
         flex: 1,
