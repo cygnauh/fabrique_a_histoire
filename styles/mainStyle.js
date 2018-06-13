@@ -140,13 +140,25 @@ export default StyleSheet.create({
 
     /** PLACE **/
     placePhrase: {
+        position:'relative',
+        top:scaleHeight(-50),
+        fontFamily: 'Editor-Medium',
+        textAlign:'center',
         color: colors.white,
-        fontSize: scaleDelta(18, .5),
+        fontSize: scaleDelta(16, .5),
+    },
+    placeContainer:{
+        minHeight:350,
+        position:'absolute',
+        left:0,
+        right:0,
+        paddingTop:10
     },
     placeTitle: {
+        textAlign:'center',
         color: colors.white,
         fontFamily: 'Editor-Medium',
-        fontSize: scaleDelta(32, .5),
+        fontSize: scaleDelta(42, .5),
     },
 
     /** RE-READING **/
@@ -201,7 +213,7 @@ export default StyleSheet.create({
     },
     aboutContainer: {
         backgroundColor: 'transparent',
-        paddingHorizontal: scaleWidth(40),
+        paddingHorizontal: scaleWidth(20),
         position: 'relative',
         bottom: -scaleHeight(20),
     },

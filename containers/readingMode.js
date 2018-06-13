@@ -155,13 +155,12 @@ export default class ReadingMode extends React.Component {
 
             <View style={[GlobalStyle.view, GlobalStyle.headerView, {backgroundColor: this.setBackgroundColor()}]}>
 
-                <Header onPress={() => {
-                    this.setState({
-                        displayReadingSound:false
-                    });
-                    setTimeout(()=>{this.props.navigation.goBack();}, 500)
 
-                }}/>
+                <Header leftElm="whiteBack" centerElm="whiteLogo" rightElm="whiteAbout"
+                        onPress={() => {this.setState({displayReadingSound:false});setTimeout(()=>{this.props.navigation.goBack();}, 500)}} 
+                        goAbout={() => this.props.navigation.navigate('About')}
+                
+                />
                 <View style={{
                     flex: 1,
                     justifyContent: 'center',

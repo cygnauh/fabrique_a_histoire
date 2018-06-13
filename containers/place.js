@@ -19,7 +19,8 @@ export default class Place extends React.Component {
             value: 1,
             isLoading: true,
             opacity: new Animated.Value(0.7),
-            status: false
+            status: false,
+            buttonOpacity:0
         };
         this.colors = [
             '#7d7d7d', //ville
@@ -89,6 +90,11 @@ export default class Place extends React.Component {
                     colors: []
                 });
 
+                if(this.state.randomPlaceName){
+                    setTimeout(()=>{this.state.buttonOpacity=1}, 3000)
+
+                }
+
                 for (let i = 0; i < this.state.dataSource.length; i++) {
 
                     this.state.colors.push(this.state.dataSource[i].color)
@@ -132,13 +138,15 @@ export default class Place extends React.Component {
 
         return (
             <Animated.View
-                style={[GlobalStyle.view, GlobalStyle.headerView, {backgroundColor: backgroundColorVar}]}>
+                style={[
+                    GlobalStyle.view,
+                    GlobalStyle.headerView, {backgroundColor: backgroundColorVar}]}>
                 <Header leftElm="whiteBack" centerElm="whiteLogo" rightElm="whiteAbout"
                         onPress={() => this.props.navigation.goBack()}
                         goAbout={() => this.props.navigation.navigate('About')}
                 />
                 <View>
-                    <Text style={GlobalStyle.placePhrase}>Cette histoire se passe </Text>
+                    <Text style={GlobalStyle.placePhrase}> — Cette histoire se passe... </Text>
 
                     <View style={GlobalStyle.placeContainer}>
 
@@ -147,16 +155,18 @@ export default class Place extends React.Component {
 
                     </View>
                 </View>
-                <View>
-                    {this.state.canContinue ?
-                        (<RectangleButton
+                <View style={{opacity:this.state.buttonOpacity}}>
+                    {/*{this.state.canContinue ?*/}
+                        {/*(*/}
+                            <RectangleButton
                         content={'Continuer'}
                         src={require('../assets/images/validate.png')}
                         onPress={() => this.props.navigation.navigate('Form', {
                                 place: this.state.randomPlaceName,
                                 length: this.length})}
 
-                    />) : null}
+                    />
+                        {/*) : null}*/}
                 </View>
 
 

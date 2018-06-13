@@ -1,10 +1,12 @@
 import React from 'react';
-import { Modal, View, Text, Image, TouchableOpacity, TextInput, Alert, Button } from 'react-native';
+import {Modal, View, Text, Image, TouchableOpacity, TextInput, Alert, Button} from 'react-native';
 import Header from '../components/header';
 import RectangleButton from '../components/rectangleButton';
 import GlobalStyle from "../styles/mainStyle";
 import { addNil, shutDown } from "../utils/tools";
 import "../utils/global";
+import FormStyle from "../styles/formStyle";
+import OnBoardingStyle from "../styles/onboardingStyle";
 
 export default class Print extends React.Component {
     constructor(props) {
@@ -13,7 +15,7 @@ export default class Print extends React.Component {
             modalVisible: false,
             nbCopies: 1,
             updateBtnVisible: true,
-            isRegistered:false
+            isRegistered: false
         };
     }
 
@@ -62,7 +64,7 @@ export default class Print extends React.Component {
 
         console.log(this.props.place)
 
-        if(!this.state.isRegistered){
+        if (!this.state.isRegistered) {
 
             fetch(api_url, {
                 method: "POST",
@@ -73,8 +75,8 @@ export default class Print extends React.Component {
                 body: JSON.stringify({
                     "title": this.props.title,
                     "content": this.props.story,
-                    "base_sound":this.props.place.id,
-                    "light":this.props.place.color
+                    "base_sound": this.props.place.id,
+                    "light": this.props.place.color
                 })
             }).then(function (response) {
                 console.log(response);
@@ -106,7 +108,7 @@ export default class Print extends React.Component {
 
 
                             this.setState({
-                                isRegistered:true
+                                isRegistered: true
                             })
 
                             console.log(response);
@@ -121,10 +123,9 @@ export default class Print extends React.Component {
                 return error;
             })
 
-        }else{
+        } else {
             console.log("already registered")
         }
-
 
 
         /** Hide modal **/
@@ -140,7 +141,7 @@ export default class Print extends React.Component {
                 src={require('../assets/images/arrowPrev.png')}
                 onPress={() => this.props.nav.goBack()}/>;
         }
-        return(update_btn)
+        return (update_btn)
     }
 
     manageQuantity(type) {
@@ -158,7 +159,7 @@ export default class Print extends React.Component {
     };
 
     render() {
-        return(
+        return (
             <View>
                 <Modal animationType="slide" transparent={false} visible={this.state.modalVisible}>
                     <View style={[GlobalStyle.view, GlobalStyle.headerView]}>
@@ -183,12 +184,12 @@ export default class Print extends React.Component {
                         {/*TO BE TESTED*/}
 
                         {/*<View>*/}
-                            {/*{ this.state.input ? <Text style={[{paddingBottom: 20}]}>{networkUrl}</Text> :null}*/}
-                            {/*<TextInput*/}
-                                {/*placeholder={networkUrl}*/}
-                                {/*onChangeText={(text) => this.setState({input: text})}*/}
-                            {/*/>*/}
-                            {/*<Button title={'update url'} onPress={() => {this.raspberryUrl = this.input}}/>*/}
+                        {/*{ this.state.input ? <Text style={[{paddingBottom: 20}]}>{networkUrl}</Text> :null}*/}
+                        {/*<TextInput*/}
+                        {/*placeholder={networkUrl}*/}
+                        {/*onChangeText={(text) => this.setState({input: text})}*/}
+                        {/*/>*/}
+                        {/*<Button title={'update url'} onPress={() => {this.raspberryUrl = this.input}}/>*/}
 
                         {/*</View>*/}
 
@@ -199,32 +200,41 @@ export default class Print extends React.Component {
                         <RectangleButton
                             content={'Imprimer'}
                             src={require('../assets/images/print.png')}
-                            onPress = {() => this.printStory()}/>
+                            onPress={() => this.printStory()}/>
                     </View>
                 </Modal>
                 <View style={GlobalStyle.reReadingBtnContainer}>
                     {this.renderUpdateBtn()}
 
                     {!this.state.canDisplay ? (
-                        <RectangleButton
-                        content={'Valider'}
-                        src={require('../assets/images/validate.png')}
-                        onPress = {() => {this.setModalVisible(true)}}
-                        />
+                            <RectangleButton
+                                content={'Valider'}
+                                src={require('../assets/images/validate.png')}
+                                onPress={() => {
+                                    this.setModalVisible(true)
+                                }}
+                            />
                         )
 
-                     :null}
+                        : null}
 
-                    {this.state.canDisplay ? (<RectangleButton
-                        content={'Recommencer'}
-                        textAlign={'center'}
-                        onPress = {() => this.props.nav.navigate('Length')}/>) : null
+                    {this.state.canDisplay ? (
+                        <RectangleButton
+                            iconSide={'left'}
+                            content={'Recommencer'}
+                            src={require('../assets/images/reload.png')}
+                            // src={require('../assets/images/validate.png')}
+                            textAlign={'center'}
+                            onPress={() => this.props.nav.navigate('Length')}/>) : null
                     }
 
                     {this.state.canDisplay ? (<RectangleButton
                         content={'Terminer'}
                         textAlign={'center'}
-                        onPress = {() => {shutDown()}}/>) : null
+                        src={require('../assets/images/validate.png')}
+                        onPress={() => {
+                            shutDown()
+                        }}/>) : null
                     }
                 </View>
             </View>
