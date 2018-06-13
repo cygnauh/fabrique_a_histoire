@@ -38,12 +38,20 @@ export default StyleSheet.create({
     },
     titleContainer: {
         marginBottom: scaleHeight(25),
-        top:-scaleHeight(70)
+        top:-scaleHeight(70),
+        width:width-scaleWidth(180),
+        flexDirection:'column',
+        justifyContent:'center',
+        alignItems:'center'
+
     },
     title: {
+        paddingTop:scaleHeight(70),
+        paddingBottom:scaleHeight(20),
         fontSize: scaleDelta(20, .5),
         fontFamily: 'Editor-Bold',
         color: colors.indigo,
+        textAlign:'center'
     },
     subtitle: {
         fontSize: scaleDelta(28, .5),
@@ -53,8 +61,8 @@ export default StyleSheet.create({
     line: {
         borderBottomColor: colors.pinkishGreyTwo,
         borderBottomWidth: 2,
-        width: width - scaleWidth(80),
-        top:-scaleHeight(70)
+        width: width - scaleWidth(180),
+        top:-scaleHeight(75)
     },
     text: {
         fontSize: scaleDelta(12, .5),
@@ -67,7 +75,7 @@ export default StyleSheet.create({
     homeText: {
         marginHorizontal: scaleWidth(40),
         textAlign: 'center',
-        top:-scaleHeight(70)
+        top:-scaleHeight(160)
     },
     homeBtn: {
         fontSize: scaleDelta(12, .5),
@@ -84,7 +92,16 @@ export default StyleSheet.create({
         top:-scaleHeight(170)
     },
 
+    imageTitle:{
 
+        width: (80*968)/200,
+        height: 80
+    },
+    textBtnScan:{
+        textAlign: 'center',
+        fontSize:scaleDelta(11, .5),
+        top:-scaleHeight(18)
+    },
 
     /** SUB PAGE **/
     titleContent: {
