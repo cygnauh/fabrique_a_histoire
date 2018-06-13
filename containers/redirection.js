@@ -169,6 +169,7 @@ export default class Redirection extends React.Component {
 
                     <RNCamera
                         style={[styles.preview, {zIndex:2, marginTop:60}]}
+                        type={RNCamera.Constants.Type.back}
                         permissionDialogTitle={'Permission to use camera'}
                         permissionDialogMessage={'We need your permission to use your camera phone'}
                     >
