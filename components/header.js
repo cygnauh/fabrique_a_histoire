@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Image, TouchableOpacity, Text, Alert } from 'react-native';
 import OnBoardingStyle from "../styles/onboardingStyle";
-import {shutDown, networkUrl } from "../utils/tools";
+import {shutDown } from "../utils/tools";
 import GlobalStyle from "../styles/mainStyle";
 
 export default class Header extends React.Component{
@@ -30,6 +30,7 @@ export default class Header extends React.Component{
         switch (this.leftElm) {
             case 'none':
                 this.state.isBack = false;
+                this.state.isShutdown = false;
                 alignElm = 'flex-end';
                 break;
             case 'shutdown':
@@ -70,7 +71,7 @@ export default class Header extends React.Component{
                 break;
             case 'back':
                 this.state.isCross = true;
-                alignElm = 'space-between';
+                if (this.leftElm === 'none') {alignElm = 'flex-end'} else {alignElm = 'space-between'}
                 break;
             case 'whiteAbout':
                 this.state.isWhiteAbout = true;

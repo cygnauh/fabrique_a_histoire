@@ -3,9 +3,8 @@ import { Modal, View, Text, Image, TouchableOpacity, TextInput, Alert, Button } 
 import Header from '../components/header';
 import RectangleButton from '../components/rectangleButton';
 import GlobalStyle from "../styles/mainStyle";
-import { addNil, shutDown, networkUrl } from "../utils/tools";
-import FormStyle from "../styles/formStyle";
-import OnBoardingStyle from "../styles/onboardingStyle";
+import { addNil, shutDown } from "../utils/tools";
+import "../utils/global";
 
 export default class Print extends React.Component {
     constructor(props) {
@@ -31,11 +30,11 @@ export default class Print extends React.Component {
 
         this.setState({
             canDisplay:true
-        })
+        });
 
-
+        let networkUrl = global.networkIp.filter((test) => { return test.selected === true })[0].address;
         if(!this.raspberryUrl){
-            this.raspberryUrl = networkUrl
+            this.raspberryUrl = networkUrl;
         }
 
         fetch(this.raspberryUrl, {

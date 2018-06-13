@@ -1,28 +1,9 @@
 import React from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableHighlight } from 'react-native';
 import Header from '../components/header';
 import GlobalStyle from '../styles/mainStyle.js';
-import {colors} from "../styles/colors";
-import {networkUrl} from "../utils/tools";
 
 export default class About extends React.Component {
-
-    greeting = () => {
-        fetch(networkUrl, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                action: 'greeting',
-            })
-        }).then((response) => { // ES6 : change the context
-            return response;
-        }).catch((error) => {
-            return error;
-        });
-    };
 
     render() {
         return(
@@ -50,10 +31,15 @@ export default class About extends React.Component {
                     <Text style={[GlobalStyle.text, GlobalStyle.aboutText, GlobalStyle.aboutAuthor]}>
                         Robin Blanc--Beyne - Noémie Eyoum - Christine Huang - Nathalie Zhang
                     </Text>
-                    <TouchableOpacity style={GlobalStyle.logoAbout} onPress={this.greeting}>
-                        <Image source={require('../assets/images/logo/LogoGOBELINS.png')}/>
-                        <Image source={require('../assets/images/logo/LogoCCI.png')}/>
-                    </TouchableOpacity>
+                    <TouchableHighlight
+                        style={GlobalStyle.logoAbout}
+                        onLongPress={() => this.props.navigation.navigate('Settings')}
+                        underlayColor="transparent">
+                        <View>
+                            <Image source={require('../assets/images/logo/LogoGOBELINS.png')}/>
+                            <Image source={require('../assets/images/logo/LogoCCI.png')}/>
+                        </View>
+                    </TouchableHighlight>
                 </ScrollView>
             </View>
         );
