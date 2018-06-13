@@ -149,12 +149,12 @@ export default class Redirection extends React.Component {
                 <View style={[
                     GlobalStyle.view,
                     GlobalStyle.headerView,
-                    styles.container
+                    styles.container,
+                    {
+                    // backgroundColor:"green",
+                        // paddingTop: scaleHeight(25),
+                    }
                 ]}>
-                    {/*<Header*/}
-                        {/*leftElm="back" rightElm="about"*/}
-                        {/*onPress={() => this.props.navigation.goBack()}*/}
-                        {/*goAbout={() => this.props.navigation.navigate('About')}/>*/}
                         <View style={{zIndex:3, position:'absolute',
                             paddingTop: scaleHeight(25),
                             paddingBottom: scaleHeight(20),
@@ -168,7 +168,7 @@ export default class Redirection extends React.Component {
 
 
                     <RNCamera
-                        style={[styles.preview, {backgroundColor:"red",zIndex:2}]}
+                        style={[styles.preview, {zIndex:2, marginTop:60}]}
                         type={RNCamera.Constants.Type.back}
                         permissionDialogTitle={'Permission to use camera'}
                         permissionDialogMessage={'We need your permission to use your camera phone'}

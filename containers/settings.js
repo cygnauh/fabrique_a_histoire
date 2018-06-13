@@ -64,13 +64,14 @@ export default class Settings extends React.Component {
                     onPress={() => this.props.navigation.goBack()}
                     goAbout={() => this.props.navigation.navigate('About')}/>
                 <View style={GlobalStyle.settingsContainer}>
+                    <TouchableOpacity style={GlobalStyle.settingBtnContainer} onPress={this.greeting}>
+                        <Text style={GlobalStyle.settingBtn}>{'Saluer'}</Text>
+                    </TouchableOpacity>
                         <Text style={[GlobalStyle.title, GlobalStyle.networkTitle]}>{"Choix du réseau IP pour le Raspi"}</Text>
                         <View>
                             {this.renderImposedEvent()}
                         </View>
-                        <TouchableOpacity style={GlobalStyle.settingBtnContainer} onPress={this.greeting}>
-                            <Text style={GlobalStyle.settingBtn}>{'Saluer'}</Text>
-                        </TouchableOpacity>
+
                 </View>
             </View>
         );
