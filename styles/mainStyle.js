@@ -107,6 +107,7 @@ export default StyleSheet.create({
     titleContent: {
         fontSize: scaleDelta(22, .5),
         marginBottom: scaleHeight(25),
+        marginTop: scaleHeight(25),
         textAlign: 'center',
         fontFamily: 'Editor-Bold',
         color: colors.indigo,

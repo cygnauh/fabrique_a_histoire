@@ -23,8 +23,7 @@ export default class Length extends React.Component{
                 short: false,
                 medium: true,
                 long: false,
-            },
-            networkUrl: global.networkUrl
+            }
         };
 
         this.connectionSound = "https://noemie-ey.com/fabulab/sounds/design_connexion-2.mp3";
@@ -191,6 +190,79 @@ export default class Length extends React.Component{
             </View>
         )
     };
+    renderLengthImage = (length) => {
+        let length_img = null;
+
+        switch (length) {
+            case 1:
+                length_img = <Image source={require("../assets/images/length/Longueur_Moyen.png")}/>;
+                break;
+            case 2:
+                length_img = <Image source={require("../assets/images/length/Longueur_Long.png")}/>;
+                break;
+            default:
+                length_img = <Image source={require("../assets/images/length/Longueur_Court.png")}/>;
+                break;
+
+        }
+        return(
+            <View style={{flexDirection: 'column', paddingTop:40, paddingBottom:90}}>
+                <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                    {length_img}
+                </View>
+            </View>
+        )
+    };
+
+    renderLength = (value) => {
+        let lengthText = ['Court', 'Moyen', 'Long'],
+            lengths = [], short_detail = null, medium_detail = null, long_detail = null, justify = null;
+        const currentLength = <Text style={[GlobalStyle.lengthItem, GlobalStyle.currentLength]}>{ lengthText[value] }</Text>;
+        for (let key = 0, nbLengths = lengthText.length; key < nbLengths; key++) {
+            const otherLength = <Text style={[GlobalStyle.lengthItem]}>{ lengthText[key] }</Text>;
+            lengths.push(React.cloneElement(otherLength, { key }));
+        }
+
+        if (value !== '') {
+            let key = value;
+            switch (value) {
+                case 0:
+                    lengths.splice(0, 1, React.cloneElement(currentLength, { key }));
+                    break;
+                case 2:
+                    lengths.splice(2, 1, React.cloneElement(currentLength, { key }));
+                    break;
+                default:
+                    lengths.splice(1, 1, React.cloneElement(currentLength, { key }));
+                    break;
+            }
+        }
+
+        if (this.state.detail.short === true) {
+            short_detail = this.renderLengthDetail("15min", "6-7ans", 0);
+            justify = 'flex-start';
+        }
+        if (this.state.detail.medium === true) {
+            medium_detail = this.renderLengthDetail("20min", "7-8ans", 1);
+            justify = 'center';
+        }
+        if (this.state.detail.long === true) {
+            long_detail = this.renderLengthDetail("45min", "8-9ans", 2);
+            justify = 'flex-end';
+        }
+
+        return (
+            <View>
+                <View style={GlobalStyle.lengthContainer}>
+                    {lengths}
+                </View>
+                <View style={[GlobalStyle.lengthContainer, {flexDirection: 'row', justifyContent: justify}]}>
+                    {short_detail}{medium_detail}{long_detail}
+                </View>
+            </View>
+        );
+
+    };
 
     renderLength = (value) => {
         let lengthText = ['Court', 'Moyen', 'Long'],
@@ -272,18 +344,8 @@ export default class Length extends React.Component{
                     goAbout={() => this.props.navigation.navigate('About')}/>
                 <View>
                     {this.renderConnection()}
-                </View>
-                <View>{this.state.isConnect ? (<Video
-                    source={{uri: this.connectionSound}}
-                    volume={0.5}
-                    onLoad={this.onLoad}
-                    onBuffer={this.onBuffer}
-                    onProgress={this.onProgress}
-                    repeat={false}
-                />) : null}
-                </View>
-                <View>
                     <Text style={GlobalStyle.titleContent}>Longueur du récit</Text>
+                    <View>{this.renderLengthImage(this.state.value)}</View>
                     <View style={GlobalStyle.lengthSliderContainer}>
                         <TouchableOpacity onPress={()=>{this.changeOnClick(0)}}>
                             <Text style={GlobalStyle.manageLength}>-</Text>
@@ -302,6 +364,16 @@ export default class Length extends React.Component{
                         </TouchableOpacity>
                     </View>
                 </View>
+                <View>{this.state.isConnect ? (<Video
+                    source={{uri: this.connectionSound}}
+                    volume={0.5}
+                    onLoad={this.onLoad}
+                    onBuffer={this.onBuffer}
+                    onProgress={this.onProgress}
+                    repeat={false}
+                />) : null}
+                </View>
+
                 {this.renderNextButton()}
             </View>
         );
