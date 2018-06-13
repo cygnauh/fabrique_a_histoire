@@ -4,6 +4,7 @@ import Header from '../components/header';
 import GlobalStyle from '../styles/mainStyle.js';
 import FormStyle from "../styles/formStyle";
 import ReadingMode from "./readingMode";
+import {scaleDelta, scaleHeight} from "../utils/scale";
 
 export default class Home extends React.Component {
 
@@ -110,8 +111,8 @@ export default class Home extends React.Component {
                     goAbout={() => this.props.navigation.navigate('About')}/>
                 <View style={GlobalStyle.titleHeader}>
                     <View style={GlobalStyle.titleContainer}>
-                        <Text style={GlobalStyle.title}>Bienvenue</Text>
-                        <Text style={GlobalStyle.subtitle}>dans Fabulab</Text>
+                        <Text style={GlobalStyle.title}>Bienvenue dans</Text>
+                        <Image style={GlobalStyle.imageTitle} source={require("../assets/images/logo/logotypeTrame.png")}/>
                     </View>
                     <View style={GlobalStyle.line}/>
                 </View>
@@ -125,6 +126,15 @@ export default class Home extends React.Component {
                 </Text>
 
                 <View style={[GlobalStyle.homeCodeContainer]}>
+
+                    <TouchableOpacity style={{paddingTop:30}} onPress={() => {
+                        this.props.navigation.navigate('Redirection')
+                    }}>
+                        <Image source={require("../assets/images/scan/btnScan.png")}/>;
+
+                        <Text style={GlobalStyle.textBtnScan}>{'SCAN POUR COMMENCER'}</Text>
+
+                    </TouchableOpacity>
                     <View>
                         {/*ENTER BY INPUT*/}
                         <Text style={{color: "#D66853",opacity:this.state.story_id_incorrect, paddingTop:40}}>{"Le code est incorrect."}  </Text>
@@ -135,7 +145,7 @@ export default class Home extends React.Component {
 
                     <View>
                         {this.state.input ? <Text
-                            style={[FormStyle.errorQuestion, {paddingBottom: 20,}]}>{this.contentText}</Text> : null}
+                            style={[FormStyle.errorQuestion, {paddingBottom: 20}]}>{this.contentText}</Text> : null}
                         <TextInput
                             placeholder={this.contentText}
                             onChangeText={(text) => this.setState({input: text})}
@@ -165,18 +175,10 @@ export default class Home extends React.Component {
                             : null}
                     </TouchableOpacity>
 
-                    <Text style={{textAlign:'center', paddingTop:10}}>ou</Text>
                     }
 
 
-                    <TouchableOpacity style={{paddingTop:30}} onPress={() => {
-                        this.props.navigation.navigate('Redirection')
-                    }}>
 
-                        <Text style={{textAlign: 'center'}}>{'SCAN'}</Text>
-
-
-                    </TouchableOpacity>
                 </View>
             </View>
         );
