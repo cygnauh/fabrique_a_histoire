@@ -116,7 +116,7 @@ export default class ReadingMode extends React.Component {
 
     playASound(url) {
 
-        this.repeat = false
+        this.repeat = false;
         return (
             <Video
                 source={{uri: url}}
@@ -169,7 +169,7 @@ export default class ReadingMode extends React.Component {
 
                     {this.state.base_sound ? (<View>
 
-                        <View style={GlobalStyle.placeContainer}>
+                        <View>
 
                             {this.state.story_title ?
                                 <Text style={GlobalStyle.placeTitle}>{this.state.story_title}</Text> : null}
