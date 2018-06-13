@@ -209,7 +209,7 @@ export default StyleSheet.create({
     /** ABOUT **/
     aboutPageContainer: {
         position: 'relative',
-        backgroundColor: '#F1F1F1',
+        backgroundColor: colors.bgColor,
     },
     aboutContainer: {
         backgroundColor: 'transparent',
@@ -262,4 +262,38 @@ export default StyleSheet.create({
         fontSize: scaleDelta(10, .5),
         position: 'relative'
     },
+
+    /** SETTINGS **/
+    settingsContainer: {
+        backgroundColor: colors.bgColor,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: height - scaleHeight(50),
+    },
+    settingBtnContainer: {
+        borderWidth: 2,
+        borderColor: colors.heather,
+        paddingHorizontal: scaleWidth(10),
+        paddingVertical: scaleWidth(4),
+        borderRadius: scaleWidth(12),
+        marginTop: scaleHeight(20),
+    },
+    settingBtn: {
+        paddingVertical: scaleWidth(2),
+        paddingHorizontal: scaleHeight(10),
+        fontSize: scaleDelta(11, .5),
+        fontFamily: 'Editor-Bold',
+        color: colors.indigo,
+        textAlign: 'center',
+    },
+    networkContainer: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    networkTitle: {
+        marginTop: scaleHeight(30),
+        marginBottom: scaleHeight(20),
+    }
 });

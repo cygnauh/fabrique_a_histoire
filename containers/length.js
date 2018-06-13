@@ -4,10 +4,8 @@ import Header from '../components/header';
 import Video from 'react-native-video';
 import RectangleButton from '../components/rectangleButton';
 import GlobalStyle from '../styles/mainStyle';
-import {networkUrl} from "../utils/tools";
 import {colors} from "../styles/colors";
-import OnBoardingStyle from "../styles/onboardingStyle";
-import {scaleDelta, scaleWidth} from "../utils/scale";
+import "../utils/global"
 
 const { width, height } = Dimensions.get('window');
 
@@ -25,7 +23,8 @@ export default class Length extends React.Component{
                 short: false,
                 medium: true,
                 long: false,
-            }
+            },
+            networkUrl: global.networkUrl
         };
 
         this.connectionSound = "https://noemie-ey.com/fabulab/sounds/design_connexion-2.mp3";
@@ -98,6 +97,7 @@ export default class Length extends React.Component{
     }
 
     testConnection = () => {
+        let networkUrl = global.networkIp.filter((test) => { return test.selected === true })[0].address;
         fetch(networkUrl, {
             method: 'POST',
             headers: {

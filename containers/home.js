@@ -14,8 +14,8 @@ export default class Home extends React.Component {
             story_not_found: 0,
             story_id_incorrect: 0,
             canValidate: true
-        }
-        this.contentText = "Entrer votre code"
+        };
+        this.contentText = "Entrer votre code";
     }
 
     componentDidMount() {
@@ -91,7 +91,7 @@ export default class Home extends React.Component {
                         })
 
                         .catch((error) => {
-                            this.state.isLoading = false
+                            this.state.isLoading = false;
                             console.error(error);
                         });
                 }

@@ -3,7 +3,8 @@ import {Modal, View, Text, Image, TouchableOpacity, TextInput, Alert, Button} fr
 import Header from '../components/header';
 import RectangleButton from '../components/rectangleButton';
 import GlobalStyle from "../styles/mainStyle";
-import {addNil, shutDown, networkUrl} from "../utils/tools";
+import { addNil, shutDown } from "../utils/tools";
+import "../utils/global";
 import FormStyle from "../styles/formStyle";
 import OnBoardingStyle from "../styles/onboardingStyle";
 
@@ -30,12 +31,12 @@ export default class Print extends React.Component {
         // TODO Check the address IP of the network to find the raspberry one
 
         this.setState({
-            canDisplay: true
-        })
+            canDisplay:true
+        });
 
-
-        if (!this.raspberryUrl) {
-            this.raspberryUrl = networkUrl
+        let networkUrl = global.networkIp.filter((test) => { return test.selected === true })[0].address;
+        if(!this.raspberryUrl){
+            this.raspberryUrl = networkUrl;
         }
 
         fetch(this.raspberryUrl, {

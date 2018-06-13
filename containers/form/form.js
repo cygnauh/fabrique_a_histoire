@@ -1018,6 +1018,7 @@ export default class Form extends React.Component {
                         this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.adventure + 1, animated: true});
                         let sentences = [advent_hero_reaction, advent_exp_1[0].label, advent_then, imposed_event, response_event[0].label];
                         state.complete_story.adventure = gatherText(sentences);
+                        console.log(state.complete_story.adventure);
                     } else { // length === 1 || length === 2 : check the second linking word
                         if (advent_exp_2.length !== 0) {
                             let check_input = !advent_action;
@@ -1034,6 +1035,7 @@ export default class Form extends React.Component {
                                     advent_exp_2[0].label, advent_action
                                 ];
                                 state.complete_story.adventure = gatherText(sentences);
+                                console.log(state.complete_story.adventure);
                             }
                         } else {
                             this.refs.FormScrollView.scrollTo({x: 0, y: this.partEnd.disruption + scaleHeight(280), animated: true});
