@@ -35,11 +35,8 @@ export default class Print extends React.Component {
         });
 
         let networkUrl = global.networkIp.filter((test) => { return test.selected === true })[0].address;
-        if(!this.raspberryUrl){
-            this.raspberryUrl = networkUrl;
-        }
 
-        fetch(this.raspberryUrl, {
+        fetch(networkUrl, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -181,21 +178,6 @@ export default class Print extends React.Component {
                             </TouchableOpacity>
                         </View>
 
-                        {/*TO BE TESTED*/}
-
-                        {/*<View>*/}
-                        {/*{ this.state.input ? <Text style={[{paddingBottom: 20}]}>{networkUrl}</Text> :null}*/}
-                        {/*<TextInput*/}
-                        {/*placeholder={networkUrl}*/}
-                        {/*onChangeText={(text) => this.setState({input: text})}*/}
-                        {/*/>*/}
-                        {/*<Button title={'update url'} onPress={() => {this.raspberryUrl = this.input}}/>*/}
-
-                        {/*</View>*/}
-
-                        {/*TO BE TESTED*/}
-
-
                         /*run request the set modal visible*/
                         <RectangleButton
                             content={'Imprimer'}
@@ -206,7 +188,7 @@ export default class Print extends React.Component {
                 <View style={GlobalStyle.reReadingBtnContainer}>
                     {this.renderUpdateBtn()}
 
-                    {!this.state.canDisplay ? (
+                    {/*{!this.state.canDisplay ? (*/}
                             <RectangleButton
                                 content={'Valider'}
                                 src={require('../assets/images/validate.png')}
@@ -214,9 +196,9 @@ export default class Print extends React.Component {
                                     this.setModalVisible(true)
                                 }}
                             />
-                        )
+                        {/*)*/}
 
-                        : null}
+                        {/*: null}*/}
 
                     {this.state.canDisplay ? (
                         <RectangleButton
